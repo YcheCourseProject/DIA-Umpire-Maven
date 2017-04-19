@@ -16,55 +16,55 @@ DIA-Umpire, built with maven
 
 - muliplexed ms/ms for improved data-independent acquisition abstract
 
-    In mass spectrometry–based proteomics, data-independent
-    acquisition (DIA) strategies can acquire a single data set
-    useful for both identification and quantification of detectable
-    peptides in a complex mixture. However, DIA data are noisy
-    owing to a typical five- to tenfold reduction in precursor
-    selectivity compared to data obtained with data-dependent
-    acquisition or selected reaction monitoring. We demonstrate
-    a multiplexing strategy, MSX, for DIA analysis that increases
-    precursor selectivity fivefold.
+> In mass spectrometry–based proteomics, data-independent
+> acquisition (DIA) strategies can acquire a single data set
+> useful for both identification and quantification of detectable
+> peptides in a complex mixture. However, DIA data are noisy
+> owing to a typical five- to tenfold reduction in precursor
+> selectivity compared to data obtained with data-dependent
+> acquisition or selected reaction monitoring. We demonstrate
+> a multiplexing strategy, MSX, for DIA analysis that increases
+> precursor selectivity fivefold.
 
 - authors' 2015 paper abstract
 
-    As a result of recent improvements in mass spectrometry (MS),
-    there is increased interest in data-independent acquisition
-    (DIA) strategies in which all peptides are systematically
-    fragmented using wide mass-isolation windows (‘multiplex
-    fragmentation’). DIA-Umpire (http://diaumpire.sourceforge.
-    net/), a comprehensive computational workflow and
-    open-source software for DIA data, detects precursor and
-    fragment chromatographic features and assembles them into
-    pseudo–tandem MS spectra. These spectra can be identified
-    with conventional database-searching and protein-inference
-    tools, allowing sensitive, untargeted analysis of DIA data
-    without the need for a spectral library. Quantification is
-    done with both precursor- and fragment-ion intensities.
-    Furthermore, DIA-Umpire enables targeted extraction of
-    quantitative information based on peptides initially
-    identified in only a subset of the samples, resulting in
-    more consistent quantification across multiple samples.
-    We demonstrated the performance of the method with
-    control samples of varying complexity and publicly available
-    glycoproteomics and affinity purification–MS data.
+> As a result of recent improvements in mass spectrometry (MS),
+> there is increased interest in data-independent acquisition
+> (DIA) strategies in which all peptides are systematically
+> fragmented using wide mass-isolation windows (‘multiplex
+> fragmentation’). DIA-Umpire (http://diaumpire.sourceforge.
+> net/), a comprehensive computational workflow and
+> open-source software for DIA data, detects precursor and
+> fragment chromatographic features and assembles them into
+> pseudo–tandem MS spectra. These spectra can be identified
+> with conventional database-searching and protein-inference
+> tools, allowing sensitive, untargeted analysis of DIA data
+> without the need for a spectral library. Quantification is
+> done with both precursor- and fragment-ion intensities.
+> Furthermore, DIA-Umpire enables targeted extraction of
+> quantitative information based on peptides initially
+> identified in only a subset of the samples, resulting in
+> more consistent quantification across multiple samples.
+> We demonstrated the performance of the method with
+> control samples of varying complexity and publicly available
+> glycoproteomics and affinity purification–MS data.
 
 - authors' 2016 paper abstract
 
-    We describe an improved version of the data-independent acquisition (DIA) computational anal-
-    ysis tool DIA-Umpire, and show that it enables highly sensitive, untargeted, and direct (spectral
-    library-free) analysis of DIA data obtained using the Orbitrap family of mass spectrometers.
-    DIA-Umpire v2 implements an improved feature detection algorithm with two additional filters
-    based on the isotope pattern and fractional peptide mass analysis. The targeted re-extraction
-    step of DIA-Umpire is updated with an improved scoring function and a more robust, semi-
-    parametric mixture modeling of the resulting scores for computing posterior probabilities of
-    correct peptide identification in a targeted setting. Using two publicly available Q Exactive
-    DIA datasets generated using HEK-293 cells and human liver microtissues, we demonstrate
-    that DIA-Umpire can identify similar number of peptide ions, but with better identification
-    reproducibility between replicates and samples, as with conventional data-dependent acquisi-
-    tion. We further demonstrate the utility of DIA-Umpire using a series of Orbitrap Fusion DIA
-    experiments with HeLa cell lysates profiled using conventional data-dependent acquisition and
-    using DIA with different isolation window widths.
+> We describe an improved version of the data-independent acquisition (DIA) computational anal-
+> ysis tool DIA-Umpire, and show that it enables highly sensitive, untargeted, and direct (spectral
+> library-free) analysis of DIA data obtained using the Orbitrap family of mass spectrometers.
+> DIA-Umpire v2 implements an improved feature detection algorithm with two additional filters
+> based on the isotope pattern and fractional peptide mass analysis. The targeted re-extraction
+> step of DIA-Umpire is updated with an improved scoring function and a more robust, semi-
+> parametric mixture modeling of the resulting scores for computing posterior probabilities of
+> correct peptide identification in a targeted setting. Using two publicly available Q Exactive
+> DIA datasets generated using HEK-293 cells and human liver microtissues, we demonstrate
+> that DIA-Umpire can identify similar number of peptide ions, but with better identification
+> reproducibility between replicates and samples, as with conventional data-dependent acquisi-
+> tion. We further demonstrate the utility of DIA-Umpire using a series of Orbitrap Fusion DIA
+> experiments with HeLa cell lysates profiled using conventional data-dependent acquisition and
+> using DIA with different isolation window widths.
 
 ## Concepts
 
