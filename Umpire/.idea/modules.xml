@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Quantification/Quantification.iml" filepath="$PROJECT_DIR$/Quantification/Quantification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SortedListLib/SortedListLib.iml" filepath="$PROJECT_DIR$/SortedListLib/SortedListLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TramlParser/TramlParser.iml" filepath="$PROJECT_DIR$/TramlParser/TramlParser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Umpire.iml" filepath="$PROJECT_DIR$/Umpire.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UmpireLib/UmpireLib.iml" filepath="$PROJECT_DIR$/UmpireLib/UmpireLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jMEF/jMEF.iml" filepath="$PROJECT_DIR$/jMEF/jMEF.iml" />
+    </modules>
+  </component>
+</project>
