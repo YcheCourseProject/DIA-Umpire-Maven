@@ -1,0 +1,942 @@
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1159.655 0
+CHARGE=1+
+72.071025	49514.529
+86.090287	94727.97
+102.0555	29305.31
+110.06992	206905.02
+123.06711	5300.1154
+129.10636	15135.635
+136.08015	34952.141
+143.13165	5960.264
+145.07313	9678.1577
+147.11129	12254.974
+155.09872	9497.7911
+165.08445	6970.264
+166.07399	10730.469
+171.12025	44118.969
+178.17075	10487.489
+192.08488	4762.3434
+201.13501	7477.3773
+207.10947	12750.81
+217.09918	17426.182
+224.14221	8099.0771
+235.11813	3637.5808
+240.16701	16583.612
+252.1252	31996.282
+256.12244	15557.951
+258.16291	29819.856
+260.22006	9438.9065
+263.19127	7532.42
+273.15576	21697.05
+274.12351	19905.239
+284.13059	10782.737
+301.14975	15413.773
+359.23563	5559.877
+374.24139	26564.664
+387.21669	36009.524
+400.19652	8389.6903
+415.22805	20390.844
+458.3094	18200.727
+511.30953	141517.37
+595.43364	9252.6923
+674.36463	89775.728
+758.39785	64858.79
+773.41476	34498.582
+786.36518	89233.553
+876.61085	10842.144
+900.38237	107977.7
+948.95778	10063.989
+989.47992	29897.017
+1013.4403	105990.33
+1031.4193	28580.133
+1046.4238	28853.045
+1103.2611	8019.8886
+1159.9469	570399.21
+1175.6467	7405.382
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1224.6215 0
+CHARGE=1+
+70.059618	7212.3198
+72.079331	5781.7775
+84.081935	18963.824
+86.090856	11454.369
+87.057785	26067.8
+102.0579	42376.794
+110.07841	268738.73
+120.08767	26669.861
+129.09812	32569.832
+159.10828	6541.4459
+175.13336	4627.9177
+187.10534	14542.541
+195.10764	20577.284
+202.12252	3509.6396
+226.1391	5143.5798
+234.15092	9598.2552
+247.16053	10358.977
+258.14588	46918.461
+275.16067	15222.611
+301.18365	10610.611
+310.14698	13043.455
+327.16759	11170.104
+372.2152	21231.273
+438.21703	16576.517
+447.24462	9827.4878
+456.25437	11012.041
+491.29191	13226.426
+519.25563	10459.28
+569.33705	116920.89
+628.33185	44656.158
+656.32543	61145.104
+706.3822	62691.362
+765.37999	69130.949
+793.35377	100528.76
+850.36071	22602.195
+853.43099	31106.324
+965.3687	78278.387
+967.5535	46293.645
+1045.6572	7836.5054
+1070.9007	8185.1553
+1093.396	57894.468
+1111.3698	21685.099
+1224.9655	437279.9
+1226.9209	136850.46
+1290.8808	2783.1507
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1286.7502 0
+CHARGE=1+
+70.062354	74209.57
+72.078045	147952.66
+74.056655	8741.0422
+86.097263	126506.3
+87.054938	46625.96
+101.07496	75199.796
+110.06796	11244.294
+115.07214	8911.6244
+120.09153	28618.567
+129.11478	25715.426
+132.08795	14828.381
+141.11611	28247.867
+147.12958	31278.917
+169.11531	93374.179
+173.1583	10712.388
+186.14629	131047.65
+197.13651	22100.294
+202.11164	7303.513
+214.1494	130909.05
+219.1541	20361.521
+226.12964	11256.858
+230.11308	53264.106
+240.17095	26974.097
+243.14473	38192.901
+246.20236	22726.913
+270.18554	6522.2445
+272.20849	8829.3299
+282.20385	22865.343
+316.21023	50725.924
+329.1962	69146.022
+342.21965	77954.239
+347.24054	34202.518
+359.24051	10239.278
+387.25648	13298.976
+393.27664	17175.13
+410.25715	15722.435
+415.26556	17314.983
+426.21938	14908.188
+443.24898	149416.26
+476.29586	9038.2235
+497.29711	9505.1796
+514.30764	17658.309
+525.28278	9167.9838
+542.30584	108533.34
+561.37169	457937.02
+563.30669	148593.73
+613.34668	56663.093
+627.36277	13319.88
+632.40584	229696.97
+655.37947	61462.439
+676.42999	55162.388
+726.41003	90478.919
+745.49301	86209.889
+777.47104	50923.758
+834.47692	104190.77
+844.54093	61187.03
+947.53665	57935.93
+959.55081	36706.067
+977.48618	24675.707
+1041.5179	34161.212
+1074.5768	56260.151
+1093.7034	13682.057
+1140.547	31306.85
+1176.636	11913.499
+1289.084	93238.519
+1296.8629	18417.96
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1374.6743 0
+CHARGE=1+
+86.089327	248778.76
+86.094601	197803.28
+102.04929	24409.254
+120.08035	117823.47
+129.09885	20831.634
+130.09242	10086.394
+134.03248	26983.565
+143.12069	38833.624
+147.11438	41385.462
+157.08288	13442.97
+159.09977	20133.839
+171.11866	83066.527
+175.07923	11812.387
+205.07767	14002.911
+213.13971	12944.463
+217.08972	21291.362
+229.1372	29339.08
+233.07648	19445.071
+249.09955	35043.059
+256.12068	22130.895
+267.17555	6560.7673
+277.0826	45737.365
+286.17485	82098.421
+294.20151	48875.712
+304.14874	19467.261
+320.12046	12396.347
+348.13341	29617.64
+355.20401	8612.7179
+390.18948	10316.264
+399.28343	52384.837
+435.16418	14545.575
+441.2774	43372.461
+447.2253	26986.221
+451.20096	9761.1021
+518.22051	34324.222
+570.31021	71375.433
+657.3385	98820.911
+744.3625	114251.01
+815.4122	64929.021
+869.44207	11545.784
+934.37316	80793.039
+976.38823	112620.89
+1081.4396	49895.742
+1091.4161	52083.053
+1145.494	17358.464
+1148.766	11463.568
+1169.6139	8453.8575
+1204.4538	37141.647
+1228.4305	20964.788
+1261.4143	46629.728
+1315.0754	9796.4727
+1350.8635	16176.637
+1396.4375	8594.1218
+1406.7186	7958.7172
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1416.7744 0
+CHARGE=1+
+70.055264	83733.113
+72.075737	25657.714
+74.051496	8102.0824
+86.093184	43400.939
+102.056	11479.152
+112.07443	13185.257
+129.09665	11860.11
+147.13364	3332.1204
+171.12678	37247.822
+172.08238	20797.366
+175.12715	11531.622
+181.11223	12429.714
+186.11505	5832.8728
+199.13127	27801.847
+201.1442	14665.541
+215.16146	6501.853
+229.13032	17438.364
+243.14107	9612.0697
+269.16085	22459.323
+280.17764	6494.3611
+286.19035	5822.0997
+298.20283	15113.667
+352.20603	31742.081
+370.21531	31573.622
+377.25915	25755.294
+382.21398	16586.098
+427.26077	44340.596
+451.26022	36101.607
+451.84773	25642.076
+469.28077	15602.559
+478.27235	23065.963
+526.31321	12642.154
+532.3145	8449.6346
+572.34651	4715.4903
+591.36483	41763.013
+598.32269	41071.152
+655.36344	24574.355
+697.37896	18996.3
+720.39126	52907.041
+819.43955	35168.505
+826.39172	42534.507
+939.46335	24253.657
+948.48848	49042.676
+1040.502	25623.238
+1047.5031	22645.763
+1057.6171	31550.652
+1078.2512	7723.9408
+1123.5708	17118.353
+1126.7892	10121.985
+1172.5458	8805.9927
+1245.5629	47413.747
+1248.2945	12881.293
+1329.6147	8222.0415
+1347.0403	6290.0763
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1578.8539 0
+CHARGE=1+
+72.07198	9452.2242
+86.094916	43243.983
+120.08281	31543.999
+129.10608	14192.264
+143.12444	28313.276
+147.12309	6143.653
+159.09156	4151.0279
+171.12295	38749.001
+173.11536	14912.78
+201.16377	9529.9346
+231.09027	8941.2683
+235.13215	4781.1699
+261.19055	17337.346
+263.14527	9032.9176
+286.17748	20905.363
+332.1857	22222.172
+378.17424	16979.793
+401.22996	69864.765
+433.29999	18927.085
+449.24947	20069.816
+490.29994	76828.451
+520.30793	37499.994
+548.29965	53785.983
+605.32258	48618.419
+633.41291	19112.554
+661.36118	50359.343
+675.3808	15026.118
+718.40943	33288.399
+774.45008	22060.258
+804.93649	37687.05
+805.43914	124786.04
+861.47582	21174.891
+918.50859	45283.313
+1031.5759	22373.819
+1178.6465	27136.231
+1228.3792	6413.7411
+1293.6282	22677.101
+1305.0403	7989.8755
+1408.5751	15459.634
+1522.2255	4435.2826
+1530.635	7893.7704
+1579.3733	229361.13
+1634.509	5863.9791
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1755.9377 0
+CHARGE=1+
+70.057061	20989.356
+72.077558	12189.445
+84.081777	46218.811
+86.096556	42443.396
+101.07427	27783.235
+120.08022	13181.892
+129.10694	81537.929
+136.08961	13742.958
+145.11079	7788.3341
+147.10812	7812.1629
+155.1404	3094.1068
+171.12498	10183.33
+173.11833	12861.596
+186.14936	22050.328
+201.14607	9608.8088
+214.18554	16701.238
+230.14086	46001.757
+235.1519	3059.1327
+242.17751	23262.215
+244.18857	30655.251
+276.22881	5782.1671
+279.14708	7010.7351
+283.18015	6862.2428
+299.21331	25335.109
+301.19551	7201.4477
+315.24793	23399.09
+343.23969	25874.162
+358.23556	10301.44
+370.25771	8789.3497
+390.22581	4648.9329
+401.22037	7465.8383
+459.29805	24790.859
+464.28495	27754.106
+471.33164	48201.995
+558.37516	17423.793
+560.34119	41655.245
+579.33456	28489.966
+584.41518	43631.995
+642.44005	5558.2796
+659.42073	34076.283
+674.36525	40388.822
+683.44046	29094.389
+754.46872	5939.8486
+772.50045	39512.853
+802.46009	37283.715
+807.46709	28867.094
+869.53849	6574.905
+887.51988	41760.808
+918.47981	11001.092
+949.51215	56938.173
+954.45026	8823.5844
+984.53864	15942.844
+1002.5714	39541.744
+1064.5289	46128.791
+1073.5703	58390.836
+1082.5502	82944.524
+1196.5828	113792.56
+1198.6891	38990.701
+1201.7212	11104.095
+1292.6308	7966.55
+1341.7793	6386.0948
+1408.6317	33753.389
+1455.6743	16300.299
+1482.951	5249.9945
+1515.8172	6857.2262
+1541.5376	8799.9347
+1555.5879	8374.158
+1609.578	29041.041
+1663.3614	6775.0549
+1689.3907	6930.3101
+1703.254	8378.6722
+1739.1543	26521.108
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1792.9819 0
+CHARGE=1+
+70.059227	39475.427
+72.072229	46941.506
+86.09106	20561.683
+110.0733	49511.411
+112.08331	16641.328
+114.10885	45149.066
+141.12359	5763.841
+173.14794	34015.644
+181.13243	2434.9313
+201.14266	48473.09
+230.17244	3610.4958
+239.14463	9670.7264
+242.16315	10711.067
+258.16644	16232.883
+267.14184	16939.855
+300.23845	14814.295
+313.20256	15739.301
+338.18102	17492.331
+500.34435	15116.141
+571.38438	41017.997
+656.43247	7747.9841
+820.44545	10967.218
+837.53371	23112.355
+936.52938	15373.591
+993.60626	37329.301
+1094.7457	11361.092
+1252.6015	15282.211
+1293.692	21322.684
+1309.5739	19107.914
+1406.755	18892.711
+1409.3697	10471.807
+1450.7462	13266.816
+1491.7835	12582.901
+1493.7187	20491.276
+1535.699	27104.697
+1753.6671	18307.174
+1777.0116	28048.722
+1809.3555	10523.345
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=1840.9801 0
+CHARGE=1+
+70.061036	28776.041
+72.076778	43952.773
+86.092791	14108.019
+110.07479	50011.671
+112.0823	9149.0098
+129.12041	2261.0674
+157.10853	3992.6377
+158.09439	2119.1873
+173.14751	31781.581
+175.13385	20811.336
+185.13893	9223.3602
+201.14184	33408.665
+216.12571	1869.7001
+242.16561	8814.2356
+259.14638	2280.1969
+267.15027	15765.458
+285.20029	3175.0494
+300.23034	14804.811
+306.19786	22198.951
+313.19329	11081.122
+320.58323	8537.3289
+338.19502	15984.527
+435.28034	2602.8506
+548.3047	13029.435
+619.37515	40066.746
+629.43036	10450.96
+673.46103	15980.66
+679.4631	4170.7528
+748.44383	16392.023
+810.50373	4002.1789
+885.47282	20923.963
+1041.6176	34019.207
+1142.6139	27784.914
+1188.4853	6367.5003
+1222.6957	6962.8164
+1357.6679	18313.097
+1389.1836	4153.4887
+1433.8041	3468.5881
+1535.7334	30675.302
+1539.7647	8439.3005
+1541.6706	5004.0028
+1630.7773	5435.8876
+1666.7202	9527.9132
+1811.2986	17695.806
+1858.5677	5471.4477
+END IONS
+
+
+# 
+# MS.UncentroidingHalfWidth = 0.2
+# MS.UncentroidingPointsPerDa = 10
+# MS.RegriddingPointsPerDa = 10
+# MS.AggregationMethod = 1
+# MS.MinPeakCount = 1
+# MS.MaxPeakCharge = 1
+# MSMS.UncentroidingHalfWidth = 0.2
+# MSMS.UncentroidingPointsPerDa = 10
+# MSMS.RegriddingPointsPerDa = 10
+# MSMS.AggregationMethod = 2
+# MSMS.MinPeakCount = 10
+# MSMS.MaxPeakCharge = 1
+# MSMS.UsePrecursorAsMaxCharge = 0
+# MSMS.PrecursorChargeSources = 0
+# MSMS.PrecursorDefaultCharges = 1
+# MSMS.RedeterminePrecursorMZ = 0
+# MSMS.PrecursorMZTolerance = 3
+# MSMS.IgnoreSingleChargedPrecursor = 0
+# TimeDomain.MinPrecursorMass = 500
+# TimeDomain.MaxPrecursorMass = 5000
+# TimeDomain.PrecursorGroupingTolerance = 1
+# TimeDomain.MaxIntermediateScans = 1
+# TimeDomain.MinScansInGroup = 1
+# PeakSelection.FilteringThreshold = 0.7
+# PeakSelection.MinFilteringPeakMZ = 50
+# PeakSelection.MaxFilteringPeakMZ = 100000
+# PeakSelection.FilteringMinSNRatio = 2
+# PeakSelection.MinPeakWidth = 0.01
+# PeakSelection.ExpectedPeakWidth = 0.1
+# PeakSelection.MaxPeakWidth = 1
+# PeakSelection.MaxIterations = 500
+# PeakSelection.RejectWidthOutliers = 0
+# PeakSelection.BaselineCorrection = 0
+# 
+BEGIN IONS
+TITLE=Scan 1 (rt=0)
+PEPMASS=2441.2085 0
+CHARGE=1+
+81.515619	53214.242
+81.656464	19400.164
+86.101148	8243.0066
+110.0822	44423.328
+120.07766	4011.2432
+129.13655	7194.0418
+243.21034	9473.5671
+247.18237	9220.5065
+259.13705	4425.3608
+275.18222	13000.68
+310.17519	7333.8013
+372.25786	12880.441
+447.28073	3942.1302
+501.32021	21550.222
+569.39152	43725.035
+706.45872	80340.788
+853.55373	56361.706
+967.57513	60291.428
+983.29093	7893.8764
+1016.7917	9295.5118
+1096.6101	32531.624
+1153.6573	69682.293
+1156.5308	14196.178
+1224.67	59540.554
+1371.7552	86452.346
+1374.7745	21839.956
+1470.7909	45878.979
+1541.8467	79654.793
+1655.8575	129355.94
+1658.7203	31361.788
+1666.7958	17015.199
+1674.9608	10113.533
+1691.5686	6918.0103
+1771.749	23902.378
+1827.9017	46186.085
+1872.8381	52805.596
+1922.0056	9725.0523
+1940.949	35359.315
+1981.939	48325.803
+1994.1603	19636.421
+2000.4015	13849.721
+2009.9287	65144.158
+2068.8514	36116.279
+2079.2037	17187.397
+2083.8844	21322.479
+2181.8834	90099.702
+2198.9028	38009.067
+2245.7152	9155.4332
+2341.7291	8636.4584
+2345.6871	6368.7992
+2380.9773	12832.999
+2511.2707	8025.7198
+END IONS
+

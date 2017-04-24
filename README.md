@@ -70,13 +70,13 @@ DIA-Umpire, built with maven
 
 ### DIA Strategies
 
-- multiplex fragmentation(all peptides are systematically fragmented using wide mass-isolation windows)
-
-### DIA-Umpire Computations
-
 - DDA(data-dependent acquisition), DIA(data-independent acquisition)
 
+- multiplex fragmentation(all peptides are systematically fragmented using wide mass-isolation windows)
+
 - MS1, MS2 data detects monoisotopic masses and elution profile shapes.
+
+### DIA-Umpire Computations
 
 - here featuire is about the chromatographic feature
 
