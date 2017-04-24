@@ -1,6 +1,14 @@
 # DIA-Umpire-Maven
 DIA-Umpire, built with maven
 
+## software
+
+- [MsFileReader(win7)](http://fields.scripps.edu/rawconv/download/MSFileReader%202.2.62.zip)
+
+- [RawConverter(win7)](https://www.evernote.com/Home.action#n=c1119d27-fe61-4034-ad35-3fb26145d182&ses=4&sh=2&sds=5&)
+
+- [proteowizard(win7)](http://proteowizard.sourceforge.net/downloads.shtml)
+
 ## Refs
 
 [authors' website](http://diaumpire.sourceforge.net/)
