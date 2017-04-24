@@ -1,7 +1,8 @@
+#include <cstring>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
 
 //  MOWSE matrix computation
 //  Copyright (C) 2005, 2006 Jacques Colinge
