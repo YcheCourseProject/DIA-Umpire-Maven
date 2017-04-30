@@ -24,51 +24,57 @@ import ExternalPackages.JAligner.NeedlemanWunschGotoh;
 import ExternalPackages.JAligner.Sequence;
 import ExternalPackages.JAligner.matrix.Matrix;
 import ExternalPackages.JAligner.matrix.MatrixLoaderException;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 /**
  * Generate shuffled sequence as decoy spectra for spectral library
  * Lam, H., Deutsch, E.W. & Aebersold, R. Artificial decoy spectral
-libraries for false discovery rate estimation in spectral library
-searching in proteomics. J. Proteome Res. 9, 605–610
-(2010).
+ * libraries for false discovery rate estimation in spectral library
+ * searching in proteomics. J. Proteome Res. 9, 605–610
+ * (2010).
+ *
  * @author Chih-Chiang Tsou
  */
-public class ShuffledSeqGen implements Runnable{
-    
+public class ShuffledSeqGen implements Runnable {
+
     public String seq;
     public String decoy;
     Matrix blosum62;
-    public ShuffledSeqGen(String seq, Matrix blosum62){
-        this.seq=seq;
-        this.blosum62=blosum62;
+
+    public ShuffledSeqGen(String seq, Matrix blosum62) {
+        this.seq = seq;
+        this.blosum62 = blosum62;
     }
+
     public void Generate() throws MatrixLoaderException {
         //ProteinSequence s1 = new ProteinSequence(fragmentLib.Sequence);                
         Sequence s1 = new Sequence(seq);
         float similarity = 1f;
-        int NoIterations = 10;        
+        int NoIterations = 10;
         Sequence s2 = new Sequence(shuffle(seq));
         for (int i = 0; i < NoIterations; i++) {
             s2 = new Sequence(shuffle(s2.getSequence()));
             Alignment alignment = NeedlemanWunschGotoh.align(s1, s2, blosum62, 10f, 0.5f);
             similarity = (float) alignment.getSimilarity() / alignment.getSequence1().length;
             if (similarity < 0.7f) {
-                decoy= s2.getSequence();
+                decoy = s2.getSequence();
                 return;
-            } else if (i == NoIterations - 1) {                
+            } else if (i == NoIterations - 1) {
                 s2.setSequence(RandomSequenceGeneratorWoKPR.GetInstance().GetNext() + s2.getSequence());
                 i = 0;
-                if(s2.length()>s1.length()+3){
+                if (s2.length() > s1.length() + 3) {
                     break;
                 }
             }
         }
-        decoy= shuffle(seq);
+        decoy = shuffle(seq);
         return;
     }
+
     private String shuffle(String s) {
         ArrayList<Character> list = new ArrayList<>();
         ArrayList<Integer> KRP = new ArrayList<>();
@@ -76,7 +82,7 @@ public class ShuffledSeqGen implements Runnable{
 //            if(i>0 && s.charAt(i) == 'P' &&(s.charAt(i-1) == 'K' || s.charAt(i-1) == 'R')){
 //                KRP.add(i);
 //            }
-            if (s.charAt(i) == 'K' || s.charAt(i) == 'R'|| s.charAt(i) == 'P') {
+            if (s.charAt(i) == 'K' || s.charAt(i) == 'R' || s.charAt(i) == 'P') {
                 KRP.add(i);
             } else {
                 list.add(s.charAt(i));

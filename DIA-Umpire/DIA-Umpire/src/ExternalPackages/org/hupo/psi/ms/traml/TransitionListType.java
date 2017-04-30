@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * List of transitions
- * 
+ * <p>
  * <p>Java class for TransitionListType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="TransitionListType">
  *   &lt;complexContent>
@@ -34,12 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TransitionListType", propOrder = {
-    "transition"
+        "transition"
 })
 public class TransitionListType {
 
@@ -48,25 +46,23 @@ public class TransitionListType {
 
     /**
      * Gets the value of the transition property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the transition property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getTransition().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link TransitionType }
-     * 
-     * 
      */
     public List<TransitionType> getTransition() {
         if (transition == null) {

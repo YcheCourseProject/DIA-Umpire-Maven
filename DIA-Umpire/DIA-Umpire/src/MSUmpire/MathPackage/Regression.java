@@ -24,7 +24,6 @@ import MSUmpire.BaseDataStructure.XYPointCollection;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class Regression implements Disposable {
@@ -47,7 +46,7 @@ public class Regression implements Disposable {
     protected float min_x = Float.MAX_VALUE;
     protected float max_y = 0f;
     protected float min_y = Float.MAX_VALUE;
-    public int MinPoint=3;
+    public int MinPoint = 3;
 
     @Override
     public void dispose() {
@@ -65,15 +64,15 @@ public class Regression implements Disposable {
         public float SDvalue;
         public float R2value;
         public int NoPoints;
-        public float CorrelationCoffe;        
+        public float CorrelationCoffe;
 
         public String GetEquationText() {
             return "Y=(" + Math.round(Mvalue * 1000) / 1000 + ")X+" + Math.round(Bvalue * 1000) / 1000;
         }
     }
-    
-    public boolean valid(){
-        return pointset.PointCount()>=MinPoint;
+
+    public boolean valid() {
+        return pointset.PointCount() >= MinPoint;
     }
 
     public void SetData(XYPointCollection pointset) {

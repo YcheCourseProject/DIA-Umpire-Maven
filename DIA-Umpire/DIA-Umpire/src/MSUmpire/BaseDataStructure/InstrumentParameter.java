@@ -25,15 +25,15 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class InstrumentParameter implements Serializable{
+public class InstrumentParameter implements Serializable {
     private static final long serialVersionUID = 7563887811638875862L;
 
     public int Resolution;
@@ -48,21 +48,21 @@ public class InstrumentParameter implements Serializable{
     public int EndCharge = 5;
     public int MS2StartCharge = 2;
     public int MS2EndCharge = 4;
-    public float MaxCurveRTRange=2f; 
+    public float MaxCurveRTRange = 2f;
     public float RTtol;
     public float MS2SNThreshold;
     public InstrumentType InsType;
-    public int MaxNoPeakCluster=4;
-    public int MinNoPeakCluster=2;
-    public int MaxMS2NoPeakCluster=3;
-    public int MinMS2NoPeakCluster=2;
+    public int MaxNoPeakCluster = 4;
+    public int MinNoPeakCluster = 2;
+    public int MaxMS2NoPeakCluster = 3;
+    public int MinMS2NoPeakCluster = 2;
     public boolean Denoise = true;
     public boolean EstimateBG = false;
     public boolean DetermineBGByID = false;
     public boolean RemoveGroupedPeaks = true;
     public boolean Deisotoping = false;
-    public transient boolean BoostComplementaryIon=true; 
-    public transient boolean AdjustFragIntensity=true;
+    public transient boolean BoostComplementaryIon = true;
+    public transient boolean AdjustFragIntensity = true;
     public int PrecursorRank = 25;
     public int FragmentRank = 300;
     public float RTOverlapThreshold = 0.1f;
@@ -71,35 +71,35 @@ public class InstrumentParameter implements Serializable{
     public float SymThreshold = 0.3f;
     public int NoMissedScan = 1;
     public int MinPeakPerPeakCurve = 1;
-    public float MinMZ=200;
-    public int MinFrag=10;
-    public transient float MiniOverlapP =  0.2f;
-    public transient boolean CheckMonoIsotopicApex=false;
-    public transient boolean DetectByCWT=true;
-    public transient boolean FillGapByBK=true;
-    public transient float IsoCorrThreshold=0.2f;
-    public transient float RemoveGroupedPeaksCorr=0.3f;
-    public transient float RemoveGroupedPeaksRTOverlap=0.3f;
-    public transient float HighCorrThreshold=0.7f;
-    public transient int MinHighCorrCnt=10;
-    public transient int TopNLocal=6;
-    public transient int TopNLocalRange=100;
+    public float MinMZ = 200;
+    public int MinFrag = 10;
+    public transient float MiniOverlapP = 0.2f;
+    public transient boolean CheckMonoIsotopicApex = false;
+    public transient boolean DetectByCWT = true;
+    public transient boolean FillGapByBK = true;
+    public transient float IsoCorrThreshold = 0.2f;
+    public transient float RemoveGroupedPeaksCorr = 0.3f;
+    public transient float RemoveGroupedPeaksRTOverlap = 0.3f;
+    public transient float HighCorrThreshold = 0.7f;
+    public transient int MinHighCorrCnt = 10;
+    public transient int TopNLocal = 6;
+    public transient int TopNLocalRange = 100;
     public transient float IsoPattern = 0.3f;
-    public transient float startRT=0f;
-    public transient float endRT=9999f;
-    public transient boolean TargetIDOnly=false;
-    public transient boolean MassDefectFilter=true;
-    public transient float MinPrecursorMass=600f;
-    public transient float MaxPrecursorMass=15000f;
-    public transient boolean UseOldVersion=false;
-    public transient float RT_window_Targeted=-1f;
+    public transient float startRT = 0f;
+    public transient float endRT = 9999f;
+    public transient boolean TargetIDOnly = false;
+    public transient boolean MassDefectFilter = true;
+    public transient float MinPrecursorMass = 600f;
+    public transient float MaxPrecursorMass = 15000f;
+    public transient boolean UseOldVersion = false;
+    public transient float RT_window_Targeted = -1f;
     public transient int SmoothFactor = 5;
-    public transient boolean DetectSameChargePairOnly=false;
-    public transient float MassDefectOffset=0.1f;
-    public transient int MS2PairTopN=5;    
-    public transient boolean MS2Pairing=true;
-    
-    
+    public transient boolean DetectSameChargePairOnly = false;
+    public transient float MassDefectOffset = 0.1f;
+    public transient int MS2PairTopN = 5;
+    public transient boolean MS2Pairing = true;
+
+
     public void WriteParamSerialization(String mzXMLFileName) {
         try {
             Logger.getRootLogger().info("Writing parameter to file:" + FilenameUtils.getFullPath(mzXMLFileName) + FilenameUtils.getBaseName(mzXMLFileName) + "_params.ser...");
@@ -114,7 +114,7 @@ public class InstrumentParameter implements Serializable{
     }
 
     public static InstrumentParameter ReadParametersSerialization(String filepath) {
-        if(! new File(FilenameUtils.getFullPath(filepath) + FilenameUtils.getBaseName(filepath) + "_params.ser").exists()){
+        if (!new File(FilenameUtils.getFullPath(filepath) + FilenameUtils.getBaseName(filepath) + "_params.ser").exists()) {
             return null;
         }
         try {
@@ -128,11 +128,11 @@ public class InstrumentParameter implements Serializable{
             return params;
 
         } catch (Exception ex) {
-             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
+            Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return null;
         }
     }
- 
+
     public InstrumentParameter(InstrumentType type) {
         InsType = type;
         SetParameter(type);
@@ -141,9 +141,8 @@ public class InstrumentParameter implements Serializable{
     public static float CalcPPM(float valueA, float valueB) {
         return Math.abs(valueA - valueB) * 1000000 / valueB;
     }
-    
+
     /**
-     *
      * @param valueA
      * @param charge
      * @param ppm
@@ -169,7 +168,9 @@ public class InstrumentParameter implements Serializable{
         Orbitrap,
         QExactive,
         MALDI,
-    };
+    }
+
+    ;
 
     private void SetParameter(InstrumentType type) {
         switch (type) {
@@ -211,7 +212,7 @@ public class InstrumentParameter implements Serializable{
                 RemoveGroupedPeaks = true;
                 break;
             }
-             case Fusion: {
+            case Fusion: {
                 MS1PPM = 10;
                 MS2PPM = 20;
                 SNThreshold = 2f;

@@ -10,8 +10,10 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeptidePeakClusterDetection.PeakCurveCorrCalc;
 import crosslinker.Linker;
+
 import java.io.IOException;
 import java.util.HashMap;
+
 import net.sf.javaml.core.kdtree.KDTree;
 import net.sf.javaml.core.kdtree.KeySizeException;
 import org.apache.avalon.framework.ExceptionUtil;
@@ -19,44 +21,46 @@ import org.apache.log4j.Logger;
 
 /**
  * This class finds precursor peak of crosslinked peptides (given two peak pairs)
+ *
  * @author Chih-Chiang Tsou
- */ 
-public class PrecursorCrossPepFinder implements Runnable{
+ */
+public class PrecursorCrossPepFinder implements Runnable {
     public PairGroup LowMassPeakGroup;
     public PairGroup HighMassPeakGroup;
-    public HashMap<Integer,CoElutePeak> PrecursorCrossPepPeaks;
-    public float MaxLowMassPeakCorr=0f;
-    public float MaxHighMassPeakCorr=0f;
-    public float LowHighPeakCorr=0f;
-    private float PrecCorssPeakPPM=1000f;
+    public HashMap<Integer, CoElutePeak> PrecursorCrossPepPeaks;
+    public float MaxLowMassPeakCorr = 0f;
+    public float MaxHighMassPeakCorr = 0f;
+    public float LowHighPeakCorr = 0f;
+    private float PrecCorssPeakPPM = 1000f;
     Linker linker;
     private InstrumentParameter parameter;
     float lowrt = 0f;
     float highrt = 0f;
     private final KDTree PeakClusterSearchTree;
-    private CoElutePeak BestPrecursorPeak=null;
-    
-    public PrecursorCrossPepFinder(PairGroup LowMassPeak, PairGroup HighMassPeak, KDTree PeakClusterSearchTree, InstrumentParameter parameter, Linker linker){
-        this.LowMassPeakGroup=LowMassPeak;
-        this.HighMassPeakGroup=HighMassPeak;
-        this.PeakClusterSearchTree=PeakClusterSearchTree;
-        this.parameter=parameter;
-        this.linker=linker;
+    private CoElutePeak BestPrecursorPeak = null;
+
+    public PrecursorCrossPepFinder(PairGroup LowMassPeak, PairGroup HighMassPeak, KDTree PeakClusterSearchTree, InstrumentParameter parameter, Linker linker) {
+        this.LowMassPeakGroup = LowMassPeak;
+        this.HighMassPeakGroup = HighMassPeak;
+        this.PeakClusterSearchTree = PeakClusterSearchTree;
+        this.parameter = parameter;
+        this.linker = linker;
         try {
             LowHighPeakCorr = PeakCurveCorrCalc.CalPeakCorr(LowMassPeak.lowMassPeak.MonoIsotopePeak, HighMassPeak.lowMassPeak.MonoIsotopePeak, parameter.NoPeakPerMin);
             if (Float.isNaN(LowHighPeakCorr)) {
                 LowHighPeakCorr = 0f;
             }
         } catch (IOException ex) {
-           Logger.getRootLogger().error(ExceptionUtil.printStackTrace(ex));
+            Logger.getRootLogger().error(ExceptionUtil.printStackTrace(ex));
         }
-        
-        lowrt = Math.max(LowMassPeak.lowMassPeak.PeakHeightRT[0],HighMassPeak.lowMassPeak.PeakHeightRT[0]) - parameter.RTtol;
-        highrt = Math.min(LowMassPeak.lowMassPeak.PeakHeightRT[0],HighMassPeak.lowMassPeak.PeakHeightRT[0]) + parameter.RTtol;
+
+        lowrt = Math.max(LowMassPeak.lowMassPeak.PeakHeightRT[0], HighMassPeak.lowMassPeak.PeakHeightRT[0]) - parameter.RTtol;
+        highrt = Math.min(LowMassPeak.lowMassPeak.PeakHeightRT[0], HighMassPeak.lowMassPeak.PeakHeightRT[0]) + parameter.RTtol;
     }
-    public void FindPrecursorCrossPeak(){
-        float IntactMW = LowMassPeakGroup.lowMassPeak.NeutralMass()+HighMassPeakGroup.lowMassPeak.NeutralMass()+linker.Core;
-        
+
+    public void FindPrecursorCrossPeak() {
+        float IntactMW = LowMassPeakGroup.lowMassPeak.NeutralMass() + HighMassPeakGroup.lowMassPeak.NeutralMass() + linker.Core;
+
         float lowMW = InstrumentParameter.GetMzByPPM(IntactMW, 1, parameter.MS1PPM);
         float highMW = InstrumentParameter.GetMzByPPM(IntactMW, 1, -parameter.MS1PPM);
 
@@ -94,11 +98,11 @@ public class PrecursorCrossPepFinder implements Runnable{
                 }
 
                 //if (corrhigh>0.5f && corrlow>0.5f && corrhigh+corrlow > MaxLowMassPeakCorr+MaxHighMassPeakCorr) {
-                if ((corrhigh>0.5f && corrlow>0.5f) && (PrecursorCrossPepPeaks.get(peakB.Charge)==null || ppm < PrecursorCrossPepPeaks.get(peakB.Charge).PPM)) {
-                    CoElutePeak peak =new CoElutePeak(peakB, corrlow+corrhigh, ppm);
+                if ((corrhigh > 0.5f && corrlow > 0.5f) && (PrecursorCrossPepPeaks.get(peakB.Charge) == null || ppm < PrecursorCrossPepPeaks.get(peakB.Charge).PPM)) {
+                    CoElutePeak peak = new CoElutePeak(peakB, corrlow + corrhigh, ppm);
                     PrecursorCrossPepPeaks.put(peakB.Charge, peak);
                     MaxLowMassPeakCorr = corrlow;
-                    MaxHighMassPeakCorr=corrhigh;
+                    MaxHighMassPeakCorr = corrhigh;
                     if (ppm < PrecCorssPeakPPM) {
                         PrecCorssPeakPPM = ppm;
                     }
@@ -107,18 +111,19 @@ public class PrecursorCrossPepFinder implements Runnable{
         }
     }
 
-     public CoElutePeak GetBestPrecursor() {
-        if (BestPrecursorPeak == null && PrecursorCrossPepPeaks!=null) {
+    public CoElutePeak GetBestPrecursor() {
+        if (BestPrecursorPeak == null && PrecursorCrossPepPeaks != null) {
             for (CoElutePeak coElutePeak : PrecursorCrossPepPeaks.values()) {
-                if (BestPrecursorPeak==null || (coElutePeak.Correlation > BestPrecursorPeak.Correlation || (coElutePeak.Correlation == BestPrecursorPeak.Correlation && coElutePeak.PPM < BestPrecursorPeak.PPM))) {
+                if (BestPrecursorPeak == null || (coElutePeak.Correlation > BestPrecursorPeak.Correlation || (coElutePeak.Correlation == BestPrecursorPeak.Correlation && coElutePeak.PPM < BestPrecursorPeak.PPM))) {
                     BestPrecursorPeak = coElutePeak;
                 }
             }
         }
         return BestPrecursorPeak;
-     }
+    }
+
     @Override
     public void run() {
         FindPrecursorCrossPeak();
-    }    
+    }
 }

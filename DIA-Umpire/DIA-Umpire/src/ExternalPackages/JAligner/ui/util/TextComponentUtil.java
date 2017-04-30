@@ -47,7 +47,7 @@ import javax.swing.text.JTextComponent;
 /**
  * Text component (e.g. {@link javax.swing.JTextArea}or
  * {@link javax.swing.JTextPane}) editing helper class.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -66,7 +66,7 @@ public class TextComponentUtil {
     /**
      * Copies the selected text to the system clipboad and then deletes it from
      * the text component.
-     * 
+     *
      * @param textComponent
      */
     public static void cut(JTextComponent textComponent) {
@@ -76,7 +76,7 @@ public class TextComponentUtil {
 
     /**
      * Copies the selected text to the system clipboard.
-     * 
+     *
      * @param textComponent
      */
     public static void copy(JTextComponent textComponent) {
@@ -86,7 +86,7 @@ public class TextComponentUtil {
 
     /**
      * Copies the text contents of the system clipboard to the text component.
-     * 
+     *
      * @param textComponent
      */
     public static void paste(JTextComponent textComponent) {
@@ -111,7 +111,7 @@ public class TextComponentUtil {
 
     /**
      * Deletes the selected text in a text component.
-     * 
+     *
      * @param textComponent
      */
     public static void delete(JTextComponent textComponent) {
@@ -120,7 +120,7 @@ public class TextComponentUtil {
 
     /**
      * Selects all contents of a text component.
-     * 
+     *
      * @param textComponent
      */
     public static void selectAll(JTextComponent textComponent) {
@@ -132,7 +132,7 @@ public class TextComponentUtil {
 
     /**
      * Opens a file and puts the contents of the file in a text component.
-     * 
+     *
      * @param textComponent
      * @throws TextComponentUtilException
      */
@@ -185,7 +185,7 @@ public class TextComponentUtil {
 
     /**
      * Saves the contents of a text component to a file.
-     * 
+     *
      * @param textComponent
      * @param fileName
      * @return true if a file has been chosen or false otherwise
@@ -211,7 +211,7 @@ public class TextComponentUtil {
 
     /**
      * Saves the contents of a text component to a file.
-     * 
+     *
      * @param textComponent
      * @return true if a file has been chosen or false otherwise
      * @throws TextComponentUtilException
@@ -223,7 +223,7 @@ public class TextComponentUtil {
 
     /**
      * Prints the contents of a text component.
-     * 
+     *
      * @param textComponent
      */
     public static void print(JTextComponent textComponent)

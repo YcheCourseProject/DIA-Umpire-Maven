@@ -24,6 +24,7 @@ package DIA_Umpire_Quant;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.DIA.DIAPack;
 import MSUmpire.BaseDataStructure.DBSearchParam;
@@ -37,6 +38,7 @@ import MSUmpire.Utility.ExportTable;
 import MSUmpire.SearchResultParser.ProtXMLParser;
 import MSUmpire.Utility.ConsoleLogger;
 import MSUmpire.Utility.DateTimeTag;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,13 +47,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_ProtQuant {
@@ -72,7 +74,7 @@ public class DIA_Umpire_ProtQuant {
         } catch (Exception e) {
         }
 
-        Logger.getRootLogger().info("Version: "+UmpireInfo.GetInstance().Version);
+        Logger.getRootLogger().info("Version: " + UmpireInfo.GetInstance().Version);
         Logger.getRootLogger().info("Parameter file:" + args[0]);
 
         BufferedReader reader = new BufferedReader(new FileReader(args[0]));
@@ -81,17 +83,17 @@ public class DIA_Umpire_ProtQuant {
         int NoCPUs = 2;
 
         String Combined_Prot = "";
-        boolean DefaultProtFiltering=true;
-        
+        boolean DefaultProtFiltering = true;
+
         float Freq = 0f;
         int TopNPep = 6;
         int TopNFrag = 6;
         String FilterWeight = "GW";
         float MinWeight = 0.9f;
-        
+
         TandemParam tandemPara = new TandemParam(DBSearchParam.SearchInstrumentType.TOF5600);
         HashMap<String, File> AssignFiles = new HashMap<>();
-        
+
         boolean ExportSaint = false;
         boolean SAINT_MS1 = false;
         boolean SAINT_MS2 = true;
@@ -103,7 +105,7 @@ public class DIA_Umpire_ProtQuant {
 
         //<editor-fold defaultstate="collapsed" desc="Reading parameter file">
         while ((line = reader.readLine()) != null) {
-            line=line.trim();
+            line = line.trim();
             Logger.getRootLogger().info(line);
             if (!"".equals(line) && !line.startsWith("#")) {
                 //System.out.println(line);
@@ -152,17 +154,17 @@ public class DIA_Umpire_ProtQuant {
                     case "DefaultProtFiltering": {
                         DefaultProtFiltering = Boolean.parseBoolean(value);
                         break;
-                    }     
+                    }
                     case "DecoyPrefix": {
                         if (!"".equals(value)) {
                             tandemPara.DecoyPrefix = value;
                         }
                         break;
-                    }                    
+                    }
                     case "ProteinFDR": {
                         tandemPara.ProtFDR = Float.parseFloat(value);
                         break;
-                    }                                        
+                    }
                     case "FilterWeight": {
                         FilterWeight = value;
                         break;
@@ -243,16 +245,16 @@ public class DIA_Umpire_ProtQuant {
 
         //Initialize PTM manager using compomics library
         PTMManager.GetInstance();
-        
+
         //Check if the fasta file can be found
         if (!new File(tandemPara.FastaPath).exists()) {
-            Logger.getRootLogger().info("Fasta file :"+tandemPara.FastaPath + " cannot be found, the process will be terminated, please check.");
+            Logger.getRootLogger().info("Fasta file :" + tandemPara.FastaPath + " cannot be found, the process will be terminated, please check.");
             System.exit(1);
-        }               
-        
+        }
+
         //Check if the prot.xml file can be found
         if (!new File(Combined_Prot).exists()) {
-            Logger.getRootLogger().info("ProtXML file: " +Combined_Prot + " cannot be found, the export protein summary table will be empty.");
+            Logger.getRootLogger().info("ProtXML file: " + Combined_Prot + " cannot be found, the export protein summary table will be empty.");
         }
         LCMSID protID = null;
 
@@ -269,7 +271,7 @@ public class DIA_Umpire_ProtQuant {
                     protID.FilterByProteinDecoyFDRUsingMaxIniProb(tandemPara.DecoyPrefix, tandemPara.ProtFDR);
                 }
                 //Get protein FDR calculation without other filtering
-                else{
+                else {
                     protID.FilterByProteinDecoyFDRUsingLocalPW(tandemPara.DecoyPrefix, tandemPara.ProtFDR);
                 }
                 protID.LoadSequence();
@@ -283,8 +285,8 @@ public class DIA_Umpire_ProtQuant {
         ArrayList<DIAPack> FileList = new ArrayList<>();
         try {
             File folder = new File(WorkFolder);
-            if(!folder.exists()){
-                Logger.getRootLogger().info("The path : "+ WorkFolder + " cannot be found.");
+            if (!folder.exists()) {
+                Logger.getRootLogger().info("The path : " + WorkFolder + " cannot be found.");
                 System.exit(1);
             }
             for (final File fileEntry : folder.listFiles()) {
@@ -310,8 +312,8 @@ public class DIA_Umpire_ProtQuant {
             for (File fileEntry : AssignFiles.values()) {
                 Logger.getRootLogger().info(fileEntry.getAbsolutePath());
             }
-            
-             for (File fileEntry : AssignFiles.values()) {
+
+            for (File fileEntry : AssignFiles.values()) {
                 String mzXMLFile = fileEntry.getAbsolutePath();
                 if (mzXMLFile.toLowerCase().endsWith(".mzxml") | mzXMLFile.toLowerCase().endsWith(".mzml")) {
                     DIAPack DiaFile = new DIAPack(mzXMLFile, NoCPUs);
@@ -337,12 +339,12 @@ public class DIA_Umpire_ProtQuant {
                     }
                 }
             }
-            
+
             //<editor-fold defaultstate="collapsed" desc="Peptide and fragment selection">
-            
+
             Logger.getRootLogger().info("Peptide and fragment selection across the whole dataset");
             ArrayList<LCMSID> SummaryList = new ArrayList<>();
-            for (DIAPack diafile : FileList) {                            
+            for (DIAPack diafile : FileList) {
                 if (protID != null) {
                     //Generate protein list according to mapping of peptide ions for each DIA file to the master protein list
                     diafile.IDsummary.GenerateProteinByRefIDByPepSeq(protID, true);
@@ -362,7 +364,7 @@ public class DIA_Umpire_ProtQuant {
             fragselection.GenerateProtPepScoreMap(MinWeight);
             fragselection.GenerateTopPepMap(TopNPep);
 //</editor-fold>
-            
+
             //<editor-fold defaultstate="collapsed" desc="Writing general reports">                 
             ExportTable export = new ExportTable(WorkFolder, SummaryList, IDSummaryFragments, protID, fragselection);
             export.Export(TopNPep, TopNFrag, Freq);
@@ -427,7 +429,7 @@ public class DIA_Umpire_ProtQuant {
             }
 
 //</editor-fold>
-            
+
             Logger.getRootLogger().info("Job done");
             Logger.getRootLogger().info("=================================================================================================");
 

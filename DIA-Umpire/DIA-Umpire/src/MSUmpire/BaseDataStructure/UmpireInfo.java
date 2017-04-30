@@ -20,7 +20,6 @@
 package MSUmpire.BaseDataStructure;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class UmpireInfo {

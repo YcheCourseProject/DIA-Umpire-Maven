@@ -6,22 +6,19 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Multinomial distribution, with \f$ n\f$ fixed, is an exponential family
  * and, as a consequence, the probability density function is given by \f[ f(x;
  * \mathbf{\Theta}) = \exp \left( \langle t(x), \mathbf{\Theta} \rangle -
  * F(\mathbf{\Theta}) + k(x) \right) \f] where \f$ \mathbf{\Theta} \f$ are the
  * natural parameters. This class implements the different functions allowing to
  * express a Multinomial distribution as a member of an exponential family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = (p_1,\cdots,p_k) \in [0,1]^k\f$ - Natural parameters
  * \f$\mathbf{\Theta} = (\theta_1,\cdots,\theta_{k-1}) \in R^{k-1}\f$ -
@@ -60,7 +57,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Computes \f$ F( \mathbf{\Theta} ) \f$.
      *
      * @param T parameters \f$ \mathbf{\Theta} = (\theta_1, \cdots,
-     * \theta_{k-1}) \f$
+     *          \theta_{k-1}) \f$
      * @return \f$ F(\mathbf{\Theta}) = n \log \left( 1 + \sum_{i=1}^{k-1} \exp
      * \theta_i \right) - \log n! \f$
      */
@@ -76,7 +73,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Computes \f$ \nabla F ( \mathbf{\Theta} )\f$.
      *
      * @param T naturel parameters \f$ \mathbf{\Theta} = (\theta_1, \cdots,
-     * \theta_{k-1}) \f$
+     *          \theta_{k-1}) \f$
      * @return \f$ \nabla F( \mathbf{\Theta} ) = \left( \frac{n \exp \theta_i}{1
      * + \sum_{j=1}^{k-1} \exp \theta_j} \right)_i \f$
      */
@@ -103,7 +100,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Computes \f$ G(\mathbf{H})\f$.
      *
      * @param H expectation parameters \f$ \mathbf{H} = (\eta_1, \cdots,
-     * \eta_{k-1}) \f$
+     *          \eta_{k-1}) \f$
      * @return \f$ G(\mathbf{H}) = \left( \sum_{i=1}^{k-1} \eta_i \log \eta_i
      * \right) + \left( n - \sum_{i=1}^{k-1} \eta_i \right) \log \left( n -
      * \sum_{i=1}^{k-1} \eta_i \right) \f$
@@ -122,7 +119,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Computes \f$ \nabla G (\mathbf{H})\f$
      *
      * @param H expectation parameters \f$ \mathbf{H} = (\eta_1, \cdots,
-     * \eta_{k-1}) \f$
+     *          \eta_{k-1}) \f$
      * @return \f$ \nabla G( \mathbf{H} ) = \left( \log \left( \frac{\eta_i}{n -
      * \sum_{j=1}^{k-1} \eta_j} \right) \right)_i \f$
      */
@@ -194,7 +191,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Converts natural parameters to source parameters.
      *
      * @param T natural parameters \f$ \mathbf{\Theta} = ( \theta_1, \cdots,
-     * \theta_{k-1} )\f$
+     *          \theta_{k-1} )\f$
      * @return source parameters \f$ \mathbf{\Lambda} =	\begin{cases} p_i =
      * \frac{\exp \theta_i}{1 + \sum_{j=1}^{k-1}(\exp \theta_j)} & \mbox{if
      * $i<k$}\\ p_k = \frac{1}{1 + \sum_{j=1}^{k-1}(\exp \theta_j)} \end{cases}
@@ -239,7 +236,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
      * Converts expectation parameters to source parameters.
      *
      * @param H natural parameters \f$ \mathbf{H} = (\eta_1, \cdots,
-     * \eta_{k-1})\f$
+     *          \eta_{k-1})\f$
      * @return source parameters \f$ \mathbf{\Lambda} = \begin{cases} p_i =
      * \frac{\eta_i}{n} & \mbox{if $i<k$}\\ p_k = \frac{n - \sum_{j=1}^{k-1}
      * \eta_j}{n} \end{cases}\f$
@@ -259,7 +256,7 @@ public final class MultinomialFixedN extends ExponentialFamily<PVector, PVector>
     /**
      * Computes the density value \f$ f(x) \f$.
      *
-     * @param x point
+     * @param x     point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x_1,\cdots,x_k;p_1,\cdots,p_k,n) = \frac{n!}{x_1! \cdots
      * x_k!} p_1^{x_1} \cdots p_k^{x_k} \f$

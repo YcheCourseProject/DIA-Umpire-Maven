@@ -26,6 +26,7 @@ import MSUmpire.MathPackage.Regression;
 import ExternalPackages.jMEF.ExpectationMaximization1D;
 import ExternalPackages.jMEF.MixtureModel;
 import ExternalPackages.jMEF.PVector;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +41,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
+
 import javastat.multivariate.DiscriminantAnalysis;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -61,6 +63,7 @@ import org.nustaq.serialization.FSTObjectOutput;
 
 /**
  * Targeted re-extraction scoring
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class TargetMatchScoring implements Serializable {
@@ -74,12 +77,12 @@ public class TargetMatchScoring implements Serializable {
     public transient int NoBinPoints = 1000;
     MatchSubscore matchSubscore = new MatchSubscore(0);
     Float[][] MixtureModelProb;
-    ArrayList<PeakGroupScore> decoyModelingList = new ArrayList<>();    
-    private transient boolean UseOldVersion=false;
+    ArrayList<PeakGroupScore> decoyModelingList = new ArrayList<>();
+    private transient boolean UseOldVersion = false;
 
-    public void SetUseOldVersion(){
-        UseOldVersion=true;
-        matchSubscore=new MatchSubscore(1);
+    public void SetUseOldVersion() {
+        UseOldVersion = true;
+        matchSubscore = new MatchSubscore(1);
     }
 
     public TargetMatchScoring(String Filename, String LibID) {
@@ -109,12 +112,11 @@ public class TargetMatchScoring implements Serializable {
         //ClearGroupFragments();
         //LibraryMatchWrite();
 
-        if(UseOldVersion){
+        if (UseOldVersion) {
             EM_LDATraining();
             MixtureModeling();
             AssignMixtureModelProb();
-        }
-        else {
+        } else {
             EM_LDATraining();
             //MixtureModeling();
             MixtureModelingSemiSupervised();
@@ -293,14 +295,14 @@ public class TargetMatchScoring implements Serializable {
         int targetNo = (int) (IDList.size() * samplingratio);
         int TrainNo = Math.min(targetNo, decoyList.size());
 
-        Logger.getRootLogger().info("No. of identified peptide ions:"+IDList.size());
-        Logger.getRootLogger().info("No. of decoys:"+decoyList.size());
+        Logger.getRootLogger().info("No. of identified peptide ions:" + IDList.size());
+        Logger.getRootLogger().info("No. of decoys:" + decoyList.size());
         if (TrainNo < 5) {
             Terminate = true;
             Logger.getRootLogger().warn("No. of training data is less than 5, the training process will exit.");
             return;
         }
-      
+
         while (LDASimialrity < StopThreshold && iteration < MaxIterations) {
             Collections.shuffle(decoyList);
             Collections.shuffle(IDList);
@@ -366,7 +368,7 @@ public class TargetMatchScoring implements Serializable {
             CalcUmpireScore();
         }
     }
-    
+
     public void MixtureModelingSemiSupervised() throws IOException {
 
         if (libTargetMatches.isEmpty() || Terminate) {
@@ -569,10 +571,10 @@ public class TargetMatchScoring implements Serializable {
         XYSeries model2 = new XYSeries("Correct matches");
         XYSeries model3 = new XYSeries("All target hits");
 
-        String modelfile = FilenameUtils.getFullPath(pngfile) + "/" + FilenameUtils.getBaseName(pngfile)+ "_ModelPoints.txt";
-        FileWriter writer=new FileWriter(modelfile);
+        String modelfile = FilenameUtils.getFullPath(pngfile) + "/" + FilenameUtils.getBaseName(pngfile) + "_ModelPoints.txt";
+        FileWriter writer = new FileWriter(modelfile);
         writer.write("UScore\tModel\tCorrect\tDecoy\n");
-        
+
         int NoPoints = 1000;
         double[] model_kde_x = new double[NoPoints];
         float intv = (max - min) / NoPoints;
@@ -583,8 +585,8 @@ public class TargetMatchScoring implements Serializable {
             point.array[1] = mmc.EF.density(point, mmc.param[0]) * mmc.weight[0];
             model1.add(point.array[0], point.array[1]);
             point.array[1] = mmc.EF.density(point, mmc.param[1]) * mmc.weight[1];
-            model2.add(point.array[0], point.array[1]);   
-            
+            model2.add(point.array[0], point.array[1]);
+
         }
 
         KernelDensityEstimator kde = new KernelDensityEstimator();

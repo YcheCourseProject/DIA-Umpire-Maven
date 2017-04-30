@@ -26,44 +26,44 @@ import javax.jnlp.ClipboardService;
 import javax.jnlp.ServiceManager;
 
 /**
- * Sets and gets the contents of the system clipboard.  
- * 
+ * Sets and gets the contents of the system clipboard.
+ *
  * @author Ahmed Moustafa
  */
 
 public class ClipboardHandlerJNLP implements ClipboardHandler {
-	private static Logger logger = Logger.getLogger(ClipboardHandlerJNLP.class.getName());
-	
-	/**
-	 * Gets the contents of the system clipboard
-	 * 
-	 * @return The text system clipboad contents 
-	 */
-	public String getContents() {
-		String contents = null;
-		try {
-			ClipboardService cs = (ClipboardService)ServiceManager.lookup(ClipboardService.class.getName());
-			Transferable data = cs.getContents();
-			if (data != null && data.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-				contents = ((String)(data.getTransferData(DataFlavor.stringFlavor)));
-			}
-		} catch (Exception e) {
-			logger.log(Level.WARNING, "Failed getting the clipboard contents: " + e.getMessage(), e );
-		}
-		return contents;
-	}
+    private static Logger logger = Logger.getLogger(ClipboardHandlerJNLP.class.getName());
 
-	/**
-	 * Sets the contents of the system clipboard
-	 * 
-	 * @param s clipboard contents to set
-	 */
-	public void setContents(String s) {
-		try {
-			ClipboardService cs = (ClipboardService)ServiceManager.lookup(ClipboardService.class.getName());
-			cs.setContents(new StringSelection(s));
-		} catch (Exception e) {
-			logger.log(Level.WARNING, "Failed setting the clipboard contents: " + e.getMessage(), e );
-		}
-	}
+    /**
+     * Gets the contents of the system clipboard
+     *
+     * @return The text system clipboad contents
+     */
+    public String getContents() {
+        String contents = null;
+        try {
+            ClipboardService cs = (ClipboardService) ServiceManager.lookup(ClipboardService.class.getName());
+            Transferable data = cs.getContents();
+            if (data != null && data.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                contents = ((String) (data.getTransferData(DataFlavor.stringFlavor)));
+            }
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Failed getting the clipboard contents: " + e.getMessage(), e);
+        }
+        return contents;
+    }
+
+    /**
+     * Sets the contents of the system clipboard
+     *
+     * @param s clipboard contents to set
+     */
+    public void setContents(String s) {
+        try {
+            ClipboardService cs = (ClipboardService) ServiceManager.lookup(ClipboardService.class.getName());
+            cs.setContents(new StringSelection(s));
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Failed setting the clipboard contents: " + e.getMessage(), e);
+        }
+    }
 }

@@ -25,7 +25,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class RandomSequenceGeneratorWoKPR {
@@ -36,26 +35,26 @@ public class RandomSequenceGeneratorWoKPR {
      * All possible characters
      */
     private final char[] CHARS = {
-        'A', 'N', 'D', 'C', 'Q', 'E',
-        'G', 'H', 'I', 'L', 'M', 'F',
-        'S', 'T', 'W', 'Y', 'V', 'B', 'Z', 'X'};
+            'A', 'N', 'D', 'C', 'Q', 'E',
+            'G', 'H', 'I', 'L', 'M', 'F',
+            'S', 'T', 'W', 'Y', 'V', 'B', 'Z', 'X'};
 
-    public static RandomSequenceGeneratorWoKPR GetInstance(){
-        if(randomSequenceGeneratorWoKPR==null){
-            randomSequenceGeneratorWoKPR=new RandomSequenceGeneratorWoKPR();
+    public static RandomSequenceGeneratorWoKPR GetInstance() {
+        if (randomSequenceGeneratorWoKPR == null) {
+            randomSequenceGeneratorWoKPR = new RandomSequenceGeneratorWoKPR();
         }
         return randomSequenceGeneratorWoKPR;
     }
-    
-    private static RandomSequenceGeneratorWoKPR randomSequenceGeneratorWoKPR=null;
-    
-    private RandomSequenceGeneratorWoKPR(){
+
+    private static RandomSequenceGeneratorWoKPR randomSequenceGeneratorWoKPR = null;
+
+    private RandomSequenceGeneratorWoKPR() {
         RandomSeq = generate(50);
     }
-    
+
     transient ReadWriteLock lock = new ReentrantReadWriteLock();
-   
-    public char GetNext(){
+
+    public char GetNext() {
         lock.writeLock().lock();
         try {
             if (RandomIdx == 50) {
@@ -66,19 +65,19 @@ public class RandomSequenceGeneratorWoKPR {
             lock.writeLock().unlock();
         }
     }
-    
+
     /**
      * Number of possible characters
      */
     private final int NUMBER_OF_CHARS = CHARS.length;
-   
-    
+
+
     /**
      * Random generator
      */
     private Random random = new Random();
-    
-            
+
+
     /**
      * Returns random sequence
      *

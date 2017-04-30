@@ -17,21 +17,20 @@
 package ExternalPackages.JAligner.ui.util;
 
 /**
- * 
  * @author Ahmed Moustafa
  */
 
 public class TextComponentUtilException extends Exception {
 
-	/**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 4050763797251567922L;
 
     /**
-	 * @param message
-	 */
-	public TextComponentUtilException(String message) {
-		super(message);
-	}
+     * @param message
+     */
+    public TextComponentUtilException(String message) {
+        super(message);
+    }
 }

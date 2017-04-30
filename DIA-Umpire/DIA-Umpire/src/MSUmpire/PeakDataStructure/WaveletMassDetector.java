@@ -21,6 +21,7 @@ package MSUmpire.PeakDataStructure;
 
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  * Highly sensitive feature detection for high resolution LC/MS. 
  * BMC Bioinformatics 9, 504 (2008).
  */
-public class WaveletMassDetector implements Serializable{
+public class WaveletMassDetector implements Serializable {
 
     /**
      * Parameters of the wavelet, NPOINTS is the number of wavelet values to use
@@ -67,9 +68,10 @@ public class WaveletMassDetector implements Serializable{
         NPOINTS_half = NPOINTS / 2;
         d = (int) NPOINTS / (WAVELET_ESR - WAVELET_ESL);
     }
+
     int d;
     //public ArrayList<XYData>[] waveletCWT;
-    
+
     //List of peak ridge (local maxima)
     public ArrayList<XYData>[] PeakRidge;
 
@@ -139,8 +141,6 @@ public class WaveletMassDetector implements Serializable{
 
     /**
      * Perform the CWT over raw data points in the selected scale level
-     *
-     *
      */
     private ArrayList<XYData> performCWT(int scaleLevel) {
         int length = DataPoint.size();

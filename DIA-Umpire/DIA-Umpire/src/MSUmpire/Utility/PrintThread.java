@@ -21,32 +21,32 @@ package MSUmpire.Utility;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
-public class PrintThread extends Thread{
+public class PrintThread extends Thread {
 
     Process process;
-    
-    public PrintThread(Process process){
-        this.process=process;
+
+    public PrintThread(Process process) {
+        this.process = process;
     }
-    
+
     @Override
     public void run() {
         try {
             final BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
             String line = null;
-            while ((line = reader.readLine()) != null) {                
+            while ((line = reader.readLine()) != null) {
                 Logger.getRootLogger().debug(line);
             }
             reader.close();
         } catch (final Exception e) {
             Logger.getRootLogger().debug(e.getMessage());
-        }        
+        }
     }
 }

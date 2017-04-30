@@ -20,15 +20,15 @@
 package MSUmpire.PeakDataStructure;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class SortedCorrFrag extends SortedList<PrecursorFragmentPairEdge> {
     private static final long serialVersionUID = -2283085827334564318L;
-    
+
     public SortedCorrFrag() {
         super(new Comparator<PrecursorFragmentPairEdge>() {
             @Override

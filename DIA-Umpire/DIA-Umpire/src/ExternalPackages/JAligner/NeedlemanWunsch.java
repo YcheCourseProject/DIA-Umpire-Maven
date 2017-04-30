@@ -21,13 +21,12 @@ import ExternalPackages.JAligner.matrix.Matrix;
 /**
  * An implementation of the Needleman-Wunsch algorithm for biological global
  * pairwise sequence alignment.
- * 
+ * <p>
  * <br>
  * Reference: <a
  * href="http://www.sbc.su.se/~per/molbioinfo2001/dynprog/adv_dynamic.html">Advanced
  * Dynamic Programming Tutorial</a>.
- * 
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -41,22 +40,18 @@ public final class NeedlemanWunsch {
 
     /**
      * Aligns two sequences by Needleman-Wunsch (global)
-     * 
-     * @param s1
-     *            sequene #1 ({@link Sequence})
-     * @param s2
-     *            sequene #2 ({@link Sequence})
-     * @param matrix
-     *            scoring matrix ({@link Matrix})
-     * @param gap
-     *            open gap penalty
+     *
+     * @param s1     sequene #1 ({@link Sequence})
+     * @param s2     sequene #2 ({@link Sequence})
+     * @param matrix scoring matrix ({@link Matrix})
+     * @param gap    open gap penalty
      * @return alignment object contains the two aligned sequences, the
-     *         alignment score and alignment statistics
+     * alignment score and alignment statistics
      * @see Sequence
      * @see Matrix
      */
     public static Alignment align(Sequence s1, Sequence s2, Matrix matrix,
-            float gap) {
+                                  float gap) {
         float[][] scores = matrix.getScores();
 
         int m = s1.length() + 1;
@@ -96,22 +91,16 @@ public final class NeedlemanWunsch {
 
     /**
      * Constructs directions matrix for the traceback.
-     * 
-     * @param s1
-     *            sequence #1
-     * @param s2
-     *            sequence #2
-     * @param matrix
-     *            scoring matrix
-     * @param gap
-     *            gap penalty
-     * @param pointers
-     *            traceback matrix
-     * 
+     *
+     * @param s1       sequence #1
+     * @param s2       sequence #2
+     * @param matrix   scoring matrix
+     * @param gap      gap penalty
+     * @param pointers traceback matrix
      * @return The cell where the traceback starts.
      */
     private static Cell construct(Sequence s1, Sequence s2, float[][] matrix,
-            float gap, byte[][] pointers) {
+                                  float gap, byte[][] pointers) {
 
         Cell cell = new Cell();
 
@@ -172,24 +161,19 @@ public final class NeedlemanWunsch {
     /**
      * Returns the alignment of two sequences based on the passed array of
      * pointers
-     * 
-     * @param s1
-     *            sequence #1
-     * @param s2
-     *            sequence #2
-     * @param m
-     *            scoring matrix
-     * @param pointers
-     *            traceback matrix
-     * @param cell
-     *            The cell where the traceback starts.
+     *
+     * @param s1       sequence #1
+     * @param s2       sequence #2
+     * @param m        scoring matrix
+     * @param pointers traceback matrix
+     * @param cell     The cell where the traceback starts.
      * @return {@link Alignment} with the two aligned sequences and alignment
-     *         score.
+     * score.
      * @see Cell
      * @see Alignment
      */
     private static Alignment traceback(Sequence s1, Sequence s2, Matrix m,
-            byte[][] pointers, Cell cell) {
+                                       byte[][] pointers, Cell cell) {
         char[] array1 = s1.toArray();
         char[] array2 = s2.toArray();
         float[][] scores = m.getScores();
@@ -221,36 +205,36 @@ public final class NeedlemanWunsch {
         boolean stillGoing = true;
         while (stillGoing) {
             switch (pointers[i][j]) {
-            case Directions.UP:
-                reversed1[len1++] = array1[--i];
-                reversed2[len2++] = Alignment.GAP;
-                reversed3[len3++] = Markups.GAP;
-                gaps++;
-                break;
-            case Directions.DIAGONAL:
-                c1 = array1[--i];
-                c2 = array2[--j];
-                reversed1[len1++] = c1;
-                reversed2[len2++] = c2;
-                if (c1 == c2) {
-                    reversed3[len3++] = Markups.IDENTITY;
-                    identity++;
-                    similarity++;
-                } else if (scores[c1][c2] > 0) {
-                    reversed3[len3++] = Markups.SIMILARITY;
-                    similarity++;
-                } else {
-                    reversed3[len3++] = Markups.MISMATCH;
-                }
-                break;
-            case Directions.LEFT:
-                reversed1[len1++] = Alignment.GAP;
-                reversed2[len2++] = array2[--j];
-                reversed3[len3++] = Markups.GAP;
-                gaps++;
-                break;
-            case Directions.STOP:
-                stillGoing = false;
+                case Directions.UP:
+                    reversed1[len1++] = array1[--i];
+                    reversed2[len2++] = Alignment.GAP;
+                    reversed3[len3++] = Markups.GAP;
+                    gaps++;
+                    break;
+                case Directions.DIAGONAL:
+                    c1 = array1[--i];
+                    c2 = array2[--j];
+                    reversed1[len1++] = c1;
+                    reversed2[len2++] = c2;
+                    if (c1 == c2) {
+                        reversed3[len3++] = Markups.IDENTITY;
+                        identity++;
+                        similarity++;
+                    } else if (scores[c1][c2] > 0) {
+                        reversed3[len3++] = Markups.SIMILARITY;
+                        similarity++;
+                    } else {
+                        reversed3[len3++] = Markups.MISMATCH;
+                    }
+                    break;
+                case Directions.LEFT:
+                    reversed1[len1++] = Alignment.GAP;
+                    reversed2[len2++] = array2[--j];
+                    reversed3[len3++] = Markups.GAP;
+                    gaps++;
+                    break;
+                case Directions.STOP:
+                    stillGoing = false;
             }
         }
 
@@ -268,13 +252,10 @@ public final class NeedlemanWunsch {
 
     /**
      * Returns the maximum of two float numbers.
-     * 
-     * @param a
-     *            float #1
-     * @param b
-     *            float #2
-     * @param c
-     *            float #3
+     *
+     * @param a float #1
+     * @param b float #2
+     * @param c float #3
      * @return the maximum of a and b
      */
     private static float maximum(float a, float b, float c) {
@@ -287,7 +268,7 @@ public final class NeedlemanWunsch {
 
     /**
      * Reverses an array of chars
-     * 
+     *
      * @param a
      * @param len
      * @return the input array of char reserved

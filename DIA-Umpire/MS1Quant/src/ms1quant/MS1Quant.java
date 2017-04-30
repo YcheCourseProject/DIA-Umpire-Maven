@@ -14,19 +14,20 @@ import MSUmpire.PSMDataStructure.LCMSID;
 import MSUmpire.PSMDataStructure.PTMManager;
 import MSUmpire.SearchResultParser.PepXMLParser;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class MS1Quant {
@@ -374,8 +375,8 @@ public class MS1Quant {
                 for (File file : mzXMLfolder.listFiles()) {
                     if (file.getName().toLowerCase().endsWith("mzxml")) {
                         LCMSID id = LCMSIDMap.get(FilenameUtils.getBaseName(file.getName()));
-                        if(id==null || id.PSMList==null){
-                            logger.warn("No IDs found in :"+FilenameUtils.getBaseName(file.getName()) +". Quantification for this file is skipped");
+                        if (id == null || id.PSMList == null) {
+                            logger.warn("No IDs found in :" + FilenameUtils.getBaseName(file.getName()) + ". Quantification for this file is skipped");
                             continue;
                         }
                         if (!id.PSMList.isEmpty()) {

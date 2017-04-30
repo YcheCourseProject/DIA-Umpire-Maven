@@ -22,12 +22,14 @@ package MSUmpire.PeptidePeakClusterDetection;
 import MSUmpire.BaseDataStructure.ScanCollection;
 import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.LCMSPeakStructure.LCMSPeakBase;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Peak detection processing class for MS1 peak
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PDHandlerMS1 extends PDHandlerBase {
@@ -40,7 +42,7 @@ public class PDHandlerMS1 extends PDHandlerBase {
     }
 
     //Detect peak curve and isotope peak cluster given a list of ScanCollection
-    public void DetectPeakClusters(ArrayList<ScanCollection> scanCollections) throws InterruptedException, ExecutionException, IOException {        
+    public void DetectPeakClusters(ArrayList<ScanCollection> scanCollections) throws InterruptedException, ExecutionException, IOException {
         FindAllMzTracePeakCurvesForScanCollections(scanCollections);
         PeakCurveCorrClustering(new XYData(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY));
     }

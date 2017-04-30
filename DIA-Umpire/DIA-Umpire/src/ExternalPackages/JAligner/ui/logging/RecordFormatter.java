@@ -23,46 +23,46 @@ import java.util.logging.LogRecord;
 
 /**
  * Logging record formatter
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public class RecordFormatter extends Formatter {
-	
+
     /**
      * This method is called for every log records
-     * 
+     *
      * @param record
      */
-	public String format(LogRecord record) {
-		StringBuffer buffer = new StringBuffer( );
-		buffer.append ( new Date().toString() );
-		buffer.append ( " " );
-		buffer.append ( record.getLevel() );
-		buffer.append ( "\t" );
-		buffer.append ( record.getMessage() );
-		buffer.append ( "\n" );
-		
-		return buffer.toString();
-	}
-	
-	/**
-	 * This method is called just after the handler using this
-	 * formatter is created
-	 * 
-	 * @param handler
-	 */
-	public String getHead(Handler handler) {
-		return "";
-	}
-    
-	/**
-	 * This method is called just after the handler using this
-	 * formatter is closed
-	 * 
-	 * @param handler
-	 */
-	public String getTail(Handler handler) {
-		return "\n";
-	}
+    public String format(LogRecord record) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(new Date().toString());
+        buffer.append(" ");
+        buffer.append(record.getLevel());
+        buffer.append("\t");
+        buffer.append(record.getMessage());
+        buffer.append("\n");
+
+        return buffer.toString();
+    }
+
+    /**
+     * This method is called just after the handler using this
+     * formatter is created
+     *
+     * @param handler
+     */
+    public String getHead(Handler handler) {
+        return "";
+    }
+
+    /**
+     * This method is called just after the handler using this
+     * formatter is closed
+     *
+     * @param handler
+     */
+    public String getTail(Handler handler) {
+        return "\n";
+    }
 }

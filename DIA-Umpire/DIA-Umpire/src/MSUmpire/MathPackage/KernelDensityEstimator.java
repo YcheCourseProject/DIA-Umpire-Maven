@@ -20,34 +20,34 @@
 package MSUmpire.MathPackage;
 
 import java.util.Arrays;
+
 import umontreal.iro.lecuyer.gof.KernelDensity;
 import umontreal.iro.lecuyer.probdist.EmpiricalDist;
 import umontreal.iro.lecuyer.probdist.NormalDist;
 import umontreal.iro.lecuyer.randvar.KernelDensityGen;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class KernelDensityEstimator {
 
     private EmpiricalDist empiricalDist;
     private KernelDensityGen kernelDensityGen;
-    private int ObsDataSize=0;
-    
-    public void SetData(double [] data){
+    private int ObsDataSize = 0;
+
+    public void SetData(double[] data) {
         Arrays.sort(data);
         empiricalDist = new EmpiricalDist(data);
-        ObsDataSize=data.length;
+        ObsDataSize = data.length;
     }
-    
+
     public double[] Density(double[] xdata) {
-        
-        NormalDist kern = new NormalDist();        
+
+        NormalDist kern = new NormalDist();
         //Silverman's ‘rule of thumb’ (Scott Variation uses factor = 1.06)
-        double bandWidth = 0.99 * Math.min(empiricalDist.getSampleStandardDeviation(), (empiricalDist.getInterQuartileRange() / 1.34)) / Math.pow(ObsDataSize, 0.2);        
-        double[] DensityValues = KernelDensity.computeDensity(empiricalDist, kern, bandWidth, xdata);        
+        double bandWidth = 0.99 * Math.min(empiricalDist.getSampleStandardDeviation(), (empiricalDist.getInterQuartileRange() / 1.34)) / Math.pow(ObsDataSize, 0.2);
+        double[] DensityValues = KernelDensity.computeDensity(empiricalDist, kern, bandWidth, xdata);
         return DensityValues;
-    }    
-    
+    }
+
 }

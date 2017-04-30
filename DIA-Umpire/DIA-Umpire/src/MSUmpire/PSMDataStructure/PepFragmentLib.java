@@ -20,15 +20,17 @@
 package MSUmpire.PSMDataStructure;
 
 import com.compomics.util.experiment.identification.matches.ModificationMatch;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Fragments from spectral library for a peptide ion
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class PepFragmentLib implements Serializable{
+public class PepFragmentLib implements Serializable {
     private static final long serialVersionUID = 8372548274L;
 
     public String ModSequence;
@@ -39,17 +41,17 @@ public class PepFragmentLib implements Serializable{
     public float PrecursorMz;
     public HashMap<String, FragmentPeakGroup> FragmentGroups = new HashMap<>();
     public ArrayList<ModificationMatch> Modifications = new ArrayList<>();
-    public ArrayList<Float> RetentionTime=new ArrayList<>();
+    public ArrayList<Float> RetentionTime = new ArrayList<>();
     public float MS1Score;
 
     public String GetKey() {
         return ModSequence + "_" + Charge;
     }
-    
-    public HashMap<String, FragmentPeakGroup> CloneFragmentGroup(){
-        HashMap<String, FragmentPeakGroup> NewFragmentGroups=new HashMap<>();
-        for(FragmentPeakGroup frag : FragmentGroups.values()){
-            FragmentPeakGroup newfrag=frag.clone();
+
+    public HashMap<String, FragmentPeakGroup> CloneFragmentGroup() {
+        HashMap<String, FragmentPeakGroup> NewFragmentGroups = new HashMap<>();
+        for (FragmentPeakGroup frag : FragmentGroups.values()) {
+            FragmentPeakGroup newfrag = frag.clone();
             NewFragmentGroups.put(newfrag.GetFragKey(), newfrag);
         }
         return NewFragmentGroups;
@@ -66,7 +68,7 @@ public class PepFragmentLib implements Serializable{
             if (!FragmentGroups.containsKey(fragment.GetFragKey())) {
                 FragmentPeakGroup frag = new FragmentPeakGroup();
                 frag.IonType = fragment.IonType;
-                frag.FragMZ = fragment.FragMZ;  
+                frag.FragMZ = fragment.FragMZ;
                 frag.Charge = fragment.Charge;
                 FragmentGroups.put(fragment.GetFragKey(), frag);
             }

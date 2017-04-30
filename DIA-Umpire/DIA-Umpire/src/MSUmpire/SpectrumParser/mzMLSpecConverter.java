@@ -32,30 +32,33 @@ import uk.ac.ebi.jmzml.model.mzml.Spectrum;
 
 /**
  * Thread unit to covert mzML spectrum to ScanData class
+ *
  * @author Chih-Chiang Tsou
  */
-public class mzMLSpecConverter implements Runnable{
+public class mzMLSpecConverter implements Runnable {
 
-    public ScanData spec=null;
-    Spectrum jmzMLSpec=null;
-    InstrumentParameter parameter=null;
-    public mzMLSpecConverter(Spectrum jmzMLSpec, InstrumentParameter parameter){
-        this.jmzMLSpec=jmzMLSpec;
-        this.parameter=parameter;
+    public ScanData spec = null;
+    Spectrum jmzMLSpec = null;
+    InstrumentParameter parameter = null;
+
+    public mzMLSpecConverter(Spectrum jmzMLSpec, InstrumentParameter parameter) {
+        this.jmzMLSpec = jmzMLSpec;
+        this.parameter = parameter;
     }
+
     @Override
     public void run() {
         getScanFromJMzMLSpec();
         spec.Preprocessing(parameter);
     }
-    
+
     public void getScanFromJMzMLSpec() {
         spec = new ScanData();
 
         String id = jmzMLSpec.getId();
         spec.MGFTitle = id;
         // SpecIndex
-        spec.ScanNum=jmzMLSpec.getIndex();
+        spec.ScanNum = jmzMLSpec.getIndex();
 
         // scan number
         String[] idToken = id.split("\\s+");
@@ -81,11 +84,11 @@ public class mzMLSpecConverter implements Runnable{
         }
         spec.centroided = isCentroided;
 
-        float RT=-1f;
-        
+        float RT = -1f;
+
         // Scan list to get monoisotopic m/z
-         ScanList scanList = jmzMLSpec.getScanList();
-        if (scanList != null && scanList.getScan().size() > 0) {            
+        ScanList scanList = jmzMLSpec.getScanList();
+        if (scanList != null && scanList.getScan().size() > 0) {
             for (CVParam param : scanList.getScan().get(0).getCvParam()) {
                 if (param.getAccession().equals("MS:1000016")) // retention time
                 {
@@ -99,35 +102,35 @@ public class mzMLSpecConverter implements Runnable{
 
         int msLevel = msLevelParam != null ? Integer.parseInt(msLevelParam.getValue()) : 0;
         spec.MsLevel = msLevel;
-        spec.RetentionTime=RT;
+        spec.RetentionTime = RT;
 
         // Precursor
         float precursorMz = -1f;
         PrecursorList precursorList = jmzMLSpec.getPrecursorList();
         if (precursorList != null && precursorList.getCount().intValue() > 0 && precursorList.getPrecursor().get(0).getSelectedIonList() != null) {
-            Precursor precursor = precursorList.getPrecursor().get(0);	// consider only the first precursor
+            Precursor precursor = precursorList.getPrecursor().get(0);    // consider only the first precursor
 
             ParamGroup isolationWindowParams = precursor.getIsolationWindow();
             if (isolationWindowParams != null && isolationWindowParams.getCvParam() != null) {
                 float isolationWindowTargetMz = 0f;
-                float Loffset=0f;
-                float Roffset=0f;
+                float Loffset = 0f;
+                float Roffset = 0f;
                 for (CVParam param : isolationWindowParams.getCvParam()) {
                     if (param.getAccession().equals("MS:1000827")) // selected ion m/z
                     {
-                        isolationWindowTargetMz = Float.parseFloat(param.getValue());	// assume that unit is m/z (MS:1000040)
+                        isolationWindowTargetMz = Float.parseFloat(param.getValue());    // assume that unit is m/z (MS:1000040)
                     }
                     if (param.getAccession().equals("MS:1000828")) //lower offset
                     {
-                        Loffset = Float.parseFloat(param.getValue());	
+                        Loffset = Float.parseFloat(param.getValue());
                     }
-                     if (param.getAccession().equals("MS:1000829")) // upper offset
+                    if (param.getAccession().equals("MS:1000829")) // upper offset
                     {
-                        Roffset = Float.parseFloat(param.getValue());	
+                        Roffset = Float.parseFloat(param.getValue());
                     }
-                     spec.isolationWindowTargetMz = isolationWindowTargetMz;
-                     spec.isolationWindowLoffset=Loffset;
-                     spec.isolationWindowRoffset=Roffset;
+                    spec.isolationWindowTargetMz = isolationWindowTargetMz;
+                    spec.isolationWindowLoffset = Loffset;
+                    spec.isolationWindowRoffset = Roffset;
                 }
             }
 
@@ -139,14 +142,14 @@ public class mzMLSpecConverter implements Runnable{
             for (CVParam param : paramGroup.getCvParam()) {
                 if (precursorMz < 0 && param.getAccession().equals("MS:1000744")) // selected ion m/z
                 {
-                    precursorMz = Float.parseFloat(param.getValue());	// assume that unit is m/z (MS:1000040)
+                    precursorMz = Float.parseFloat(param.getValue());    // assume that unit is m/z (MS:1000040)
                 } else if (param.getAccession().equals("MS:1000041")) // charge state
                 {
                     precursorCharge = Integer.parseInt(param.getValue());
                 } else if (param.getAccession().equals("MS:1000042")) // peak intensity
                 {
                     precursorIntensity = Float.parseFloat(param.getValue());
-                }	//MS:1000511
+                }    //MS:1000511
             }
             spec.PrecursorMz = precursorMz;
             spec.PrecursorIntensity = precursorIntensity;
@@ -201,6 +204,6 @@ public class mzMLSpecConverter implements Runnable{
             for (int i = 0; i < mzNumbers.length; i++) {
                 spec.AddPoint(mzNumbers[i].floatValue(), intenNumbers[i].floatValue());
             }
-        }             
+        }
     }
 }

@@ -7,7 +7,6 @@ package crosslinker;
 import java.util.ArrayList;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class MALDI_Spot {

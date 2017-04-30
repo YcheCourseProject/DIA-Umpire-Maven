@@ -18,21 +18,21 @@ package ExternalPackages.JAligner.ui.filechooser;
 
 /**
  * File chooser exception
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public class FileChooserException extends Exception {
 
-	/**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 3258408434931086648L;
 
     /**
-	 * @param message
-	 */
-	public FileChooserException(String message) {
-		super(message);
-	}
+     * @param message
+     */
+    public FileChooserException(String message) {
+        super(message);
+    }
 }

@@ -21,11 +21,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Information about predicted or calibrated retention time
- * 
+ * <p>
  * <p>Java class for RetentionTimeType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="RetentionTimeType">
  *   &lt;complexContent>
@@ -39,13 +39,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RetentionTimeType", propOrder = {
-    "cvParam",
-    "userParam"
+        "cvParam",
+        "userParam"
 })
 public class RetentionTimeType {
 
@@ -59,25 +57,23 @@ public class RetentionTimeType {
 
     /**
      * Gets the value of the cvParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cvParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCvParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link CvParamType }
-     * 
-     * 
      */
     public List<CvParamType> getCvParam() {
         if (cvParam == null) {
@@ -88,25 +84,23 @@ public class RetentionTimeType {
 
     /**
      * Gets the value of the userParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UserParamType }
-     * 
-     * 
      */
     public List<UserParamType> getUserParam() {
         if (userParam == null) {
@@ -117,11 +111,9 @@ public class RetentionTimeType {
 
     /**
      * Gets the value of the softwareRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getSoftwareRef() {
         return softwareRef;
@@ -129,11 +121,9 @@ public class RetentionTimeType {
 
     /**
      * Sets the value of the softwareRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setSoftwareRef(Object value) {
         this.softwareRef = value;

@@ -25,6 +25,7 @@ import MSUmpire.PSMDataStructure.PepIonID;
 import MSUmpire.PSMDataStructure.LCMSID;
 import MSUmpire.BaseDataStructure.XYPointCollection;
 import MSUmpire.BaseDataStructure.XYZData;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
@@ -46,9 +48,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * Cross assign peptide ions from two LCMS runs
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class RTAlignedPepIonMapping implements Runnable{
+public class RTAlignedPepIonMapping implements Runnable {
 
     private PiecewiseRegression regression;
     private LCMSID LCMSA;
@@ -57,14 +60,14 @@ public class RTAlignedPepIonMapping implements Runnable{
     String Workfolder;
 
     public RTAlignedPepIonMapping(String Workfolder, InstrumentParameter parameter, LCMSID LCMSA, LCMSID LCMSB) {
-        this.parameter=parameter;
+        this.parameter = parameter;
         this.LCMSA = LCMSA;
         this.LCMSB = LCMSB;
-        this.Workfolder=Workfolder;
+        this.Workfolder = Workfolder;
     }
 
     public void GenerateModel() throws IOException {
-        
+
         XYPointCollection points = new XYPointCollection();
         XYSeries series = new XYSeries("Peptide ions");
         XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
@@ -76,18 +79,18 @@ public class RTAlignedPepIonMapping implements Runnable{
                 series.add(new XYDataItem(pepA.GetRT(), pepB.GetRT()));
             }
         }
-        regression = new PiecewiseRegression(parameter.MaxCurveRTRange,parameter.MaxCurveRTRange);
+        regression = new PiecewiseRegression(parameter.MaxCurveRTRange, parameter.MaxCurveRTRange);
         regression.SetData(points);
         float R2 = regression.GetR2();
-        Logger.getRootLogger().info("Retention time prediction model:(" + FilenameUtils.getBaseName(LCMSA.mzXMLFileName) + "-" + FilenameUtils.getBaseName(LCMSB.mzXMLFileName) + ")..R2=" + R2 + "(No. of commonly identified peptide ions="+points.PointCount()+")");
-        
+        Logger.getRootLogger().info("Retention time prediction model:(" + FilenameUtils.getBaseName(LCMSA.mzXMLFileName) + "-" + FilenameUtils.getBaseName(LCMSB.mzXMLFileName) + ")..R2=" + R2 + "(No. of commonly identified peptide ions=" + points.PointCount() + ")");
+
         GenerateRTMapPNG(xySeriesCollection, series, R2);
     }
 
     private void GenerateRTMapPNG(XYSeriesCollection xySeriesCollection, XYSeries series, float R2) throws IOException {
-        new File(Workfolder+ "/RT_Mapping/").mkdir();
-        String pngfile = Workfolder+ "/RT_Mapping/" + FilenameUtils.getBaseName(LCMSA.mzXMLFileName).substring(0,Math.min(120, FilenameUtils.getBaseName(LCMSA.mzXMLFileName).length()-1)) + "_" + FilenameUtils.getBaseName(LCMSB.mzXMLFileName).substring(0,Math.min(120, FilenameUtils.getBaseName(LCMSB.mzXMLFileName).length()-1)) + "_RT.png";
-        
+        new File(Workfolder + "/RT_Mapping/").mkdir();
+        String pngfile = Workfolder + "/RT_Mapping/" + FilenameUtils.getBaseName(LCMSA.mzXMLFileName).substring(0, Math.min(120, FilenameUtils.getBaseName(LCMSA.mzXMLFileName).length() - 1)) + "_" + FilenameUtils.getBaseName(LCMSB.mzXMLFileName).substring(0, Math.min(120, FilenameUtils.getBaseName(LCMSB.mzXMLFileName).length() - 1)) + "_RT.png";
+
         XYSeries smoothline = new XYSeries("RT fitting curve");
         for (XYZData data : regression.PredictYList) {
             smoothline.add(data.getX(), data.getY());
@@ -106,17 +109,17 @@ public class RTAlignedPepIonMapping implements Runnable{
         renderer.setSeriesShape(1, new Ellipse2D.Double(0, 0, 3, 3));
         renderer.setSeriesStroke(1, new BasicStroke(3.0f));
         renderer.setSeriesStroke(0, new BasicStroke(3.0f));
-        xyPlot.setBackgroundPaint(Color.white);        
+        xyPlot.setBackgroundPaint(Color.white);
         ChartUtilities.saveChartAsPNG(new File(pngfile), chart, 1000, 600);
     }
 
     public void GenerateMappedPepIon() {
         Logger.getRootLogger().info("Mapping predicted peptide ions for " + FilenameUtils.getBaseName(LCMSB.mzXMLFileName) + "...");
 
-        if(!regression.valid()){
+        if (!regression.valid()) {
             return;
         }
-        
+
         for (PepIonID pepion : LCMSA.GetPepIonList().values()) {
             PepIonID predictedPepIon = null;
             if (!LCMSB.GetPepIonList().containsKey(pepion.GetKey())) {
@@ -129,7 +132,7 @@ public class RTAlignedPepIonMapping implements Runnable{
             } else {
                 predictedPepIon = LCMSB.GetPepIonList().get(pepion.GetKey());
             }
-            XYZData predict=regression.GetPredictTimeSDYByTimelist(pepion.GetIDRT());            
+            XYZData predict = regression.GetPredictTimeSDYByTimelist(pepion.GetIDRT());
             float PRT = predict.getY();
             boolean added = true;
             for (float rt : predictedPepIon.PredictRT) {
@@ -142,22 +145,22 @@ public class RTAlignedPepIonMapping implements Runnable{
             }
             predictedPepIon.SetRTSD(predict.getZ());
         }
-        
+
         Logger.getRootLogger().info("Mapping predicted peptide ions for " + FilenameUtils.getBaseName(LCMSA.mzXMLFileName) + "...");
 
         for (PepIonID pepion : LCMSB.GetPepIonList().values()) {
             PepIonID predictedPepIon = null;
-            if (!LCMSA.GetPepIonList().containsKey(pepion.GetKey())) {                
+            if (!LCMSA.GetPepIonList().containsKey(pepion.GetKey())) {
                 if (LCMSA.GetMappedPepIonList().containsKey(pepion.GetKey())) {
                     predictedPepIon = LCMSA.GetMappedPepIonList().get(pepion.GetKey());
                 } else {
                     predictedPepIon = pepion.ClonePepIonID();
                     LCMSA.GetMappedPepIonList().put(pepion.GetKey(), predictedPepIon);
-                }            
+                }
             } else {
                 predictedPepIon = LCMSA.GetPepIonList().get(pepion.GetKey());
             }
-            XYZData predict=regression.GetPredictTimeSDXByTimelist(pepion.GetIDRT());
+            XYZData predict = regression.GetPredictTimeSDXByTimelist(pepion.GetIDRT());
             float PRT = predict.getY();
             boolean added = true;
             for (float rt : predictedPepIon.PredictRT) {
@@ -169,16 +172,16 @@ public class RTAlignedPepIonMapping implements Runnable{
                 predictedPepIon.PredictRT.add(PRT);
             }
             predictedPepIon.SetRTSD(predict.getZ());
-        }        
+        }
     }
 
-    public void GenerateMappedPepIonToList(HashMap<String, PepIonID>ListA, HashMap<String, PepIonID> ListB) {
+    public void GenerateMappedPepIonToList(HashMap<String, PepIonID> ListA, HashMap<String, PepIonID> ListB) {
         Logger.getRootLogger().info("Mapping predicted peptide ions for " + FilenameUtils.getBaseName(LCMSB.mzXMLFileName) + "...");
 
-        if(!regression.valid()){
+        if (!regression.valid()) {
             return;
         }
-        
+
         for (PepIonID pepion : LCMSA.GetPepIonList().values()) {
             if (!LCMSB.GetPepIonList().containsKey(pepion.GetKey())) {
                 PepIonID predictedPepIon = null;
@@ -189,7 +192,7 @@ public class RTAlignedPepIonMapping implements Runnable{
                     ListB.put(pepion.GetKey(), predictedPepIon);
                 }
                 //System.out.println(pepion.GetIDRT());
-                XYZData predict=regression.GetPredictTimeSDYByTimelist(pepion.GetIDRT());
+                XYZData predict = regression.GetPredictTimeSDYByTimelist(pepion.GetIDRT());
                 float PRT = predict.getY();
                 boolean added = true;
                 for (float rt : predictedPepIon.PredictRT) {
@@ -199,11 +202,11 @@ public class RTAlignedPepIonMapping implements Runnable{
                 }
                 if (added) {
                     predictedPepIon.PredictRT.add(PRT);
-                }              
+                }
                 predictedPepIon.SetRTSD(predict.getZ());
             }
         }
-        
+
         Logger.getRootLogger().info("Mapping predicted peptide ions for " + FilenameUtils.getBaseName(LCMSA.mzXMLFileName) + "...");
 
         for (PepIonID pepion : LCMSB.GetPepIonList().values()) {
@@ -215,8 +218,8 @@ public class RTAlignedPepIonMapping implements Runnable{
                     predictedPepIon = pepion.ClonePepIonID();
                     ListA.put(pepion.GetKey(), predictedPepIon);
                 }
-               XYZData predict=regression.GetPredictTimeSDXByTimelist(pepion.GetIDRT());
-               float PRT = predict.getY();
+                XYZData predict = regression.GetPredictTimeSDXByTimelist(pepion.GetIDRT());
+                float PRT = predict.getY();
                 boolean added = true;
                 for (float rt : predictedPepIon.PredictRT) {
                     if (Math.abs(PRT - rt) < 0.1f) {
@@ -225,17 +228,17 @@ public class RTAlignedPepIonMapping implements Runnable{
                 }
                 if (added) {
                     predictedPepIon.PredictRT.add(PRT);
-                }          
+                }
                 predictedPepIon.SetRTSD(predict.getZ());
             }
-        }        
+        }
     }
-    
-    public void ExportMappedPepIon() throws SQLException, IOException{
+
+    public void ExportMappedPepIon() throws SQLException, IOException {
         LCMSB.ExportMappedPepID();
         LCMSA.ExportMappedPepID();
     }
-    
+
     @Override
     public void run() {
         try {

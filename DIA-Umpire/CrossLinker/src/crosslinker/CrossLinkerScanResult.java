@@ -7,10 +7,10 @@ package crosslinker;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.BaseDataStructure.XYPointCollection;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class CrossLinkerScanResult {
@@ -28,7 +28,7 @@ public class CrossLinkerScanResult {
     public CrossLinkerScanResult(ScanData scan, Linker linker) {
         this.Scan = scan;
         this.MSlevel = scan.MsLevel;
-        this.linker=linker;
+        this.linker = linker;
     }
 
     public void FindAllPairPeaks() {

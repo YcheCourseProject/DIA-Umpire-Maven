@@ -21,6 +21,7 @@
 package DIA_Umpire_To_Skyline;
 
 import MSUmpire.DIA.DIAPack;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,33 +29,35 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
-public class FileThread implements Runnable{
+public class FileThread implements Runnable {
 
     String mzXMLFile;
     String msconvertpath;
     int NoCPUs;
-    public FileThread(String mzXMLFile,int NoCPUs,String msconvertpath){
-        this.mzXMLFile=mzXMLFile;
-        this.NoCPUs=NoCPUs;
-        this.msconvertpath=msconvertpath;
+
+    public FileThread(String mzXMLFile, int NoCPUs, String msconvertpath) {
+        this.mzXMLFile = mzXMLFile;
+        this.NoCPUs = NoCPUs;
+        this.msconvertpath = msconvertpath;
     }
+
     @Override
     public void run() {
         GenerateSkylineFiles();
     }
-    
-    public void GenerateSkylineFiles(){
+
+    public void GenerateSkylineFiles() {
         try {
             long time = System.currentTimeMillis();
-            
+
             DIAPack DiaFile = new DIAPack(mzXMLFile, NoCPUs);
             if (!new File(FilenameUtils.getFullPath(DiaFile.Filename) + DiaFile.GetQ1Name() + ".mzXML").exists()
                     | !new File(FilenameUtils.getFullPath(DiaFile.Filename) + DiaFile.GetQ2Name() + ".mzXML").exists()
@@ -63,7 +66,7 @@ public class FileThread implements Runnable{
             }
             Logger.getRootLogger().info("=================================================================================================");
             Logger.getRootLogger().info("Processing " + mzXMLFile);
-            
+
             if (!DiaFile.RawMGFExist()) {
                 if (!DiaFile.LoadDIASetting()) {
                     Logger.getRootLogger().info("Loading DIA setting failed, job is incomplete");
@@ -82,7 +85,7 @@ public class FileThread implements Runnable{
                 DiaFile.GenerateRawMGF();
                 DiaFile.ClearStructure();
             }
-            
+
             DiaFile.ConvertRawMGF(msconvertpath);
             ChangeScanTitlePepXML();
             DiaFile = null;
@@ -93,21 +96,21 @@ public class FileThread implements Runnable{
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
     }
-    
-    private void ChangeScanTitlePepXML() throws FileNotFoundException, IOException{        
-        File fileEntry =new File(FilenameUtils.getFullPath(mzXMLFile));        
-        String basename=FilenameUtils.getBaseName(mzXMLFile);
-        for(File file : fileEntry.listFiles()){
-            if(file.isFile() && file.getAbsoluteFile().toString().toLowerCase().endsWith("pep.xml")){
-                String pepxmlbase=file.getName().split("\\.")[0];
-                if(pepxmlbase.equals(basename+"_Q1") || pepxmlbase.equals(basename+"_Q2") ||pepxmlbase.equals(basename+"_Q3")){                    
-                    BufferedReader reader=new BufferedReader(new FileReader(file));
-                    String outputname=file.getName().replace("_Q", ".ForLibQ");
-                    Logger.getRootLogger().info("Writing new pepXML files and correct the scan titles: "+outputname);
-                    FileWriter writer=new FileWriter(FilenameUtils.getFullPath(mzXMLFile) + FilenameUtils.getBaseName(mzXMLFile) + "_Skyline/"+outputname);
-                    String line="";
-                    while ((line=reader.readLine())!=null) {
-                        writer.write(line.replaceAll(basename+"_Q",basename+".ForLibQ")+"\n");
+
+    private void ChangeScanTitlePepXML() throws FileNotFoundException, IOException {
+        File fileEntry = new File(FilenameUtils.getFullPath(mzXMLFile));
+        String basename = FilenameUtils.getBaseName(mzXMLFile);
+        for (File file : fileEntry.listFiles()) {
+            if (file.isFile() && file.getAbsoluteFile().toString().toLowerCase().endsWith("pep.xml")) {
+                String pepxmlbase = file.getName().split("\\.")[0];
+                if (pepxmlbase.equals(basename + "_Q1") || pepxmlbase.equals(basename + "_Q2") || pepxmlbase.equals(basename + "_Q3")) {
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    String outputname = file.getName().replace("_Q", ".ForLibQ");
+                    Logger.getRootLogger().info("Writing new pepXML files and correct the scan titles: " + outputname);
+                    FileWriter writer = new FileWriter(FilenameUtils.getFullPath(mzXMLFile) + FilenameUtils.getBaseName(mzXMLFile) + "_Skyline/" + outputname);
+                    String line = "";
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line.replaceAll(basename + "_Q", basename + ".ForLibQ") + "\n");
                     }
                     writer.close();
                 }

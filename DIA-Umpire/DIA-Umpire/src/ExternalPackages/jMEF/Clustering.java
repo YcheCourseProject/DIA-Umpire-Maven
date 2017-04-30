@@ -4,13 +4,11 @@ package ExternalPackages.jMEF;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * This class provides the functions to compute the centroid of a mixture of
  * exponential families. The centroid, depending on the non-symmetric Bregman
  * divergence, can be: - right-sided, - left-sided, - symmetric.
@@ -23,7 +21,9 @@ public class Clustering {
     public enum CLUSTERING_TYPE {
 
         LEFT_SIDED, RIGHT_SIDED, SYMMETRIC
-    };
+    }
+
+    ;
 
     /**
      * Computes the center of mass (right-sided centroid) of a mixture model f.
@@ -47,7 +47,7 @@ public class Clustering {
      * mixture model.
      *
      * @param EF exponential family
-     * @param f mixture model given in natural parameters
+     * @param f  mixture model given in natural parameters
      * @return generalized centroid of f
      */
     public static Parameter getGeneralizedCentroid(ExponentialFamily EF, MixtureModel f) {
@@ -66,7 +66,7 @@ public class Clustering {
      * used in the mixture model.
      *
      * @param EF exponential family
-     * @param f mixture model given in natural parameters
+     * @param f  mixture model given in natural parameters
      * @return symmetric centroid of f
      */
     public static Parameter getSymmetricCentroid(ExponentialFamily EF, MixtureModel f) {
@@ -101,9 +101,9 @@ public class Clustering {
      * Computes the centroid of a mixture model. This centroid is sided (right-
      * or left-sided) or is symmetric.
      *
-     * @param f mixture model
+     * @param f    mixture model
      * @param type type of Bregman divergence used (right-sided, left-sided, or
-     * symmetric)
+     *             symmetric)
      * @return sided or symmetric centroid of f
      */
     public static Parameter getCentroid(MixtureModel f, Clustering.CLUSTERING_TYPE type) {

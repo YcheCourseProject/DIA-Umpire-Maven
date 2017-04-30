@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * List and descriptions of the source files this TraML document was generated or derived from
- * 
+ * <p>
  * <p>Java class for SourceFileListType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="SourceFileListType">
  *   &lt;complexContent>
@@ -34,12 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SourceFileListType", propOrder = {
-    "sourceFile"
+        "sourceFile"
 })
 public class SourceFileListType {
 
@@ -48,25 +46,23 @@ public class SourceFileListType {
 
     /**
      * Gets the value of the sourceFile property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the sourceFile property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSourceFile().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link SourceFileType }
-     * 
-     * 
      */
     public List<SourceFileType> getSourceFile() {
         if (sourceFile == null) {

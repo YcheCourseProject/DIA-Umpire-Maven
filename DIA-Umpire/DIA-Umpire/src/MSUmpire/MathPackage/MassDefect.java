@@ -21,27 +21,26 @@
 package MSUmpire.MathPackage;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class MassDefect {
 
-    public boolean InMassDefectRange(float mass, float d){
+    public boolean InMassDefectRange(float mass, float d) {
         //upper = 0.00052738*x + 0.066015 +0.1 
         //lower = 0.00042565*x + 0.00038210 -0.1
 
-        double u = GetMassDefect(0.00052738d*mass + 0.066015d +d);
-        double l = GetMassDefect(0.00042565d*mass + 0.00038210d -d);
-        
-        double defect=GetMassDefect(mass);
+        double u = GetMassDefect(0.00052738d * mass + 0.066015d + d);
+        double l = GetMassDefect(0.00042565d * mass + 0.00038210d - d);
+
+        double defect = GetMassDefect(mass);
         if (u > l) {
-            return (defect>=l && defect<=u);
+            return (defect >= l && defect <= u);
         }
-        return (defect>=l || defect<=u);
+        return (defect >= l || defect <= u);
     }
-    
-    public double GetMassDefect(double mass){
-        return mass-Math.floor(mass);
+
+    public double GetMassDefect(double mass) {
+        return mass - Math.floor(mass);
     }
-    
+
 }

@@ -24,10 +24,10 @@ class AlterationList extends NaturalSortedList<Alteration> {
      * {@code PatchWorkArray}'s backingList.
      *
      * @param index the index of the backingList for which the Alteration needs
-     * to be removed. Note that in the case of a {@code Removal}, the index only
-     * needs to be covered
+     *              to be removed. Note that in the case of a {@code Removal}, the index only
+     *              needs to be covered
      * @throws IllegalStateException in the case that an attempt is made to
-     * remove an Alteration that doesn't exist.
+     *                               remove an Alteration that doesn't exist.
      */
     void deleteAlterationAtIndex(final int index) {
         //get the alteration that is the floor of this one..
@@ -111,10 +111,10 @@ class AlterationList extends NaturalSortedList<Alteration> {
      * to the left of the this {@code Removal}.
      *
      * @param index the index of the {@code Removal}.
-     * @throws ClassCastException in the case that the Alteration at the given
-     * index is not a {@code Removal}.
+     * @throws ClassCastException   in the case that the Alteration at the given
+     *                              index is not a {@code Removal}.
      * @throws NullPointerException in the case that there is no Alteration with
-     * the given index.
+     *                              the given index.
      */
     void moveRemovalLeftAndIncrementSize(int index) {
         alterRemovalCoveringIndex(index, -1, 1);
@@ -176,7 +176,7 @@ class AlterationList extends NaturalSortedList<Alteration> {
      * {@code AlterationList}.
      *
      * @param startIndex the index in this list to start at, for example giving
-     * 0 is equivalent to calling {@code #iterator()} in a non-empty list.
+     *                   0 is equivalent to calling {@code #iterator()} in a non-empty list.
      * @return an {@code Iterator} for going through this list quickly.
      */
     Iterator<Alteration> iterator(int startIndex) {
@@ -259,12 +259,12 @@ class AlterationList extends NaturalSortedList<Alteration> {
      * increasing the size of an {@code Addition} and positive when increasing
      * the size of a {@code Removal}.
      *
-     * @param index the index of the {@code Alteration}.
+     * @param index           the index of the {@code Alteration}.
      * @param indexDiffChange the amount to add to it's indexDiff.
-     * @throws ClassCastException in the case that there is an Removal at the
-     * given index.
+     * @throws ClassCastException   in the case that there is an Removal at the
+     *                              given index.
      * @throws NullPointerException in the case that there is no Alteration at
-     * the given index.
+     *                              the given index.
      */
     void changeIndexDiffForAlterationAtIndex(int index, int indexDiffChange) {
         //put in a dummy value then try and find it in the list..
@@ -286,7 +286,7 @@ class AlterationList extends NaturalSortedList<Alteration> {
      * This work in time <i>O(log size())</i>.
      *
      * @param index the index in the list about which the {@code Alteration}s in
-     * this list refer to.
+     *              this list refer to.
      * @return the location of the given element in the referred to list.
      */
     ArrayLocation getLocationOf(final int index) {

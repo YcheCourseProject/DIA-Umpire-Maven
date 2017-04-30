@@ -65,7 +65,7 @@ public class ExpectationMaximization1D {
      * corresponds to univariate Gaussian distributions.
      *
      * @param points point set
-     * @param f initial mixture model
+     * @param f      initial mixture model
      * @return mixture model
      */
     public static MixtureModel run(PVector[] points, MixtureModel f) {
@@ -150,7 +150,7 @@ public class ExpectationMaximization1D {
      * Computes the log likelihood.
      *
      * @param points set of points.
-     * @param f mixture model.
+     * @param f      mixture model.
      * @return log likelihood.
      */
     private static double logLikelihood(PVector[] points, MixtureModel f) {

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <MSModSpecSet
-    xmlns="http://www.ncbi.nlm.nih.gov"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
-    xs:schemaLocation="http://www.ncbi.nlm.nih.gov OMSSA.xsd"
+        xmlns="http://www.ncbi.nlm.nih.gov"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+        xs:schemaLocation="http://www.ncbi.nlm.nih.gov OMSSA.xsd"
 >
     <MSModSpec>
         <MSModSpec_mod>

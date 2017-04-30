@@ -23,6 +23,7 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanCollection;
 import MSUmpire.BaseDataStructure.SpectralDataType;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -40,23 +42,24 @@ import org.nustaq.serialization.FSTObjectOutput;
 
 /**
  * Parent class of spectrum parser
+ *
  * @author Chih-Chiang Tsou
  */
 public abstract class SpectrumParserBase {
     //public ScanCollection scanCollection = null;
-    public String filename=null;
-    public InstrumentParameter parameter=null;
-    public int TotalScan=0;
+    public String filename = null;
+    public InstrumentParameter parameter = null;
+    public int TotalScan = 0;
     public int NoCPUs = 4;
-    public SpectralDataType.DataType datatype= SpectralDataType.DataType.DDA;
-    public DIA_Setting dIA_Setting=null;
+    public SpectralDataType.DataType datatype = SpectralDataType.DataType.DDA;
+    public DIA_Setting dIA_Setting = null;
 
-    public TreeMap<Integer, Integer> MsLevelList=null;
-    protected TreeMap<Float, Integer> ElutionTimeToScanNoMap=null;
-    protected HashMap<Integer, Float> ScanToElutionTime=null;
+    public TreeMap<Integer, Integer> MsLevelList = null;
+    protected TreeMap<Float, Integer> ElutionTimeToScanNoMap = null;
+    protected HashMap<Integer, Float> ScanToElutionTime = null;
     public int NoMS1Scans = 0;
-    
-    public SpectrumParserBase(String filename, InstrumentParameter parameter, SpectralDataType.DataType datatype, DIA_Setting dIA_Setting, int NoCPUs){
+
+    public SpectrumParserBase(String filename, InstrumentParameter parameter, SpectralDataType.DataType datatype, DIA_Setting dIA_Setting, int NoCPUs) {
         this.filename = filename;
         this.ElutionTimeToScanNoMap = new TreeMap<>();
         //scanCollection.ElutionTimeToScanNoMap = new TreeMap<>();
@@ -66,24 +69,23 @@ public abstract class SpectrumParserBase {
         this.parameter = parameter;
         this.datatype = datatype;
         this.NoCPUs = NoCPUs;
-         if (datatype != SpectralDataType.DataType.DDA) {
+        if (datatype != SpectralDataType.DataType.DDA) {
             if (datatype != SpectralDataType.DataType.DIA_V_Window) {
                 dIA_Setting.DIAWindows = new TreeMap<>();
             }
-        }        
-    }
-    
-    public static SpectrumParserBase GetInstance(String filename, InstrumentParameter parameter, SpectralDataType.DataType datatype, DIA_Setting dIA_Setting, int NoCPUs) throws Exception{
-        if(filename.toLowerCase().endsWith("mzxml")){
-            return new mzXMLParser(filename, parameter, datatype, dIA_Setting, NoCPUs);
         }
-        else if(filename.toLowerCase().endsWith("mzml")){
+    }
+
+    public static SpectrumParserBase GetInstance(String filename, InstrumentParameter parameter, SpectralDataType.DataType datatype, DIA_Setting dIA_Setting, int NoCPUs) throws Exception {
+        if (filename.toLowerCase().endsWith("mzxml")) {
+            return new mzXMLParser(filename, parameter, datatype, dIA_Setting, NoCPUs);
+        } else if (filename.toLowerCase().endsWith("mzml")) {
             return new mzMLParser(filename, parameter, datatype, dIA_Setting, NoCPUs);
         }
-        Logger.getRootLogger().error("The spectral lfile: "+filename +" is not supported.");
+        Logger.getRootLogger().error("The spectral lfile: " + filename + " is not supported.");
         return null;
     }
-    
+
     public float GetMS1CycleTime() {
         return (ElutionTimeToScanNoMap.lastKey() - ElutionTimeToScanNoMap.firstKey()) / NoMS1Scans;
     }
@@ -91,7 +93,7 @@ public abstract class SpectrumParserBase {
     public HashMap<Integer, Float> GetScanElutionTimeMap() {
         return ScanToElutionTime;
     }
-    
+
     protected void FSElutionIndexWrite() throws IOException {
         try {
             Logger.getRootLogger().debug("Writing RTidx to file:" + FilenameUtils.removeExtension(filename) + ".RTidxFS..");
@@ -126,7 +128,7 @@ public abstract class SpectrumParserBase {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
 
-        if (datatype !=  SpectralDataType.DataType.DDA) {
+        if (datatype != SpectralDataType.DataType.DDA) {
             try {
                 Logger.getRootLogger().debug("Writing DIAWindows to file:" + FilenameUtils.removeExtension(filename) + ".DIAWindowsFS..");
                 FileOutputStream fout = new FileOutputStream(FilenameUtils.removeExtension(filename) + ".DIAWindowsFS", false);
@@ -138,7 +140,7 @@ public abstract class SpectrumParserBase {
                 Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             }
         }
-         if (datatype ==  SpectralDataType.DataType.WiSIM) {
+        if (datatype == SpectralDataType.DataType.WiSIM) {
             try {
                 Logger.getRootLogger().debug("Writing MS1 windows to file:" + FilenameUtils.removeExtension(filename) + ".MS1WindowsFS..");
                 FileOutputStream fout = new FileOutputStream(FilenameUtils.removeExtension(filename) + ".MS1WindowsFS", false);
@@ -151,7 +153,7 @@ public abstract class SpectrumParserBase {
             }
         }
     }
-    
+
     protected boolean FSElutionIndexRead() throws NumberFormatException, FileNotFoundException, IOException {
         if (!new File(FilenameUtils.removeExtension(filename) + ".RTidxFS").exists()) {
             return false;
@@ -228,8 +230,8 @@ public abstract class SpectrumParserBase {
                 return false;
             }
         }
-        
-         if (datatype == SpectralDataType.DataType.WiSIM) {
+
+        if (datatype == SpectralDataType.DataType.WiSIM) {
             if (!new File(FilenameUtils.removeExtension(filename) + ".MS1WindowsFS").exists()) {
                 return false;
             }
@@ -268,7 +270,7 @@ public abstract class SpectrumParserBase {
         scanCollection.ElutionTimeToScanNoMap = ElutionTimeToScanNoMap;
         return scanCollection;
     }
-    
+
     protected int GetEndScan(float endTime) {
         int EndScanNo;
         if (endTime <= ElutionTimeToScanNoMap.firstKey()) {
@@ -296,23 +298,25 @@ public abstract class SpectrumParserBase {
         }
         return StartScanNo;
     }
+
     //Get all the DIA MS2 scans according to a isolation window range
-     public ScanCollection GetScanCollectionDIAMS2(XYData DIAWindow, boolean IncludePeak,float startRT, float endRT){
+    public ScanCollection GetScanCollectionDIAMS2(XYData DIAWindow, boolean IncludePeak, float startRT, float endRT) {
         if (dIA_Setting == null) {
             Logger.getRootLogger().error("This is not DIA data" + filename);
             return null;
         }
         return GetScanDIAMS2(DIAWindow, IncludePeak, startRT, endRT);
     }
+
     public abstract ScanCollection GetScanDIAMS2(XYData DIAWindow, boolean IncludePeak, float startRT, float endRT);
-    
-    public ScanCollection GetAllScanCollectionByMSLabel(boolean MS1Included, boolean MS2Included, boolean MS1Peak, boolean MS2Peak){
+
+    public ScanCollection GetAllScanCollectionByMSLabel(boolean MS1Included, boolean MS2Included, boolean MS1Peak, boolean MS2Peak) {
         return GetAllScanCollectionByMSLabel(MS1Included, MS2Included, MS1Peak, MS2Peak, 0f, 999999f);
     }
 
     public abstract ScanCollection GetAllScanCollectionByMSLabel(boolean MS1Included, boolean MS2Included, boolean MS1Peak, boolean MS2Peak, float startTime, float endTime);
-        
-    
+
+
     //Get all the DIA MS1 scans according to MS1 m/z range, this was only for WiSIM data
     public ScanCollection GetScanCollectionMS1Window(XYData MS1Window, boolean IncludePeak) {
         if (dIA_Setting == null) {
@@ -321,6 +325,7 @@ public abstract class SpectrumParserBase {
         }
         return GetScanCollectionMS1Window(MS1Window, IncludePeak, 0f, 999999f);
     }
-    public abstract ScanCollection GetScanCollectionMS1Window(XYData MS1Window, boolean IncludePeak, float startTime, float endTime) ;
-    
+
+    public abstract ScanCollection GetScanCollectionMS1Window(XYData MS1Window, boolean IncludePeak, float startTime, float endTime);
+
 }

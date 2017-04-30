@@ -8,13 +8,11 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Bregman soft clustering is the generalization of the soft clustering
  * (also know as expectation-maximization algorithm) towards the exponential
  * family. Given a set of points, the Bregman soft clustering algorithm
@@ -33,7 +31,7 @@ public class BregmanSoftClustering {
      * containing a set of points.
      *
      * @param clusters clusters of points
-     * @param EF exponential family member
+     * @param EF       exponential family member
      * @return initialized mixture model
      */
     public static MixtureModel initialize(Vector<PVector>[] clusters, ExponentialFamily EF) {
@@ -70,8 +68,8 @@ public class BregmanSoftClustering {
     /**
      * Processes the Bregman soft clustering (EM) algorithm.
      *
-     * @param pointSet set of points
-     * @param fL initial mixture model given in source parameters
+     * @param pointSet   set of points
+     * @param fL         initial mixture model given in source parameters
      * @param iterations maximum number of iterations allowed
      * @return estimated mixture model
      */
@@ -84,7 +82,7 @@ public class BregmanSoftClustering {
      * Processes the Bregman soft clustering (EM) algorithm.
      *
      * @param pointSet set of points
-     * @param fL initial mixture model given in source parameters
+     * @param fL       initial mixture model given in source parameters
      * @return estimated mixture model
      */
     public static MixtureModel run(PVector[] pointSet, MixtureModel fL) {
@@ -191,7 +189,7 @@ public class BregmanSoftClustering {
      * Computes the log likelihood.
      *
      * @param points set of points
-     * @param f mixture model
+     * @param f      mixture model
      * @return log likelihood
      */
     private static double logLikelihood(PVector[] points, MixtureModel f) {

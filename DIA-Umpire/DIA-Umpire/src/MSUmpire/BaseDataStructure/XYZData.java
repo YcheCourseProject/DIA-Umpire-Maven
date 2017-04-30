@@ -22,13 +22,12 @@ package MSUmpire.BaseDataStructure;
 import java.io.Serializable;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class XYZData implements Comparable<XYZData>, Serializable {
     private static final long serialVersionUID = 185861984615L;
 
-//    private float X;
+    //    private float X;
 //    private float Y;
 //    private float Z;
     private float[] xyzdata = new float[3];

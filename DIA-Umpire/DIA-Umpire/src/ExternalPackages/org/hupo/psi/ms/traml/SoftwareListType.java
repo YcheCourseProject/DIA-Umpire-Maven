@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * List of software packages used in the generation of one of more transitions described in the document
- * 
+ * <p>
  * <p>Java class for SoftwareListType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="SoftwareListType">
  *   &lt;complexContent>
@@ -34,12 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SoftwareListType", propOrder = {
-    "software"
+        "software"
 })
 public class SoftwareListType {
 
@@ -48,25 +46,23 @@ public class SoftwareListType {
 
     /**
      * Gets the value of the software property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the software property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSoftware().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link SoftwareType }
-     * 
-     * 
      */
     public List<SoftwareType> getSoftware() {
         if (software == null) {

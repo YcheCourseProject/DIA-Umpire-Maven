@@ -20,10 +20,9 @@
 package MSUmpire.BaseDataStructure;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public abstract class DBSearchParam implements Cloneable{
+public abstract class DBSearchParam implements Cloneable {
 
     public float FragPPM;
     public float PrecursorPPM;
@@ -42,8 +41,8 @@ public abstract class DBSearchParam implements Cloneable{
     public String OutputSeqPath;
     public int MissCleavage = 1;
     public boolean SemiCleavage = false;
-    public boolean NonSpecificCleavage=false;
-    public boolean IsotopeError = false;    
+    public boolean NonSpecificCleavage = false;
+    public boolean IsotopeError = false;
     public String parameterPath;
     public String templateParamFile;
     public SearchInstrumentType defaultType;
@@ -51,13 +50,15 @@ public abstract class DBSearchParam implements Cloneable{
     public float PepFDR = 0.01f;
     public float ProtFDR = 0.01f;
     public boolean Overwrite = false;
-    public String DecoyPrefix="rev_";
-    
+    public String DecoyPrefix = "rev_";
+
     public enum SearchInstrumentType {
         Orbitrap,
         TOF5600,
         QExactive,
-        };
+    }
+
+    ;
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -65,8 +66,9 @@ public abstract class DBSearchParam implements Cloneable{
     }
 
     public abstract void SetResultFilePath(String mzXMLfile);
+
     public abstract void SetCombineFileName(String filename, String tag);
-            
+
     protected void SetParameter(SearchInstrumentType type) {
         switch (type) {
             case QExactive: {

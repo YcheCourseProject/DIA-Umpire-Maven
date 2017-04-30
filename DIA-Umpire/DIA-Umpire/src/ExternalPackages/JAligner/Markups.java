@@ -18,28 +18,28 @@ package ExternalPackages.JAligner;
 
 /**
  * Markups line characters.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public abstract class Markups {
-	/**
-	 * Markup line identity character
-	 */
-	public static final char IDENTITY	= '|';
-	
-	/**
-	 * Markup line similarity character
-	 */
-	public static final char SIMILARITY	= ':';
-	
-	/**
-	 * Markup line gap character
-	 */
-	public static final char GAP		= ' ';
-	
-	/**
-	 * Markup line mismatch character
-	 */
-	public static final char MISMATCH	= '.';
+    /**
+     * Markup line identity character
+     */
+    public static final char IDENTITY = '|';
+
+    /**
+     * Markup line similarity character
+     */
+    public static final char SIMILARITY = ':';
+
+    /**
+     * Markup line gap character
+     */
+    public static final char GAP = ' ';
+
+    /**
+     * Markup line mismatch character
+     */
+    public static final char MISMATCH = '.';
 }

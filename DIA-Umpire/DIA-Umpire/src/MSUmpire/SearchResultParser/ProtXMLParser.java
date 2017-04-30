@@ -21,16 +21,17 @@ package MSUmpire.SearchResultParser;
 
 import MSUmpire.PSMDataStructure.LCMSID;
 import com.vseravno.solna.SolnaParser;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class ProtXMLParser {
@@ -53,7 +54,7 @@ public class ProtXMLParser {
     }
 
 
-   private void ParseSAX() throws ParserConfigurationException, SAXException, IOException, XmlPullParserException {
+    private void ParseSAX() throws ParserConfigurationException, SAXException, IOException, XmlPullParserException {
         File fXmlFile = new File(FileName);
         if (!fXmlFile.exists()) {
             Logger.getRootLogger().info("File :" + FileName + " cannot be found\n");
@@ -61,8 +62,8 @@ public class ProtXMLParser {
         }
         FileInputStream inputStream = new FileInputStream(FileName);
         SolnaParser parser = new SolnaParser();
-        ProtXMLParseHandler handler = new ProtXMLParseHandler(SingleLCMSID,threshold);
+        ProtXMLParseHandler handler = new ProtXMLParseHandler(SingleLCMSID, threshold);
         parser.addHandler("/protein_summary/protein_group", handler);
-        parser.parse(inputStream);        
-    }    
+        parser.parse(inputStream);
+    }
 }

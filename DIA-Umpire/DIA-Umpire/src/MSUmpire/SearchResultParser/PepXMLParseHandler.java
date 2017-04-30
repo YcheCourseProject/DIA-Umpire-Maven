@@ -29,29 +29,31 @@ import com.compomics.util.experiment.biology.AminoAcidPattern;
 import com.compomics.util.experiment.biology.PTM;
 import com.compomics.util.experiment.identification.matches.ModificationMatch;
 import com.vseravno.solna.SolnaHandler;
+
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PepXMLParseHandler implements SolnaHandler<Element> {
 
-    public PepXMLParseHandler(LCMSID singleLCMSID, float StartRT, float EndRT, float threshold,boolean CorrectMassDiff) {
+    public PepXMLParseHandler(LCMSID singleLCMSID, float StartRT, float EndRT, float threshold, boolean CorrectMassDiff) {
         this.StartRT = StartRT;
         this.EndRT = EndRT;
         this.singleLCMSID = singleLCMSID;
         this.threshold = threshold;
-        this.CorrectMassDiff=CorrectMassDiff;
+        this.CorrectMassDiff = CorrectMassDiff;
     }
+
     float StartRT;
     float EndRT;
     float threshold;
-    boolean CorrectMassDiff=true;
+    boolean CorrectMassDiff = true;
     LCMSID singleLCMSID;
 
     @Override
@@ -97,7 +99,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
                     float mass = (float) Math.round(Float.parseFloat(node.getChildNodes().item(k).getAttributes().getNamedItem("mass").getNodeValue()) * 1000) / 1000;
                     float massdiff2 = Float.parseFloat(node.getChildNodes().item(k).getAttributes().getNamedItem("massdiff").getNodeValue());
                     AminoAcid aa = AminoAcid.getAminoAcid(site.charAt(0));
-                    float massdiff = mass - (float)aa.monoisotopicMass;
+                    float massdiff = mass - (float) aa.monoisotopicMass;
 
                     if (massdiff != 0f && Math.abs(massdiff - massdiff2) < 0.1f) {
                         CheckAndAddModification(site, massdiff);
@@ -132,7 +134,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
         PTM ptm = PTMManager.GetInstance().GetPTM(site, massdiff);
         if (ptm == null) {
             Logger.getRootLogger().warn("Warning! modification in pepxml : amino acid " + site + "(mass diff:" + massdiff + ") cannot be found in the library.");
-            massdiff= (float) (Math.floor(massdiff*10)/10);
+            massdiff = (float) (Math.floor(massdiff * 10) / 10);
             Logger.getRootLogger().warn("Creating a custom modification type called \"" + massdiff + "@" + site + "\"");
             ptm = new PTM(PTM.MODAA, String.valueOf(massdiff + "@" + site), (double) massdiff, new AminoAcidPattern(site));
             PTMManager.GetInstance().AddPTM(ptm);
@@ -141,7 +143,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
     }
 
     private void ParseSpectrumNode(Element spectrum) throws XmlPullParserException, IOException {
-                
+
         PSM psm = new PSM();
         psm.SpecNumber = spectrum.getAttributes().getNamedItem("spectrum").getNodeValue();
         psm.ObserPrecursorMass = Float.parseFloat(spectrum.getAttributes().getNamedItem("precursor_neutral_mass").getNodeValue());
@@ -302,7 +304,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
             float mass = Float.parseFloat(node.getAttributes().getNamedItem("mod_nterm_mass").getNodeValue());
             String site = "N-term";
             CheckAndAddModification(site, mass);
-            
+
             ModificationInfo matchmod = null;
             float massdiff = Float.MAX_VALUE;
             for (ModificationInfo mod : singleLCMSID.ModificationList.values()) {
@@ -336,7 +338,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
                         matchmod = mod;
                     }
                 }
-            }            
+            }
             if (matchmod != null) {
                 psmid.Modifications.add(new ModificationMatch(matchmod.modification.getName(), true, psmid.Sequence.length()));
                 modseq = ModStringConvert.AddModIntoSeqBeforeSite(modseq, matchmod.GetKey(), psmid.Sequence.length() - 1);
@@ -353,7 +355,7 @@ public class PepXMLParseHandler implements SolnaHandler<Element> {
                 AminoAcid aa = AminoAcid.getAminoAcid(site.charAt(0));
                 float massdiff = mass - (float) aa.monoisotopicMass;
                 CheckAndAddModification(site, massdiff);
-                                
+
                 ModificationInfo matchmod = null;
                 massdiff = Float.MAX_VALUE;
                 for (ModificationInfo mod : singleLCMSID.ModificationList.values()) {

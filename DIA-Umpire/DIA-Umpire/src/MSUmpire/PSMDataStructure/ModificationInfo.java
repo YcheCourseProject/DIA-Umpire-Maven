@@ -23,23 +23,26 @@ package MSUmpire.PSMDataStructure;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import com.compomics.util.experiment.biology.PTM;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
  * PTM class
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class ModificationInfo implements Serializable{
+public class ModificationInfo implements Serializable {
     private static final long serialVersionUID = 25425698745L;
 
     public PTM modification;
     public float massdiff;
     public float mass;
     public String site;
-    
-    public String GetKey(){
+
+    public String GetKey() {
         if (modification != null) {
             String tmp = new DecimalFormat("#.###").format(massdiff);
             return "[" + tmp + "(" + site + ")]";

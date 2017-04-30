@@ -73,7 +73,7 @@ import javax.swing.text.JTextComponent;
 
 public class AlignWindow extends javax.swing.JFrame implements ClipboardListener, DocumentListener {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3257844376876364850L;
 
@@ -81,81 +81,81 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
      * Window width
      */
     private static final int WINDOW_WIDTH = 800;
-    
+
     /**
      * Window height
      */
     private static final int WINDOW_HEIGHT = 600;
-    
+
     /**
      * Default open gap penalty
      */
     private static final float DEFAULT_OPEN_GAP_PENALTY = 10f;
-    
+
     /**
      * Default extend gap penalty
      */
     private static final float DEFAULT_EXTEND_GAP_PENALTY = 0.5f;
-    
+
     /**
      * Default scoring matrix
      */
     private static final String DEFAULT_SCORING_MATRIX = "BLOSUM62";
-    
+
     /**
      * Logger
      */
     private static final Logger logger = Logger.getLogger(AlignWindow.class.getName());
-    
+
     /**
      * Clipboard poller thread
      */
     private ClipboardPoller clipboardPoller = null;
-    
+
     /**
      * Loaded scoring matrices
      */
     private HashMap<String, Matrix> matrices = new HashMap<String, Matrix>();
-    
+
     /**
      * Current text component
      */
     private JTextComponent currentTextComponent = null;
-    
+
     // The actions
     public Action nextFocusAction = new AbstractAction("Move Focus Forwards") {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 3763091972940183858L;
 
         public void actionPerformed(ActionEvent evt) {
-            ((Component)evt.getSource()).transferFocus();
+            ((Component) evt.getSource()).transferFocus();
         }
     };
-    
+
     public Action prevFocusAction = new AbstractAction("Move Focus Backwards") {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 3257844402628997943L;
 
         public void actionPerformed(ActionEvent evt) {
-            ((Component)evt.getSource()).transferFocusBackward();
+            ((Component) evt.getSource()).transferFocusBackward();
         }
     };
-    
+
     /**
      * Constructor
      */
     public AlignWindow() {
-    	initComponents();
+        initComponents();
 
         logger.addHandler(new DocumentHandler(jTextPaneConsole));
 
         try {
             // Set the icon for the frame
-            URL url = getClass().getResource( ToolbarIcons.GIFS_HOME + "jaligner.gif");
+            URL url = getClass().getResource(ToolbarIcons.GIFS_HOME + "jaligner.gif");
             if (url != null) {
                 Image image = java.awt.Toolkit.getDefaultToolkit().getImage(url);
                 setIconImage(image);
@@ -165,12 +165,12 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         } catch (Exception e) {
             logger.log(Level.WARNING, "Failed setting the frame image: " + e.getMessage(), e);
         }
-        
+
         jMenuItemFileOpen.setVisible(false);
-        
+
         jFormattedTextFieldGapOpen.setValue(new Float(DEFAULT_OPEN_GAP_PENALTY));
         jFormattedTextFieldGapExtend.setValue(new Float(DEFAULT_EXTEND_GAP_PENALTY));
-        
+
         Collection<String> matrices = null;
         try {
             matrices = MatrixLoader.list(false);
@@ -180,11 +180,11 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         if (matrices != null) {
             populateComboBox(jComboBoxScoringMatrix, matrices, DEFAULT_SCORING_MATRIX);
         }
-        
+
         FormatFactory.getInstance().registerFormat(new CLUSTAL());
         FormatFactory.getInstance().registerFormat(new Pair());
         FormatFactory.getInstance().registerFormat(new FASTA());
-        
+
         Collection<String> formats = FormatFactory.getInstance().getFormats();
         String[] outputFormats = new String[formats.size()];
         Iterator<String> i = formats.iterator();
@@ -192,47 +192,47 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             outputFormats[j] = i.next();
         }
         populateComboBox(jComboBoxOutputFormat, outputFormats, null);
-        
+
         jTextAreaSequence1.getDocument().addDocumentListener(this);
         jTextAreaSequence2.getDocument().addDocumentListener(this);
         jTextAreaAlignment.getDocument().addDocumentListener(this);
-        
+
         // Add actions
         jTextAreaSequence1.getInputMap().put(KeyStroke.getKeyStroke("TAB"), nextFocusAction.getClass().getName());
         jTextAreaSequence1.getActionMap().put(nextFocusAction.getClass().getName(), nextFocusAction);
         jTextAreaSequence1.getInputMap().put(KeyStroke.getKeyStroke("shift TAB"), prevFocusAction.getClass().getName());
         jTextAreaSequence1.getActionMap().put(prevFocusAction.getClass().getName(), prevFocusAction);
-        
+
         jTextAreaSequence2.getInputMap().put(KeyStroke.getKeyStroke("TAB"), nextFocusAction.getClass().getName());
         jTextAreaSequence2.getActionMap().put(nextFocusAction.getClass().getName(), nextFocusAction);
         jTextAreaSequence2.getInputMap().put(KeyStroke.getKeyStroke("shift TAB"), prevFocusAction.getClass().getName());
         jTextAreaSequence2.getActionMap().put(prevFocusAction.getClass().getName(), prevFocusAction);
-        
+
         // Add radio buttons to group
         buttonGroupSequences.add(jRadioButtonSequence1);
         buttonGroupSequences.add(jRadioButtonSequence2);
         buttonGroupSequences.add(jRadioButtonAlignment);
         buttonGroupSequences.add(jRadioButtonConsole);
-        
+
         // Split the space
         jSplitPaneBody.setResizeWeight(.9D);
         jSplitPaneIO.setResizeWeight(.5D);
         jSplitPaneSequences.setResizeWeight(.5D);
-        
+
         // Set the focus on the text area for sequence #1
         jTextAreaSequence1.requestFocus();
-                
+
         // Start the clipboard checker
         clipboardPoller = new ClipboardPoller(this);
         clipboardPoller.start();
-        
+
         // Hide the print menu item in under the File menu
         jMenuItemFilePrint.setVisible(false);
-        
+
         // Set the frame size
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -903,7 +903,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed running the example: " + e.getMessage(), e);
         }
-        
+
     }//GEN-LAST:event_jMenuItemToolsRunExampleActionPerformed
 
     private void jMenuItemFilePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFilePrintActionPerformed
@@ -952,70 +952,70 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jRadioButtonSequence1.setSelected(true);
         handleMoveToTextComponent();
     }//GEN-LAST:event_jTextAreaSequence1FocusGained
-    
+
     private void jRadioButtonAlignmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAlignmentActionPerformed
         jTextAreaAlignment.requestFocus();
     }//GEN-LAST:event_jRadioButtonAlignmentActionPerformed
-    
+
     private void jRadioButtonSequence2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSequence2ActionPerformed
         jTextAreaSequence2.requestFocus();
     }//GEN-LAST:event_jRadioButtonSequence2ActionPerformed
-    
+
     private void jRadioButtonSequence1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSequence1ActionPerformed
         jTextAreaSequence1.requestFocus();
     }//GEN-LAST:event_jRadioButtonSequence1ActionPerformed
-    
+
     private void jMenuItemEditCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditCopyActionPerformed
         copy();
     }//GEN-LAST:event_jMenuItemEditCopyActionPerformed
-    
+
     private void jMenuItemEditDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditDeleteActionPerformed
         delete();
     }//GEN-LAST:event_jMenuItemEditDeleteActionPerformed
-    
+
     private void jMenuItemEditPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditPasteActionPerformed
         paste();
     }//GEN-LAST:event_jMenuItemEditPasteActionPerformed
-    
+
     private void jMenuItemFileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileOpenActionPerformed
         loadFileToTextArea("", currentTextComponent);
     }//GEN-LAST:event_jMenuItemFileOpenActionPerformed
-    
+
     private void jMenuItemEditCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditCutActionPerformed
         cut();
     }//GEN-LAST:event_jMenuItemEditCutActionPerformed
-    
+
     private void jMenuItemEditSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditSelectAllActionPerformed
         selectAll();
     }//GEN-LAST:event_jMenuItemEditSelectAllActionPerformed
-    
+
     private void jTextAreaSequence2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextAreaSequence2MouseClicked
         jTextAreaSequence2.requestFocus();
         if (evt.getButton() == MouseEvent.BUTTON3) {
             jPopup.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jTextAreaSequence2MouseClicked
-    
+
     private void jTextAreaSequence2CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextAreaSequence2CaretUpdate
         handleCaretUpdateEvent(evt);
     }//GEN-LAST:event_jTextAreaSequence2CaretUpdate
-    
+
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         exitForm(null);
     }//GEN-LAST:event_jButtonExitActionPerformed
-    
+
     private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoActionPerformed
         align();
     }//GEN-LAST:event_jButtonGoActionPerformed
-    
+
     private void jMenuItemFileLoadSequence2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileLoadSequence2ActionPerformed
         loadFileToTextArea("sequence #2", jTextAreaSequence2);
     }//GEN-LAST:event_jMenuItemFileLoadSequence2ActionPerformed
-    
+
     private void jMenuItemFileLoadSequence1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileLoadSequence1ActionPerformed
         loadFileToTextArea("sequence #1", jTextAreaSequence1);
     }//GEN-LAST:event_jMenuItemFileLoadSequence1ActionPerformed
-    
+
     private void jMenuItemFileLoadMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileLoadMatrixActionPerformed
         NamedInputStream selectedInputStream = null;
         try {
@@ -1026,12 +1026,12 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
 
                 // Put the loaded matrix in the matrices hashmap
                 matrices.put(selectedInputStream.getName(), matrix);
-                
+
                 boolean found = false;
                 int index = 0;
                 int count = jComboBoxScoringMatrix.getItemCount();
                 while (index < count && !found) {
-                    if (((String)jComboBoxScoringMatrix.getItemAt(index)).equalsIgnoreCase(selectedInputStream.getName())) {
+                    if (((String) jComboBoxScoringMatrix.getItemAt(index)).equalsIgnoreCase(selectedInputStream.getName())) {
                         found = true;
                     } else {
                         index++;
@@ -1040,11 +1040,11 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
                 if (!found) {
                     // Add the loaded matrix to the scoring matrices dropdown menu
                     jComboBoxScoringMatrix.addItem(selectedInputStream.getName());
-                    index = jComboBoxScoringMatrix.getItemCount()-1;
+                    index = jComboBoxScoringMatrix.getItemCount() - 1;
                 }
                 // Set the selected item to the new loaded matrix
                 jComboBoxScoringMatrix.setSelectedIndex(index);
-                
+
                 logger.info("Finished loading scoring matrix");
             } else {
                 logger.info("Canceled loading scoring matrix");
@@ -1057,87 +1057,87 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             if (selectedInputStream != null) {
                 try {
                     selectedInputStream.getInputStream().close();
-                } catch(Exception e) {
+                } catch (Exception e) {
                     logger.log(Level.WARNING, "Failed closing input stream: " + e.getMessage(), e);
                 }
             }
         }
     }//GEN-LAST:event_jMenuItemFileLoadMatrixActionPerformed
-    
+
     private void jTextAreaAlignmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextAreaAlignmentMouseClicked
         jTextAreaAlignment.requestFocus();
         if (evt.getButton() == MouseEvent.BUTTON3) {
             jPopup.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jTextAreaAlignmentMouseClicked
-    
+
     private void jPopupSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupSaveActionPerformed
         saveTextAreaToFile((JTextArea) jPopup.getInvoker());
     }//GEN-LAST:event_jPopupSaveActionPerformed
-    
+
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         saveTextAreaToFile(currentTextComponent);
     }//GEN-LAST:event_jButtonSaveActionPerformed
-    
+
     private void jTextAreaAlignmentCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextAreaAlignmentCaretUpdate
         handleCaretUpdateEvent(evt);
     }//GEN-LAST:event_jTextAreaAlignmentCaretUpdate
-    
+
     private void jPopupOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupOpenActionPerformed
         loadFileToTextArea("", (JTextArea) jPopup.getInvoker());
     }//GEN-LAST:event_jPopupOpenActionPerformed
-    
+
     private void jPopupSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupSelectAllActionPerformed
         selectAll();
     }//GEN-LAST:event_jPopupSelectAllActionPerformed
-    
+
     private void jPopupDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupDeleteActionPerformed
         delete();
     }//GEN-LAST:event_jPopupDeleteActionPerformed
-    
+
     private void jPopupPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupPasteActionPerformed
         paste();
     }//GEN-LAST:event_jPopupPasteActionPerformed
-    
+
     private void jPopupCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupCopyActionPerformed
         copy();
     }//GEN-LAST:event_jPopupCopyActionPerformed
-    
+
     private void jPopupCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopupCutActionPerformed
         cut();
     }//GEN-LAST:event_jPopupCutActionPerformed
-    
+
     private void jTextAreaSequence1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextAreaSequence1CaretUpdate
         handleCaretUpdateEvent(evt);
     }//GEN-LAST:event_jTextAreaSequence1CaretUpdate
-    
+
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
         delete();
     }//GEN-LAST:event_jButtonDeleteActionPerformed
-    
+
     private void jButtonPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasteActionPerformed
         paste();
     }//GEN-LAST:event_jButtonPasteActionPerformed
-    
+
     private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
         copy();
     }//GEN-LAST:event_jButtonCopyActionPerformed
-    
+
     private void jButtonCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCutActionPerformed
         cut();
     }//GEN-LAST:event_jButtonCutActionPerformed
-    
+
     private void jButtonOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenActionPerformed
         loadFileToTextArea("", currentTextComponent);
     }//GEN-LAST:event_jButtonOpenActionPerformed
-    
+
     private void jTextAreaSequence1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextAreaSequence1MouseClicked
         jTextAreaSequence1.requestFocus();
         if (evt.getButton() == MouseEvent.BUTTON3) {
             jPopup.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jTextAreaSequence1MouseClicked
-    
+
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
         String message = "JAligner"
                 + Commons.getLineSeparator() + Commons.getLineSeparator()
@@ -1152,16 +1152,18 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
                 + "By: Ahmed Moustafa"
                 + Commons.getLineSeparator() + Commons.getLineSeparator()
                 + "https://github.com/ahmedmoustafa/JAligner";
-                
+
         JOptionPane.showMessageDialog(this, message, "About JAligner",
                 JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
-    
+
     private void jMenuItemFileExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileExitActionPerformed
         exitForm(null);
     }//GEN-LAST:event_jMenuItemFileExitActionPerformed
-    
-    /** Exit the Application */
+
+    /**
+     * Exit the Application
+     */
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
         logger.info("Quitting...");
         if (JOptionPane.showConfirmDialog(this, "Are you sure you want to exit JAligner?", "JAligner - confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -1172,7 +1174,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             currentTextComponent.requestFocus();
         }
     }//GEN-LAST:event_exitForm
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupSequences;
     private javax.swing.JButton jButtonCopy;
@@ -1250,11 +1252,12 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
     private javax.swing.JTextPane jTextPaneConsole;
     private javax.swing.JToolBar jToolBar;
     // End of variables declaration//GEN-END:variables
-    
+
     /**
      * Populates a combobox with an array of strings and selects the default
+     *
      * @param combobox combobox to be populated
-     * @param items array of strings to be added to the combobox
+     * @param items    array of strings to be added to the combobox
      * @param selected the default selected item
      */
     private void populateComboBox(JComboBox combobox, String[] items, String selected) {
@@ -1265,11 +1268,12 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             }
         }
     }
-    
+
     /**
      * Populates a combobox with an array of strings and selects the default
+     *
      * @param combobox combobox to be populated
-     * @param items array of strings to be added to the combobox
+     * @param items    array of strings to be added to the combobox
      * @param selected the default selected item
      */
     private void populateComboBox(JComboBox combobox, Collection<String> items, String selected) {
@@ -1285,17 +1289,19 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             index++;
         }
     }
-    
+
     /**
      * Displays an error message
+     *
      * @param message the error message to be displayed
      */
     private void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(this, message, "JAligner - error message", JOptionPane.ERROR_MESSAGE);
     }
-    
+
     /**
      * Loads the contents of a selected file into a text component.
+     *
      * @param id
      * @param textComponent
      */
@@ -1303,8 +1309,8 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         logger.info("Loading " + id + "...");
         try {
             if (TextComponentUtil.open(textComponent)) {
-            	textComponent.requestFocus();
-            	textComponent.setCaretPosition(0);
+                textComponent.requestFocus();
+                textComponent.setCaretPosition(0);
                 logger.info("Finished loading " + id);
             } else {
                 logger.info("Canceled loading " + id);
@@ -1315,9 +1321,10 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             showErrorMessage(message);
         }
     }
-    
+
     /**
      * Saves a text component to a file.
+     *
      * @param textComponent
      */
     private void saveTextAreaToFile(JTextComponent textComponent) {
@@ -1334,7 +1341,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             showErrorMessage(message);
         }
     }
-    
+
     /**
      *
      *
@@ -1342,7 +1349,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
     private void cut() {
         TextComponentUtil.cut(currentTextComponent);
     }
-    
+
     /**
      *
      *
@@ -1350,7 +1357,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
     private void copy() {
         TextComponentUtil.copy(currentTextComponent);
     }
-    
+
     /**
      *
      *
@@ -1358,7 +1365,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
     private void paste() {
         TextComponentUtil.paste(currentTextComponent);
     }
-    
+
     /**
      *
      *
@@ -1366,29 +1373,28 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
     private void delete() {
         TextComponentUtil.delete(currentTextComponent);
     }
-    
+
     /**
-     * 
+     *
      *
      */
     private void selectAll() {
         TextComponentUtil.selectAll(currentTextComponent);
     }
-    
+
     /**
      * Prints the contents of a text component
-     *
      */
     private void print() {
-    	try {
-    		logger.info("Printing...");
-    		TextComponentUtil.print(currentTextComponent);
-    		logger.info("Finished printing.");
-    	} catch (TextComponentUtilException textComponentUtilException) {
-    		logger.log(Level.SEVERE, "Failed printing: " + textComponentUtilException.getMessage(), textComponentUtilException);
-    	}
+        try {
+            logger.info("Printing...");
+            TextComponentUtil.print(currentTextComponent);
+            logger.info("Finished printing.");
+        } catch (TextComponentUtilException textComponentUtilException) {
+            logger.log(Level.SEVERE, "Failed printing: " + textComponentUtilException.getMessage(), textComponentUtilException);
+        }
     }
-    
+
     /**
      * Implements insertUpdate of {@link DocumentListener}
      */
@@ -1399,7 +1405,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             setPrintControlsEnabled(true);
         }
     }
-    
+
     /**
      * Implements removeUpdate of {@link DocumentListener}
      */
@@ -1412,21 +1418,23 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             }
         }
     }
-    
+
     /**
      * Implements changedUpdate of {@link DocumentListener}
      */
-    public void changedUpdate(DocumentEvent e) {}
-    
+    public void changedUpdate(DocumentEvent e) {
+    }
+
     /**
      * Implements the notify method of the interface {@link ClipboardListener}
      */
     public void clipboardCheck(String clipboardContents) {
         setPasteControlsEnabled(clipboardContents != null && currentTextComponent != null && currentTextComponent.isEditable());
     }
-    
+
     /**
      * Sets the status of the open controls
+     *
      * @param enabled
      */
     private void setOpenControlsEnabled(boolean enabled) {
@@ -1434,18 +1442,20 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jButtonOpen.setEnabled(enabled);
         jPopupOpen.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the save controls
+     *
      * @param enabled
      */
     private void setSaveControlsEnabled(boolean enabled) {
         jButtonSave.setEnabled(enabled);
         jPopupSave.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the cut controls
+     *
      * @param enabled
      */
     private void setCutControlsEnabled(boolean enabled) {
@@ -1453,9 +1463,10 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jButtonCut.setEnabled(enabled);
         jPopupCut.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the copy controls
+     *
      * @param enabled
      */
     private void setCopyControlsEnabled(boolean enabled) {
@@ -1463,9 +1474,10 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jButtonCopy.setEnabled(enabled);
         jPopupCopy.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the paste controls
+     *
      * @param enabled
      */
     private void setPasteControlsEnabled(boolean enabled) {
@@ -1473,9 +1485,10 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jButtonPaste.setEnabled(enabled);
         jPopupPaste.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the delete controls
+     *
      * @param enabled
      */
     private void setDeleteControlsEnabled(boolean enabled) {
@@ -1483,27 +1496,28 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
         jButtonDelete.setEnabled(enabled);
         jPopupDelete.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the select all controls
+     *
      * @param enabled
      */
     private void setSelectAllControlsEnabled(boolean enabled) {
         jMenuItemEditSelectAll.setEnabled(enabled);
         jPopupSelectAll.setEnabled(enabled);
     }
-    
+
     /**
      * Sets the status of the print controls
+     *
      * @param enabled
      */
     private void setPrintControlsEnabled(boolean enabled) {
         jButtonPrint.setEnabled(enabled);
         jPopupPrint.setEnabled(enabled);
     }
-    
+
     /**
-     *
      * @param event
      */
     private void handleCaretUpdateEvent(CaretEvent event) {
@@ -1511,43 +1525,43 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             boolean enabled = event.getDot() != event.getMark();
             // Read controls
             setCopyControlsEnabled(enabled);
-            
+
             // Write controls
             enabled &= currentTextComponent.isEditable();
             setCutControlsEnabled(enabled);
             setDeleteControlsEnabled(enabled);
         }
     }
-    
+
     /**
      *
      *
      */
-    private void handleMoveToTextComponent( ) {
+    private void handleMoveToTextComponent() {
         boolean enabled;
-        
+
         enabled = currentTextComponent.getSelectedText() != null;
         setCopyControlsEnabled(enabled);
-        
+
         if (currentTextComponent.isEditable()) {
             setOpenControlsEnabled(true);
-            
+
             setCutControlsEnabled(enabled);
             setDeleteControlsEnabled(enabled);
         } else {
             setPasteControlsEnabled(false);
-            
+
             setOpenControlsEnabled(false);
-            
+
             setCutControlsEnabled(false);
             setDeleteControlsEnabled(false);
         }
-        
+
         enabled = currentTextComponent.getText().length() > 0;
         setSaveControlsEnabled(enabled);
         setSelectAllControlsEnabled(enabled);
         setPrintControlsEnabled(enabled);
-        
+
         // Adjust background of the radio buttons 
         Enumeration<AbstractButton> buttons = buttonGroupSequences.getElements();
         AbstractButton button = null;
@@ -1559,20 +1573,20 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
                 button.setForeground(Color.black);
             }
         }
-        
+
     }
-    
+
     /**
-     * 
+     *
      *
      */
     private void align() {
         jTextAreaAlignment.setText("");
-    	
-    	String matrixId = (String) jComboBoxScoringMatrix.getSelectedItem();
-        float open = ((Number)jFormattedTextFieldGapOpen.getValue()).floatValue();
-        float extend = ((Number)jFormattedTextFieldGapExtend.getValue()).floatValue();
-        
+
+        String matrixId = (String) jComboBoxScoringMatrix.getSelectedItem();
+        float open = ((Number) jFormattedTextFieldGapOpen.getValue()).floatValue();
+        float extend = ((Number) jFormattedTextFieldGapExtend.getValue()).floatValue();
+
         Sequence sequence1 = null;
         try {
             logger.info("Processing sequence #1...");
@@ -1585,7 +1599,7 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             jTextAreaSequence1.requestFocus();
             return;
         }
-        
+
         Sequence sequence2 = null;
         try {
             logger.info("Processing sequence #2...");
@@ -1598,11 +1612,11 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             jTextAreaSequence2.requestFocus();
             return;
         }
-        
+
         logger.info("Aliging...");
         try {
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            
+
             long start = System.currentTimeMillis();
             Matrix matrix = null;
             if (!matrices.containsKey(matrixId)) {
@@ -1614,16 +1628,16 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             Alignment alignment = SmithWatermanGotoh.align(sequence1, sequence2, matrix, open, extend);
             long end = System.currentTimeMillis();
             logger.info("Finished aligning in " + (end - start) + " milliseconds");
-            
+
             StringBuffer buffer = new StringBuffer();
-            
+
             buffer.append(alignment.getSummary());
             buffer.append(Commons.getLineSeparator());
-            
+
             String formatId = (String) jComboBoxOutputFormat.getSelectedItem();
             String formattedAlignment = FormatFactory.getInstance().getFormat(formatId).format(alignment);
             buffer.append(formattedAlignment);
-            
+
             jTextAreaAlignment.setText("");
             jTextAreaAlignment.append(buffer.toString());
             jTextAreaAlignment.setCaretPosition(0);
@@ -1639,13 +1653,12 @@ public class AlignWindow extends javax.swing.JFrame implements ClipboardListener
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
-    
+
     /**
-     *
      * @param args
      */
     public static void main(String[] args) {
-        logger.info( Commons.getJAlignerInfo() );
+        logger.info(Commons.getJAlignerInfo());
         new AlignWindow().setVisible(true);
     }
 }

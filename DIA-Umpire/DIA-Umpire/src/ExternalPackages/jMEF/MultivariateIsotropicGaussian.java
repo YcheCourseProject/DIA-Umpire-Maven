@@ -8,13 +8,11 @@ import java.util.Random;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The multivariate isotropic Gaussian distribution (\f$\Sigma=\f$Id) is an
  * exponential family and, as a consequence, the probability density function is
  * given by \f[ f(x; \mathbf{\Theta}) = \exp \left( \langle t(x),
@@ -22,9 +20,8 @@ import java.util.Random;
  * \mathbf{\Theta} \f$ are the natural parameters. This class implements the
  * different functions allowing to express a multivariate Gaussian distribution
  * as a member of an exponential family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = \mu \mbox{ with } \mu \in \mathds{R}^d \f$ - Natural
  * parameters \f$\mathbf{\Theta} = \theta \f$ - Expectation parameters
@@ -156,7 +153,7 @@ public final class MultivariateIsotropicGaussian extends ExponentialFamily<PVect
     /**
      * Computes the density value \f$ f(x;\mu) \f$.
      *
-     * @param x point
+     * @param x     point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;\mu) = \frac{1}{ (2\pi)^{d/2} } \exp \left( -
      * \frac{(x-\mu)^T (x-\mu)}{2} \right) \mbox{ for } x \in \mathds{R}^d \f$

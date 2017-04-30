@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Reference to a protein which this peptide is intended to identify
- * 
+ * <p>
  * <p>Java class for ProteinRefType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="ProteinRefType">
  *   &lt;complexContent>
@@ -32,8 +32,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProteinRefType")
@@ -46,11 +44,9 @@ public class ProteinRefType {
 
     /**
      * Gets the value of the ref property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getRef() {
         return ref;
@@ -58,11 +54,9 @@ public class ProteinRefType {
 
     /**
      * Sets the value of the ref property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setRef(Object value) {
         this.ref = value;

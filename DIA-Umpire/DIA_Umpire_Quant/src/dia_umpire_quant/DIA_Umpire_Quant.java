@@ -24,6 +24,7 @@ package DIA_Umpire_Quant;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import FDREstimator.FDR_DataSetLevel;
 import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.DIA.DIAPack;
@@ -41,6 +42,7 @@ import MSUmpire.Utility.ExportTable;
 import MSUmpire.SearchResultParser.ProtXMLParser;
 import MSUmpire.Utility.ConsoleLogger;
 import MSUmpire.Utility.DateTimeTag;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,13 +52,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_Quant {
@@ -99,7 +101,7 @@ public class DIA_Umpire_Quant {
             float Freq = 0f;
             int TopNPep = 6;
             int TopNFrag = 6;
-            float MinFragMz=200f;
+            float MinFragMz = 200f;
             String FilterWeight = "GW";
             float MinWeight = 0.9f;
             float RTWindow_Int = -1f;
@@ -252,7 +254,7 @@ public class DIA_Umpire_Quant {
                         case "TopNFrag": {
                             TopNFrag = Integer.parseInt(value);
                             break;
-                        }                        
+                        }
                         case "TopNPep": {
                             TopNPep = Integer.parseInt(value);
                             break;

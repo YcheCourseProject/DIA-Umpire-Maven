@@ -22,14 +22,14 @@ package MSUmpire.BaseDataStructure;
 import MSUmpire.SpectralProcessingModule.BackgroundDetector;
 import MSUmpire.SpectralProcessingModule.ScanPeakGroup;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class ScanData extends XYPointCollection{
+public class ScanData extends XYPointCollection {
     public int ScanNum;
     public int MsLevel;
     public float RetentionTime;
@@ -62,10 +62,10 @@ public class ScanData extends XYPointCollection{
         centroided = true;
     }
 
-    public float PrecursorMass(){
-        return PrecursorCharge * (PrecursorMz - (float)ElementaryIon.proton.getTheoreticMass());
+    public float PrecursorMass() {
+        return PrecursorCharge * (PrecursorMz - (float) ElementaryIon.proton.getTheoreticMass());
     }
-    
+
     public XYData GetHighestPeakInMzWindow(float targetmz, float PPM) {
         float lowmz = InstrumentParameter.GetMzByPPM(targetmz, 1, PPM);
         int startidx = GetLowerIndexOfX(lowmz);
@@ -82,7 +82,7 @@ public class ScanData extends XYPointCollection{
         }
         return closetPeak;
     }
-    
+
     public void GenerateTopPeakScanData(int toppeaks) {
         SortedXYCollectionClass Intsorted = new SortedXYCollectionClass();
         for (int i = 0; i < Data.size; i++) {
@@ -103,7 +103,7 @@ public class ScanData extends XYPointCollection{
             }
         }
     }
-   
+
 
     public void RemoveSignalBelowBG() {
         SortedXYCollectionClass newData = new SortedXYCollectionClass();
@@ -160,25 +160,25 @@ public class ScanData extends XYPointCollection{
         return newScanData;
     }
 
-    public float GetTopNIntensity(int N){
-     
-         ArrayList<Float> IntList = new ArrayList<>();
+    public float GetTopNIntensity(int N) {
+
+        ArrayList<Float> IntList = new ArrayList<>();
         for (int i = 0; i < Data.size(); i++) {
             IntList.add(Data.get(i).getY());
         }
         Collections.sort(IntList);
-        if(IntList.size()>10){
-            return IntList.get(IntList.size()-N);
+        if (IntList.size() > 10) {
+            return IntList.get(IntList.size() - N);
         }
-        return -1;        
+        return -1;
     }
-    
+
     public void Preprocessing(InstrumentParameter parameter) {
-         if (!centroided) {
+        if (!centroided) {
             Centroiding(parameter.Resolution, parameter.MinMZ);
         }
         if (parameter.EstimateBG) {
-            BackgroundDetector detector=new BackgroundDetector(this);
+            BackgroundDetector detector = new BackgroundDetector(this);
             //detector.DetermineConstantBackground();
             detector.AdjacentPeakHistogram();
         } else {
@@ -194,8 +194,8 @@ public class ScanData extends XYPointCollection{
             RemoveSignalBelowBG();
         }
         if (parameter.Deisotoping && MsLevel == 1) {
-             ScanPeakGroup scanpeak= new ScanPeakGroup(this, parameter);
-             scanpeak.Deisotoping();
+            ScanPeakGroup scanpeak = new ScanPeakGroup(this, parameter);
+            scanpeak.Deisotoping();
         }
     }
 }

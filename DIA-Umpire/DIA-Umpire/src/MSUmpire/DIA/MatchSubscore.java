@@ -23,40 +23,43 @@ import java.io.Serializable;
 
 /**
  * Data structure to define which match subscores to use
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class MatchSubscore implements Serializable{
-    private static final long serialVersionUID = -6347236539892953039L;    
-    public subscore[] Subscores;    
+public class MatchSubscore implements Serializable {
+    private static final long serialVersionUID = -6347236539892953039L;
+    public subscore[] Subscores;
     public int NoEnableSubscores;
     public double[] SubSCoeff;
     public String[] SubSName;
-    int Version=2;
-    
-    public class subscore implements Serializable{
+    int Version = 2;
+
+    public class subscore implements Serializable {
         private static final long serialVersionUID = 2801998695766081693L;
         public String name;
         public boolean enable;
         public double initialweight;
 
-        public subscore(String name, boolean enable,double iniweight) {
+        public subscore(String name, boolean enable, double iniweight) {
             this.name = name;
             this.enable = enable;
-            this.initialweight=iniweight;
+            this.initialweight = iniweight;
         }
     }
-    private void V1_Array(){
-         Subscores = new subscore[7];
+
+    private void V1_Array() {
+        Subscores = new subscore[7];
         Subscores[0] = new subscore("SpecCorrelation", true, 25d);
         Subscores[1] = new subscore("CorrScore", true, -2d);
         Subscores[2] = new subscore("IntScore", true, -0.2d);
         Subscores[3] = new subscore("PPMScore", true, 4d);
         Subscores[4] = new subscore("ApexDeltaScore", true, -2d);
         Subscores[5] = new subscore("RTOverlapScore", true, 1d);
-        Subscores[6] = new subscore("NoMatchFragment", true, 1d);  
+        Subscores[6] = new subscore("NoMatchFragment", true, 1d);
     }
-     private void V2_Array(){
-         Subscores = new subscore[18];
+
+    private void V2_Array() {
+        Subscores = new subscore[18];
         Subscores[0] = new subscore("SpecDotProduct", true, 25d);
         Subscores[1] = new subscore("SpecCorrelation", false, 25d);
         Subscores[2] = new subscore("SpecContrastAngle", false, 25d);
@@ -77,20 +80,21 @@ public class MatchSubscore implements Serializable{
         Subscores[17] = new subscore("SumPPMCorr", true, 5d);
         //Subscores[18] = new subscore("DeltaPPMCorr", false, 1d);
     }
+
     public MatchSubscore(int Version) {
-        this.Version=Version;
+        this.Version = Version;
         switch (Version) {
             case 1: {
                 V1_Array();
                 break;
             }
-            default:{
+            default: {
                 V2_Array();
                 break;
             }
         }
     }
-    
+
     public void InitializeLDACoeff() {
         NoEnableSubscores = 0;
         for (int i = 0; i < Subscores.length; i++) {
@@ -98,34 +102,34 @@ public class MatchSubscore implements Serializable{
                 NoEnableSubscores++;
             }
         }
-        SubSCoeff=new double[NoEnableSubscores];
-        SubSName=new String[NoEnableSubscores];
-        int idx=0;
+        SubSCoeff = new double[NoEnableSubscores];
+        SubSName = new String[NoEnableSubscores];
+        int idx = 0;
         for (int i = 0; i < Subscores.length; i++) {
             if (Subscores[i].enable) {
                 SubSCoeff[idx] = Subscores[i].initialweight;
-                SubSName[idx]=Subscores[i].name;
+                SubSName[idx] = Subscores[i].name;
                 idx++;
             }
         }
     }
-  
-    private float [] GetScoreArray_V1(PeakGroupScore peakgroup){
+
+    private float[] GetScoreArray_V1(PeakGroupScore peakgroup) {
         float[] Subs = new float[7];
-        int idx=0;
+        int idx = 0;
         Subs[idx++] = peakgroup.SpecCorrelation;
         Subs[idx++] = peakgroup.AveCorrScore;
         Subs[idx++] = peakgroup.FragIntAvgScore;
         Subs[idx++] = peakgroup.PPMScore;
         Subs[idx++] = peakgroup.ApexDeltaScore;
         Subs[idx++] = peakgroup.RTOverlapScore;
-        Subs[idx++] = peakgroup.NoMatchB+peakgroup.NoMatchY;
+        Subs[idx++] = peakgroup.NoMatchB + peakgroup.NoMatchY;
         return Subs;
     }
-    
-    private float [] GetScoreArray_V2(PeakGroupScore peakgroup){
+
+    private float[] GetScoreArray_V2(PeakGroupScore peakgroup) {
         float[] Subs = new float[18];
-        int idx=0;
+        int idx = 0;
         Subs[idx++] = peakgroup.SpecDotProduct;
         Subs[idx++] = peakgroup.SpecCorrelation;
         Subs[idx++] = peakgroup.ContrastAngle;
@@ -139,15 +143,16 @@ public class MatchSubscore implements Serializable{
         Subs[idx++] = peakgroup.PrecursorCorr;
         Subs[idx++] = peakgroup.RTDiff;
         Subs[idx++] = peakgroup.PrecursorPPM;
-        Subs[idx++] = peakgroup.MaxMatchCorr*(peakgroup.NoMatchY+peakgroup.NoMatchB);
-        Subs[idx++] = (peakgroup.MaxMatchCorr*(peakgroup.NoMatchY+peakgroup.NoMatchB))/peakgroup.Peplength;
+        Subs[idx++] = peakgroup.MaxMatchCorr * (peakgroup.NoMatchY + peakgroup.NoMatchB);
+        Subs[idx++] = (peakgroup.MaxMatchCorr * (peakgroup.NoMatchY + peakgroup.NoMatchB)) / peakgroup.Peplength;
         Subs[idx++] = peakgroup.PrecursorIsoPattern;
         Subs[idx++] = peakgroup.SumCorrScore;
         Subs[idx++] = peakgroup.SumCorrPPMScore;
         //Subs[idx++] = peakgroup.PrecursorCentralRank;
         return Subs;
     }
-    public float [] GetSubScoreArray(PeakGroupScore peakgroup){
+
+    public float[] GetSubScoreArray(PeakGroupScore peakgroup) {
         switch (Version) {
             case 1: {
                 return GetScoreArray_V1(peakgroup);
@@ -157,16 +162,16 @@ public class MatchSubscore implements Serializable{
             }
         }
     }
-    
-    public double[] GetEnableSubScoreArray(PeakGroupScore peakgroup){
-        float[] Subs=GetSubScoreArray(peakgroup);
-        double[] enablesubsore=new double[NoEnableSubscores];
-        int idx=0;
+
+    public double[] GetEnableSubScoreArray(PeakGroupScore peakgroup) {
+        float[] Subs = GetSubScoreArray(peakgroup);
+        double[] enablesubsore = new double[NoEnableSubscores];
+        int idx = 0;
         for (int i = 0; i < Subscores.length; i++) {
             if (Subscores[i].enable) {
                 enablesubsore[idx++] = Subs[i];
             }
-        }    
+        }
         return enablesubsore;
     }
 }

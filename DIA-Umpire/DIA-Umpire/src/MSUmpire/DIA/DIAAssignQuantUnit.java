@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Thread unit for determining  peak cluster matched fragments for identified peptide ion for quantification
- * 
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class DIAAssignQuantUnit implements Runnable {
@@ -51,15 +51,15 @@ public class DIAAssignQuantUnit implements Runnable {
     }
 
     @Override
-    public void run() {        
+    public void run() {
         PeakCluster targetCluster = null;
-        
+
         //Get highest intensity peak cluster
         for (PeakCluster peakCluster : pepIonID.MS1PeakClusters) {
             if (targetCluster == null || targetCluster.PeakHeight[0] < peakCluster.PeakHeight[0]) {
                 targetCluster = peakCluster;
             }
-        }        
+        }
         pepIonID.CreateQuantInstance(ms1lcms.MaxNoPeakCluster);
 
         if (targetCluster != null) {
@@ -82,11 +82,11 @@ public class DIAAssignQuantUnit implements Runnable {
         }
         //pepIonID.PeakClusterIndex = targetCluster.Index;
 
-        if (targetCluster!=null && ms1lcms.datattype != SpectralDataType.DataType.pSMART) {
+        if (targetCluster != null && ms1lcms.datattype != SpectralDataType.DataType.pSMART) {
             MatchFragmentByTargetCluster(targetCluster);
             pepIonID.RemoveRedundantFrag();
             if (pepIonID.FragmentPeaks.isEmpty() && Math.max(pepIonID.MaxProbability, pepIonID.TargetedProbability()) > 0.8f) {
-                Logger.getRootLogger().warn("Warning: " + pepIonID.ModSequence + "(MaxProb: " + pepIonID.MaxProbability + ") does not have matched fragment in "+FilenameUtils.getBaseName(ms1lcms.ParentmzXMLName));
+                Logger.getRootLogger().warn("Warning: " + pepIonID.ModSequence + "(MaxProb: " + pepIonID.MaxProbability + ") does not have matched fragment in " + FilenameUtils.getBaseName(ms1lcms.ParentmzXMLName));
                 //MatchFragment();
             }
             pepIonID.ClearPepFragFactory();
@@ -106,7 +106,7 @@ public class DIAAssignQuantUnit implements Runnable {
                     }
                 }
             }
-           
+
             //Singly-charged fragment ion is found
             if (bestfragment != null) {
                 FragmentPeak fragmentpeak = new FragmentPeak();
@@ -148,5 +148,5 @@ public class DIAAssignQuantUnit implements Runnable {
                 pepIonID.FragmentPeaks.add(fragmentpeak);
             }
         }
-    }    
+    }
 }

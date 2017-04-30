@@ -19,7 +19,7 @@ package ExternalPackages.JAligner.matrix;
 /**
  * A utility class to generate a scoring matrix from a fixed match and mismatch
  * scoring scheme.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -27,12 +27,9 @@ public final class MatrixGenerator {
 
     /**
      * Returns scoring matrix from a fixed match/mismatch scoring scheme.
-     * 
-     * @param match
-     *            match score
-     * @param mismatch
-     *            mistmatch score
-     * 
+     *
+     * @param match    match score
+     * @param mismatch mistmatch score
      * @return scoring matrix
      */
     public static Matrix generate(float match, float mismatch) {

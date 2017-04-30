@@ -23,9 +23,10 @@ import java.io.Serializable;
 
 /**
  * Coeluting peak pair
+ *
  * @author Chih-Chiang Tsou
  */
-public class PeakOverlapRegion implements Serializable{
+public class PeakOverlapRegion implements Serializable {
     private static final long serialVersionUID = 2654984654657411L;
 
     public int PeakCurveIndexA;

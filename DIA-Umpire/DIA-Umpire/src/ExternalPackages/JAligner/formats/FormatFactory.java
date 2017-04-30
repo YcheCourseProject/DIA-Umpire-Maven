@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 /**
  * Formats factory.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -29,54 +29,57 @@ public class FormatFactory {
     /**
      * Instance of {@link FormatFactory}
      */
-	private static FormatFactory instance = null;
-    
+    private static FormatFactory instance = null;
+
     /**
      * {@link HashMap} of {@link Format}
      */
-	private HashMap<String, Format> formats = new HashMap<String, Format>();
-	
-	/**
-	 * Hidden constructor
-	 *
-	 */
-	private FormatFactory ( ) {
-		super();
-	}
-	
-	/**
+    private HashMap<String, Format> formats = new HashMap<String, Format>();
+
+    /**
+     * Hidden constructor
+     */
+    private FormatFactory() {
+        super();
+    }
+
+    /**
      * Returns an instance for {@link FormatFactory}.
+     *
      * @return {@link FormatFactory}
      */
     public static FormatFactory getInstance() {
-    	if (instance == null) {
-    		instance = new FormatFactory();
-    	}
-    	return instance;
+        if (instance == null) {
+            instance = new FormatFactory();
+        }
+        return instance;
     }
-    
+
     /**
      * Registers format.
+     *
      * @param format instance of format
      */
     public void registerFormat(Format format) {
-    	formats.put(format.getId(), format);
+        formats.put(format.getId(), format);
     }
-    
+
     /**
      * Returns an instance of {@link Format}.
+     *
      * @param id format id
      * @return {@link Format} or null if id not found
      */
     public Format getFormat(String id) {
-    	return (Format) formats.get(id);
+        return (Format) formats.get(id);
     }
-    
+
     /**
      * Returns a list of registered formats
+     *
      * @return {@link Collection}
      */
-    public Collection<String> getFormats( ) {
-    	return formats.keySet();
+    public Collection<String> getFormats() {
+        return formats.keySet();
     }
 }

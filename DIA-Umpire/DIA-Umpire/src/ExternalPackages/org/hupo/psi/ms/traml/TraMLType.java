@@ -17,11 +17,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Container for the HUPO PSI TraML format for encoding selected reaction monitoring transitions and other target lists
- * 
+ * <p>
  * <p>Java class for TraMLType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="TraMLType">
  *   &lt;complexContent>
@@ -44,21 +44,19 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TraMLType", propOrder = {
-    "cvList",
-    "sourceFileList",
-    "contactList",
-    "publicationList",
-    "instrumentList",
-    "softwareList",
-    "proteinList",
-    "compoundList",
-    "transitionList",
-    "targetList"
+        "cvList",
+        "sourceFileList",
+        "contactList",
+        "publicationList",
+        "instrumentList",
+        "softwareList",
+        "proteinList",
+        "compoundList",
+        "transitionList",
+        "targetList"
 })
 public class TraMLType {
 
@@ -89,11 +87,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the cvList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CvListType }
-     *     
+     *
+     * @return possible object is
+     * {@link CvListType }
      */
     public CvListType getCvList() {
         return cvList;
@@ -101,11 +97,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the cvList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CvListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link CvListType }
      */
     public void setCvList(CvListType value) {
         this.cvList = value;
@@ -113,11 +107,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the sourceFileList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SourceFileListType }
-     *     
+     *
+     * @return possible object is
+     * {@link SourceFileListType }
      */
     public SourceFileListType getSourceFileList() {
         return sourceFileList;
@@ -125,11 +117,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the sourceFileList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SourceFileListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link SourceFileListType }
      */
     public void setSourceFileList(SourceFileListType value) {
         this.sourceFileList = value;
@@ -137,11 +127,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the contactList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ContactListType }
-     *     
+     *
+     * @return possible object is
+     * {@link ContactListType }
      */
     public ContactListType getContactList() {
         return contactList;
@@ -149,11 +137,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the contactList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ContactListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link ContactListType }
      */
     public void setContactList(ContactListType value) {
         this.contactList = value;
@@ -161,11 +147,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the publicationList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PublicationListType }
-     *     
+     *
+     * @return possible object is
+     * {@link PublicationListType }
      */
     public PublicationListType getPublicationList() {
         return publicationList;
@@ -173,11 +157,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the publicationList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PublicationListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link PublicationListType }
      */
     public void setPublicationList(PublicationListType value) {
         this.publicationList = value;
@@ -185,11 +167,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the instrumentList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link InstrumentListType }
-     *     
+     *
+     * @return possible object is
+     * {@link InstrumentListType }
      */
     public InstrumentListType getInstrumentList() {
         return instrumentList;
@@ -197,11 +177,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the instrumentList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link InstrumentListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link InstrumentListType }
      */
     public void setInstrumentList(InstrumentListType value) {
         this.instrumentList = value;
@@ -209,11 +187,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the softwareList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SoftwareListType }
-     *     
+     *
+     * @return possible object is
+     * {@link SoftwareListType }
      */
     public SoftwareListType getSoftwareList() {
         return softwareList;
@@ -221,11 +197,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the softwareList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SoftwareListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link SoftwareListType }
      */
     public void setSoftwareList(SoftwareListType value) {
         this.softwareList = value;
@@ -233,11 +207,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the proteinList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ProteinListType }
-     *     
+     *
+     * @return possible object is
+     * {@link ProteinListType }
      */
     public ProteinListType getProteinList() {
         return proteinList;
@@ -245,11 +217,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the proteinList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ProteinListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link ProteinListType }
      */
     public void setProteinList(ProteinListType value) {
         this.proteinList = value;
@@ -257,11 +227,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the compoundList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CompoundListType }
-     *     
+     *
+     * @return possible object is
+     * {@link CompoundListType }
      */
     public CompoundListType getCompoundList() {
         return compoundList;
@@ -269,11 +237,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the compoundList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CompoundListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link CompoundListType }
      */
     public void setCompoundList(CompoundListType value) {
         this.compoundList = value;
@@ -281,11 +247,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the transitionList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TransitionListType }
-     *     
+     *
+     * @return possible object is
+     * {@link TransitionListType }
      */
     public TransitionListType getTransitionList() {
         return transitionList;
@@ -293,11 +257,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the transitionList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TransitionListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link TransitionListType }
      */
     public void setTransitionList(TransitionListType value) {
         this.transitionList = value;
@@ -305,11 +267,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the targetList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TargetListType }
-     *     
+     *
+     * @return possible object is
+     * {@link TargetListType }
      */
     public TargetListType getTargetList() {
         return targetList;
@@ -317,11 +277,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the targetList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TargetListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link TargetListType }
      */
     public void setTargetList(TargetListType value) {
         this.targetList = value;
@@ -329,11 +287,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
@@ -341,11 +297,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;
@@ -353,11 +307,9 @@ public class TraMLType {
 
     /**
      * Gets the value of the version property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getVersion() {
         return version;
@@ -365,11 +317,9 @@ public class TraMLType {
 
     /**
      * Sets the value of the version property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setVersion(String value) {
         this.version = value;

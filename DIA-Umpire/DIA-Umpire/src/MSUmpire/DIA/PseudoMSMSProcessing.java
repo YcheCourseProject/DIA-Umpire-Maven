@@ -25,6 +25,7 @@ import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeakDataStructure.PrecursorFragmentPairEdge;
 import MSUmpire.PeakDataStructure.SortedCorrFrag;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 
 /**
  * Preprocessing to generate pseudo MS/MS spectra
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PseudoMSMSProcessing implements Runnable {
@@ -205,9 +207,8 @@ public class PseudoMSMSProcessing implements Runnable {
         XYPointCollection Scan = new XYPointCollection();
         for (PrecursorFragmentPairEdge fragmentClusterUnit : fragments) {
             if (parameter.AdjustFragIntensity) {
-                Scan.AddPointKeepMaxIfCloseValueExisted(fragmentClusterUnit.FragmentMz, fragmentClusterUnit.Intensity * fragmentClusterUnit.Correlation * fragmentClusterUnit.Correlation, parameter.MS2PPM);                
-            }
-            else{
+                Scan.AddPointKeepMaxIfCloseValueExisted(fragmentClusterUnit.FragmentMz, fragmentClusterUnit.Intensity * fragmentClusterUnit.Correlation * fragmentClusterUnit.Correlation, parameter.MS2PPM);
+            } else {
                 Scan.AddPointKeepMaxIfCloseValueExisted(fragmentClusterUnit.FragmentMz, fragmentClusterUnit.Intensity, parameter.MS2PPM);
             }
         }

@@ -22,21 +22,23 @@ package MSUmpire.Utility;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class MSConvert {
 
-    public String msconvertpath="C:/inetpub/tpp-bin/msconvert";
+    public String msconvertpath = "C:/inetpub/tpp-bin/msconvert";
     public String SpectrumPath;
-    public MSConvert(String SpectrumPath){
-        this.SpectrumPath=SpectrumPath;
+
+    public MSConvert(String SpectrumPath) {
+        this.SpectrumPath = SpectrumPath;
     }
-    public void Convert(){
+
+    public void Convert() {
         try {
             String[] msconvertcmd = {msconvertpath, "--mzXML", "--32", "-z", SpectrumPath, "-o", FilenameUtils.getFullPath(SpectrumPath)};
             Process p = Runtime.getRuntime().exec(msconvertcmd);
@@ -54,5 +56,5 @@ public class MSConvert {
             java.util.logging.Logger.getLogger(MSConvert.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

@@ -22,16 +22,15 @@ package MSUmpire.BaseDataStructure;
 import java.io.Serializable;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class SpectralDataType implements Serializable{
+public class SpectralDataType implements Serializable {
     private static final long serialVersionUID = 5497131841318L;
 
     public enum DataType {
         DDA,
         MALDI,
-        DIA_F_Window,        
+        DIA_F_Window,
         DIA_V_Window,
         pSMART,
         MSe,

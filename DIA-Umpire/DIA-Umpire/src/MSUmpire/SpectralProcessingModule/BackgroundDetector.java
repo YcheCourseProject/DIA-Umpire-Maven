@@ -20,11 +20,13 @@
 package MSUmpire.SpectralProcessingModule;
 
 import MSUmpire.BaseDataStructure.ScanData;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Background detection algorithm
+ *
  * @author Chih-Chiang Tsou
  */
 public class BackgroundDetector {
@@ -66,12 +68,12 @@ public class BackgroundDetector {
         ArrayList<Float> IntList = new ArrayList<>();
         for (int i = 0; i < Scan.Data.size(); i++) {
             IntList.add(Scan.Data.get(i).getY());
-        }        
+        }
         Collections.sort(IntList);
         float upper = IntList.get((int) (IntList.size() * 0.7f));
         float lower = IntList.get(0);
 
-        if(upper<=lower+0.001){
+        if (upper <= lower + 0.001) {
             return;
         }
         int count1 = 0;
@@ -82,7 +84,7 @@ public class BackgroundDetector {
 
         float bk = 0f;
         float interval = (upper - lower) / 20f;
-        
+
         for (bk = lower; bk < upper; bk += interval) {
             count1 = 0;
             count2 = 0;
@@ -105,10 +107,10 @@ public class BackgroundDetector {
                             count4++;
                         } else if (dist < 0.23f) {
                             noise++;
-                        }                        
+                        }
                     }
-                    preidx=i;
-                }                
+                    preidx = i;
+                }
             }
             if (noise < (count1 + count2 + count3 + count4) * Ratio) {
                 break;

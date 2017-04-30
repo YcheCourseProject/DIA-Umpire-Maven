@@ -23,16 +23,17 @@ import java.io.Serializable;
 
 /**
  * Fragment peak data structure
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class FragmentPeak extends PeptideFragment implements Serializable{
+public class FragmentPeak extends PeptideFragment implements Serializable {
     private static final long serialVersionUID = 986274638L;
 
     public float intensity;
     public float corr;
     public float ppm;
     public float ApexDelta;
-    public float RTOverlapP;    
+    public float RTOverlapP;
     public float Prob1;
     public float Prob2;
     public float RT;

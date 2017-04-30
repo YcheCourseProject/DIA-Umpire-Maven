@@ -20,7 +20,7 @@ import java.util.Random;
 
 /**
  * This class contains a random generator for protein sequences.
- * 
+ *
  * @author Bram Minnaert
  */
 
@@ -29,8 +29,8 @@ public class RandomSequenceGenerator {
     /**
      * All possible characters
      */
-    private static final char[] CHARS = { 'A', 'R', 'N', 'D', 'C', 'Q', 'E',
-            'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V' };
+    private static final char[] CHARS = {'A', 'R', 'N', 'D', 'C', 'Q', 'E',
+            'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'};
 
     /**
      * Number of possible characters
@@ -44,9 +44,8 @@ public class RandomSequenceGenerator {
 
     /**
      * Returns random sequence
-     * 
-     * @param length
-     *            Size of the sequence
+     *
+     * @param length Size of the sequence
      * @return Random sequence
      */
     public static String generate(int length) {
@@ -63,9 +62,8 @@ public class RandomSequenceGenerator {
 
     /**
      * Displays 10 random protein sequences with length 50.
-     * 
-     * @param args
-     *            no args
+     *
+     * @param args no args
      */
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {

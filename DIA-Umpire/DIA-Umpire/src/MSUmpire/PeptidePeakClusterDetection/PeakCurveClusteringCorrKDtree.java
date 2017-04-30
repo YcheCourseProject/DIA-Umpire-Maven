@@ -26,10 +26,12 @@ import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeakDataStructure.PeakCurve;
 import MSUmpire.PeakDataStructure.SortedCurveCollectionMZ;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
 import net.sf.javaml.core.kdtree.KDTree;
 import net.sf.javaml.core.kdtree.KeySizeException;
 import org.apache.avalon.framework.ExceptionUtil;
@@ -37,13 +39,14 @@ import org.apache.log4j.Logger;
 
 /**
  * Isotope peak curve clustering based on peak profile correlation. The searching is using KD tree
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PeakCurveClusteringCorrKDtree implements Runnable {
 
     PeakCurve peakA;
     InstrumentParameter parameter;
-    MassDefect MD=new MassDefect();
+    MassDefect MD = new MassDefect();
     private final KDTree PeakCurveSearchTree;
     private final TreeMap<Float, XYData>[] IsotopePatternMap;
     public ArrayList<PeakCluster> ResultClusters = new ArrayList<>();
@@ -52,7 +55,7 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
     private final int MinNoOfClusters;
     private final int StartCharge;
     private final int EndCharge;
-    
+
     public PeakCurveClusteringCorrKDtree(PeakCurve targeCurve, KDTree PeakCurveSearchTree, InstrumentParameter parameter, TreeMap<Float, XYData>[] IsotopePatternMap, int StartCharge, int EndCharge, int MaxNoClusters, int MinNoClusters) {
         this.peakA = targeCurve;
         this.PeakCurveSearchTree = PeakCurveSearchTree;
@@ -70,31 +73,31 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
         float lowrt = peakA.ApexRT - parameter.ApexDelta;
         float highrt = peakA.ApexRT + parameter.ApexDelta;
         float lowmz = InstrumentParameter.GetMzByPPM(peakA.TargetMz, 1, parameter.MS1PPM);
-        float highmz = InstrumentParameter.GetMzByPPM((peakA.TargetMz+ ((float)this.MaxNoOfClusters/this.StartCharge)), 1, -parameter.MS1PPM);
-       
-        Object[] found=null;
+        float highmz = InstrumentParameter.GetMzByPPM((peakA.TargetMz + ((float) this.MaxNoOfClusters / this.StartCharge)), 1, -parameter.MS1PPM);
+
+        Object[] found = null;
         try {
-            found = PeakCurveSearchTree.range(new double[]{lowrt,lowmz}, new double[]{highrt,highmz});
+            found = PeakCurveSearchTree.range(new double[]{lowrt, lowmz}, new double[]{highrt, highmz});
         } catch (KeySizeException ex) {
             Logger.getRootLogger().error(ExceptionUtil.printStackTrace(ex));
         }
-        if(found==null || found.length==0){
+        if (found == null || found.length == 0) {
             return;
         }
-        SortedCurveCollectionMZ PeakCurveListMZ=new SortedCurveCollectionMZ();
-        for(Object peakCurve : found){
-            PeakCurveListMZ.add((PeakCurve)peakCurve);
+        SortedCurveCollectionMZ PeakCurveListMZ = new SortedCurveCollectionMZ();
+        for (Object peakCurve : found) {
+            PeakCurveListMZ.add((PeakCurve) peakCurve);
         }
-        
+
         float Arange = peakA.EndRT() - peakA.StartRT();
         for (int charge = EndCharge; charge >= StartCharge; charge--) {
-            float mass=charge * (peakA.TargetMz - (float)ElementaryIon.proton.getTheoreticMass());
-            if(mass<parameter.MinPrecursorMass || mass>parameter.MaxPrecursorMass || (parameter.MassDefectFilter && !MD.InMassDefectRange(mass, parameter.MassDefectOffset))){
+            float mass = charge * (peakA.TargetMz - (float) ElementaryIon.proton.getTheoreticMass());
+            if (mass < parameter.MinPrecursorMass || mass > parameter.MaxPrecursorMass || (parameter.MassDefectFilter && !MD.InMassDefectRange(mass, parameter.MassDefectOffset))) {
                 continue;
             }
             PeakCluster peakCluster = new PeakCluster(MaxNoOfClusters, charge);
             peakCluster.IsoPeaksCurves[0] = peakA;
-            peakCluster.MonoIsotopePeak=peakA;
+            peakCluster.MonoIsotopePeak = peakA;
             XYData[] Ranges = new XYData[MaxNoOfClusters - 1];
             for (int i = 0; i < MaxNoOfClusters - 1; i++) {
                 Entry range = IsotopePatternMap[i].ceilingEntry(peakCluster.NeutralMass());
@@ -106,11 +109,11 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
 
             for (int pkidx = 1; pkidx < MaxNoOfClusters; pkidx++) {
                 float ppmthreshold = parameter.MS1PPM + (parameter.MS1PPM * pkidx * 0.5f);
-                float lowtheomz = InstrumentParameter.GetMzByPPM(peakA.TargetMz + (pkidx * ((float)ElementaryIon.proton.getTheoreticMass() / charge)), charge, ppmthreshold);
+                float lowtheomz = InstrumentParameter.GetMzByPPM(peakA.TargetMz + (pkidx * ((float) ElementaryIon.proton.getTheoreticMass() / charge)), charge, ppmthreshold);
                 float uptheomz = InstrumentParameter.GetMzByPPM(peakA.TargetMz + (pkidx * ((float) ElementaryIon.proton.getTheoreticMass() / charge)), charge, -ppmthreshold);
                 int startmzidx = PeakCurveListMZ.BinarySearchLower(lowtheomz);
 
-                float theomz = peakA.TargetMz + (pkidx * ((float)ElementaryIon.proton.getTheoreticMass() / charge));
+                float theomz = peakA.TargetMz + (pkidx * ((float) ElementaryIon.proton.getTheoreticMass() / charge));
                 float maxscore = 0f;
                 float maxcorr = 0f;
                 float maxoverlap = 0f;
@@ -157,8 +160,8 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
                             float PeakIntA = peakA.ApexInt;
                             float PeakIntB = peakB.GetMaxIntensityByRegionRange(Math.max(peakA.StartRT(), peakB.StartRT()), Math.min(peakB.EndRT(), peakA.EndRT()));
 
-                            if ((parameter.TargetIDOnly && corr>0.2f) || corr > parameter.IsoCorrThreshold ) {
-                            //if (corr > parameter.IsoCorrThreshold || (PeakIntA > PeakIntB*1.5f && PeakIntB>0.1f * PeakIntA && (peakA.EndScan-peakA.StartScan)>4 && (peakB.EndScan-peakB.StartScan)>4)) {
+                            if ((parameter.TargetIDOnly && corr > 0.2f) || corr > parameter.IsoCorrThreshold) {
+                                //if (corr > parameter.IsoCorrThreshold || (PeakIntA > PeakIntB*1.5f && PeakIntB>0.1f * PeakIntA && (peakA.EndScan-peakA.StartScan)>4 && (peakB.EndScan-peakB.StartScan)>4)) {
                                 float intscore = 0f;
                                 float IntRatio = PeakIntB / PeakIntA;
 
@@ -207,13 +210,13 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
                 peakCluster.AssignConfilictCorr();
                 peakCluster.LeftInt = peakA.GetSmoothedList().Data.get(0).getY();
                 peakCluster.RightInt = peakA.GetSmoothedList().Data.get(peakA.GetSmoothedList().PointCount() - 1).getY();
-                if (parameter.TargetIDOnly ||peakCluster.IsoMapProb > parameter.IsoPattern) {
+                if (parameter.TargetIDOnly || peakCluster.IsoMapProb > parameter.IsoPattern) {
                     ResultClusters.add(peakCluster);
-                    if (!parameter.TargetIDOnly ||(parameter.RemoveGroupedPeaks && peakCluster.Corrs[0] > parameter.RemoveGroupedPeaksCorr && peakCluster.OverlapP > parameter.RemoveGroupedPeaksRTOverlap)) {
+                    if (!parameter.TargetIDOnly || (parameter.RemoveGroupedPeaks && peakCluster.Corrs[0] > parameter.RemoveGroupedPeaksCorr && peakCluster.OverlapP > parameter.RemoveGroupedPeaksRTOverlap)) {
                         for (int i = 1; i < peakCluster.IsoPeaksCurves.length; i++) {
                             PeakCurve peak = peakCluster.IsoPeaksCurves[i];
                             if (peak != null && peakCluster.Corrs[i - 1] > parameter.RemoveGroupedPeaksCorr && peakCluster.OverlapRT[i - 1] > parameter.RemoveGroupedPeaksRTOverlap) {
-                                peak.ChargeGrouped.add(charge);                      
+                                peak.ChargeGrouped.add(charge);
                             }
                         }
                     }
@@ -221,7 +224,7 @@ public class PeakCurveClusteringCorrKDtree implements Runnable {
             }
         }
 
-        PeakCurveListMZ=null;
+        PeakCurveListMZ = null;
         //System.out.print("....done\n");
     }
 }

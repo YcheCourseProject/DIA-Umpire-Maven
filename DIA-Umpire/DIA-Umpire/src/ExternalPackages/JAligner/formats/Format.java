@@ -20,38 +20,41 @@ import ExternalPackages.JAligner.Alignment;
 
 /**
  * Abstract format
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public abstract class Format {
-	
-	/**
-	 * Format id
-	 */
-	private String id = null;
-	
-	/**
-	 * Formats alignment
-	 * @param alignment
-	 * @return formatted alignment
-	 * @see Alignment
-	 */
-	public abstract String format(Alignment alignment);
-	
-	/**
-	 * Sets format id
-	 * @param id to set
-	 */
-	public void setId (String id) {
-		this.id =  id;
-	}
-	
-	/**
-	 * Returns format id
-	 * @return id
-	 */
-	public String getId ( ) {
-		return this.id == null ? this.getClass().getName() : this.id;
-	}
+
+    /**
+     * Format id
+     */
+    private String id = null;
+
+    /**
+     * Formats alignment
+     *
+     * @param alignment
+     * @return formatted alignment
+     * @see Alignment
+     */
+    public abstract String format(Alignment alignment);
+
+    /**
+     * Sets format id
+     *
+     * @param id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns format id
+     *
+     * @return id
+     */
+    public String getId() {
+        return this.id == null ? this.getClass().getName() : this.id;
+    }
 }

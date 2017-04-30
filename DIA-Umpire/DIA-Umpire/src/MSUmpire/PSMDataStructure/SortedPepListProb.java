@@ -20,10 +20,10 @@
 package MSUmpire.PSMDataStructure;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class SortedPepListProb extends SortedList<PepIonID> {

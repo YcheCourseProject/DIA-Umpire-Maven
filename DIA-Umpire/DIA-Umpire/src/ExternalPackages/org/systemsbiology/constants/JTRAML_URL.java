@@ -13,7 +13,7 @@ public class JTRAML_URL {
      * Version of the TraML format used by this document
      */
     public static final String TRAML_XSD_VERSION = "1.0.0";
-    
+
     /**
      * URI of TRAML
      */

@@ -18,16 +18,17 @@ package ExternalPackages.JAligner.ui.clipboard;
 
 /**
  * Listener interface to get notified with the clipboard contents.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public interface ClipboardListener {
-	
-	/**
-	 * Notifies the listener with the current contents of the clipboard.
-	 * @param contents The current contents of the clipboard
-	 */
-	public void clipboardCheck (String contents);
+
+    /**
+     * Notifies the listener with the current contents of the clipboard.
+     *
+     * @param contents The current contents of the clipboard
+     */
+    public void clipboardCheck(String contents);
 
 }

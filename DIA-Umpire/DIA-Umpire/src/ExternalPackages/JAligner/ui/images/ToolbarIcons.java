@@ -20,57 +20,57 @@ import javax.swing.ImageIcon;
 
 /**
  * Toolbar icons
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public abstract class ToolbarIcons {
     /**
-     * Path to the gifs folder 
+     * Path to the gifs folder
      */
-	public static final String GIFS_HOME = "/jaligner/ui/images/gifs/";
-    
+    public static final String GIFS_HOME = "/jaligner/ui/images/gifs/";
+
     /**
      * Open icon
      */
     public static final ImageIcon OPEN = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "open.gif"));
-    
+
     /**
      * Save icon
      */
     public static final ImageIcon SAVE = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "save.gif"));
-    
+
     /**
      * Cut icon
      */
     public static final ImageIcon CUT = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "cut.gif"));
-    
+
     /**
      * Copy icon
      */
     public static final ImageIcon COPY = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "copy.gif"));
-    
+
     /**
      * Paste icon
      */
     public static final ImageIcon PASTE = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "paste.gif"));
-    
+
     /**
      * Delete icon
      */
     public static final ImageIcon DELETE = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "delete.gif"));
-    
+
     /**
      * Close icon
      */
     public static final ImageIcon CLOSE = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "close.gif"));
-    
+
     /**
      * About icon
      */
     public static final ImageIcon ABOUT = new ImageIcon(ToolbarIcons.class.getResource(GIFS_HOME + "about.gif"));
 
-	
+
     /**
      * Print icon
      */

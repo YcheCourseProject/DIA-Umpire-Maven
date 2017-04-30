@@ -81,7 +81,7 @@ public class MatrixLoader {
             try {
                 is = new FileInputStream(matrix);
             } catch (Exception e) {
-                String message = "Failed opening input stream: "+ e.getMessage();
+                String message = "Failed opening input stream: " + e.getMessage();
                 logger.log(Level.SEVERE, message, e);
                 throw new MatrixLoaderException(message);
             }
@@ -120,7 +120,7 @@ public class MatrixLoader {
             // Skip the comment lines
             while ((line = reader.readLine()) != null
                     && line.trim().charAt(0) == COMMENT_STARTER)
-				;
+                ;
         } catch (Exception e) {
             String message = "Failed reading from input stream: "
                     + e.getMessage();

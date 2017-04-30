@@ -20,11 +20,11 @@
 package MSUmpire.PeakDataStructure;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class SortedCurveCollectionMZ extends SortedList<PeakCurve> implements Serializable {

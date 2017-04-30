@@ -21,6 +21,7 @@ package MSUmpire.SpectrumParser;
 
 import MSUmpire.BaseDataStructure.SpectralDataType;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,21 +30,23 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.TreeMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 /**
  * Definitions of DIA type and isolation window settings
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class DIA_Setting implements Serializable{
+public class DIA_Setting implements Serializable {
     private static final long serialVersionUID = 646984181894L;
     public TreeMap<XYData, ArrayList<Integer>> DIAWindows = new TreeMap<XYData, ArrayList<Integer>>();
     public TreeMap<XYData, ArrayList<Integer>> MS1Windows = new TreeMap<XYData, ArrayList<Integer>>();
     public float F_DIA_WindowSize = 25;
     public SpectralDataType.DataType dataType;
- 
+
     public void WriteDIASettingSerialization(String mzXMLFileName) {
         try {
             Logger.getRootLogger().info("Writing DIA setting to file:" + FilenameUtils.getFullPath(mzXMLFileName) + FilenameUtils.getBaseName(mzXMLFileName) + "_diasetting.ser...");
@@ -73,7 +76,7 @@ public class DIA_Setting implements Serializable{
 
         } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
-            return null;        
+            return null;
         }
     }
 

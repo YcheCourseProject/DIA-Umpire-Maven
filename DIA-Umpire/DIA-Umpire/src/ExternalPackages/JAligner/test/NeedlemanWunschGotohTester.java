@@ -31,7 +31,7 @@ import java.util.Random;
 
 /**
  * Testing the scores of the alignments of {@link ExternalPackages.JAligner.NeedlemanWunschGotoh}.
- * 
+ *
  * @author Bram Minnaert
  */
 
@@ -46,7 +46,7 @@ public class NeedlemanWunschGotohTester {
 
         try {
             List<String> matrices = new ArrayList<String>();
-            for (Iterator<String> i = MatrixLoader.list().iterator(); i.hasNext();) {
+            for (Iterator<String> i = MatrixLoader.list().iterator(); i.hasNext(); ) {
                 matrices.add(i.next());
             }
             int countOfMatrices = matrices.size();

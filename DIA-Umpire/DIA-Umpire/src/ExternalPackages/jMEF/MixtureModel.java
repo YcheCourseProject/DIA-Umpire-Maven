@@ -12,13 +12,11 @@ import java.util.Random;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A mixture model is a powerful framework commonly used to estimate the
  * probability density function (PDF) of a random variable. Let us consider a
  * mixture model \f$f\f$ of size \f$n\f$. The probability density function
@@ -84,7 +82,7 @@ public class MixtureModel implements Serializable {
     /**
      * Saves a mixture model in a specified output file.
      *
-     * @param mm mixture model to be saved
+     * @param mm       mixture model to be saved
      * @param fileName file name where the mixture model has to be saved
      */
     public static void save(MixtureModel mm, String fileName) {
@@ -278,8 +276,8 @@ public class MixtureModel implements Serializable {
     /**
      * Estimates the Kullback-Leibler divergence using a Monte-Carlo method.
      *
-     * @param f mixture model
-     * @param g mixture model
+     * @param f      mixture model
+     * @param g      mixture model
      * @param points points drawn from f
      * @return \f$ D_{\mathrm{KL}}(f\|g)\f$
      */

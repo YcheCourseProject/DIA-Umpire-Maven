@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Amino acid sequence of the protein
- * 
+ * <p>
  * <p>Java class for SequenceType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="SequenceType">
  *   &lt;complexContent>
@@ -29,12 +29,10 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SequenceType", propOrder = {
-    "content"
+        "content"
 })
 public class SequenceType {
 
@@ -43,11 +41,9 @@ public class SequenceType {
 
     /**
      * Amino acid sequence of the protein
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getContent() {
         return content;
@@ -55,11 +51,9 @@ public class SequenceType {
 
     /**
      * Sets the value of the content property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setContent(String value) {
         this.content = value;

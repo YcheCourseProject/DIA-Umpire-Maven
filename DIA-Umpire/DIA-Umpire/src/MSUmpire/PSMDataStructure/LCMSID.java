@@ -32,6 +32,7 @@ import com.compomics.util.experiment.biology.ions.ElementaryIon;
 import com.compomics.util.experiment.biology.ions.PeptideFragmentIon;
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,6 +42,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -48,6 +50,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * Identification data structure for a LC-MS run
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class LCMSID implements Serializable {
@@ -66,17 +69,17 @@ public class LCMSID implements Serializable {
     private HashMap<String, PepIonID> MappedPepIonList;
     private HashMap<Integer, PepIonID> MappedPepIonIndexList;
     public HashMap<String, HashMap<String, PepIonID>> MappedPeptideList;
-    
+
     public HashMap<String, PepIonID> AssignedPepIonList;
     public HashMap<String, PepIonID> ProtXMLPepIonList;
-    
+
     public HashMap<String, ProtID> ProteinList;
     public HashMap<String, ProtID> IndisProteinIDList;
-    
+
     public HashMap<String, ModificationInfo> ModificationList;
     public HashMap<String, ProtID> PepXMLProteinList;
-    
-    
+
+
     public String DataBase;
     public String SearchEngine;
     public String msModel;
@@ -96,7 +99,7 @@ public class LCMSID implements Serializable {
     private float NorFactor = 1f;
     private transient FastaParser fastaParser;
     public HashMap<String, String> LuciphorResult;
-    public String Filename; 
+    public String Filename;
 
     private FastaParser GetFastaParser() {
         if (fastaParser == null) {
@@ -105,14 +108,14 @@ public class LCMSID implements Serializable {
         }
         return fastaParser;
     }
-  
+
     public void WriteLCMSIDSerialization(String filepath) {
         WriteLCMSIDSerialization(filepath, "");
     }
 
-    public void WriteLCMSIDSerialization(String filepath, String tag) {        
+    public void WriteLCMSIDSerialization(String filepath, String tag) {
         if (!FSWrite(filepath, tag)) {
-            Logger.getRootLogger().debug("Writing LCMSID FS failed. writing standard serialization instead");            
+            Logger.getRootLogger().debug("Writing LCMSID FS failed. writing standard serialization instead");
         }
     }
 
@@ -136,22 +139,22 @@ public class LCMSID implements Serializable {
         }
         return newLcmsid;
     }
-    
-    public HashMap<String,LCMSID> GetLCMSIDFileMap(){
-        
-        HashMap<String,LCMSID> lcmsidmap=new HashMap<>();
-        
-        for(PSM psm : this.PSMList.values()){
+
+    public HashMap<String, LCMSID> GetLCMSIDFileMap() {
+
+        HashMap<String, LCMSID> lcmsidmap = new HashMap<>();
+
+        for (PSM psm : this.PSMList.values()) {
             if (!lcmsidmap.containsKey(psm.GetRawNameString())) {
                 LCMSID newLcmsid = CreateEmptyLCMSID();
                 newLcmsid.mzXMLFileName = psm.GetRawNameString();
                 lcmsidmap.put(psm.GetRawNameString(), newLcmsid);
-            }            
-            lcmsidmap.get(psm.GetRawNameString()).AddPSM(psm);            
-        }        
+            }
+            lcmsidmap.get(psm.GetRawNameString()).AddPSM(psm);
+        }
         return lcmsidmap;
     }
-  
+
     private boolean FSWrite(String filepath, String tag) {
         try {
             if (!tag.equals("")) {
@@ -200,10 +203,10 @@ public class LCMSID implements Serializable {
     }
 
     public static LCMSID ReadLCMSIDSerialization(String filepath, String tag) throws Exception {
-        LCMSID lcmsid = FS_Read(filepath, tag);        
+        LCMSID lcmsid = FS_Read(filepath, tag);
         return lcmsid;
     }
-   
+
     public float GetNorFactor() {
         if (NorFactor == 1f) {
             NorFactor = 0f;
@@ -295,7 +298,7 @@ public class LCMSID implements Serializable {
 
     public void AssignProtForPepIon() {
         if (PeptideList != null) {
-            for (String pepseq : PeptideList.keySet()) {                 
+            for (String pepseq : PeptideList.keySet()) {
                 for (ProtID protein : ProteinList.values()) {
                     if (protein.Sequence.contains(pepseq) || (protein.ProtPepSeq != null && protein.ProtPepSeq.contains(pepseq))) {
                         for (PepIonID pepIonID : PeptideList.get(pepseq).values()) {
@@ -326,14 +329,15 @@ public class LCMSID implements Serializable {
             }
         }
     }
-    
+
     public void ExportMappedPepID() throws SQLException, IOException {
         ExportMappedPepIonCSV();
     }
 
-     public void ExportPepID() throws SQLException, IOException {
-         ExportPepID(null);
-     }
+    public void ExportPepID() throws SQLException, IOException {
+        ExportPepID(null);
+    }
+
     public void ExportPepID(String folder) throws IOException {
         ExportPepIonCSV(folder);
         ExportPepPSMCSV(folder);
@@ -342,6 +346,7 @@ public class LCMSID implements Serializable {
     public void ExportProtID() throws SQLException, IOException {
         ExportProtID(null);
     }
+
     public void ExportProtID(String folder) throws SQLException, IOException {
         ExportProtIDCSV(folder);
     }
@@ -355,15 +360,15 @@ public class LCMSID implements Serializable {
     }
 
     private void ExportPepPSMCSV(String folder) throws IOException {
-        if(folder==null | "".equals(folder)){
-            folder=FilenameUtils.getFullPath(mzXMLFileName);
-        }        
+        if (folder == null | "".equals(folder)) {
+            folder = FilenameUtils.getFullPath(mzXMLFileName);
+        }
         Logger.getRootLogger().info("Writing PSM result to file:" + folder + FilenameUtils.getBaseName(mzXMLFileName) + "_PSMs.csv...");
         FileWriter writer = new FileWriter(folder + FilenameUtils.getBaseName(mzXMLFileName) + "_PSMs.csv");
         writer.write("SpecID,Sequence,ModSeq,TPPModSeq,Modification,Charge,mz,NeutralPepMass,ObservedMass,RT,AdjustedRT,Rank,ScanNo,PreAA,NextAA,MissedCleavage,ExpectValue,MassError,Prob,Rawname,ParentPepIndex,MS1Quant\n");
         for (PepIonID pepion : PepIonList.values()) {
             for (PSM psm : pepion.GetPSMList()) {
-                writer.write(psm.SpecNumber + "," + psm.Sequence + "," + psm.ModSeq + "," + psm.TPPModSeq + "," +  psm.GetModificationString() + "," + psm.Charge + "," + psm.ObserPrecursorMz() + "," + psm.NeutralPepMass + "," + psm.ObserPrecursorMass + "," + psm.RetentionTime + "," + psm.NeighborMaxRetentionTime + "," + psm.Rank + "," + psm.ScanNo + "," + psm.PreAA + "," + psm.NextAA + "," + psm.MissedCleavage + "," + psm.expect + "," + psm.MassError + "," + psm.Probability + "," + psm.RawDataName + "," + pepion.Index + "," + pepion.GetMS1() + "\n");
+                writer.write(psm.SpecNumber + "," + psm.Sequence + "," + psm.ModSeq + "," + psm.TPPModSeq + "," + psm.GetModificationString() + "," + psm.Charge + "," + psm.ObserPrecursorMz() + "," + psm.NeutralPepMass + "," + psm.ObserPrecursorMass + "," + psm.RetentionTime + "," + psm.NeighborMaxRetentionTime + "," + psm.Rank + "," + psm.ScanNo + "," + psm.PreAA + "," + psm.NextAA + "," + psm.MissedCleavage + "," + psm.expect + "," + psm.MassError + "," + psm.Probability + "," + psm.RawDataName + "," + pepion.Index + "," + pepion.GetMS1() + "\n");
             }
         }
         writer.close();
@@ -381,10 +386,10 @@ public class LCMSID implements Serializable {
     }
 
     private void ExportPepIonCSV(String folder) throws IOException {
-        if(folder==null | "".equals(folder)){
-            folder=FilenameUtils.getFullPath(mzXMLFileName);
+        if (folder == null | "".equals(folder)) {
+            folder = FilenameUtils.getFullPath(mzXMLFileName);
         }
-        
+
         Logger.getRootLogger().info("Writing PepIon result to file:" + folder + FilenameUtils.getBaseName(mzXMLFileName) + "_PepIonIDs.csv...");
         FileWriter writer = new FileWriter(folder + FilenameUtils.getBaseName(mzXMLFileName) + "_PepIonIDs.csv");
         writer.write("PepIndex,Sequence,ModSeq,TPPModSeq,IsNonDegenerate,Charge,mz,IDRT,PeakRT,NoPSMs,MS1ClusIndex,MS2ClusIndex,PeakScore,PeakHeight1,PeakHeight2,PeakHeight3,PeakArea1,PeakArea2,PeakArea3\n");
@@ -395,8 +400,8 @@ public class LCMSID implements Serializable {
     }
 
     private void ExportProtIDCSV(String folder) throws IOException {
-        if(folder==null | "".equals(folder)){
-            folder=FilenameUtils.getFullPath(mzXMLFileName);
+        if (folder == null | "".equals(folder)) {
+            folder = FilenameUtils.getFullPath(mzXMLFileName);
         }
         Logger.getRootLogger().info("Writing ProteinID result to file:" + folder + FilenameUtils.getBaseName(mzXMLFileName) + "_ProtIDs.csv...");
         FileWriter writer = new FileWriter(folder + FilenameUtils.getBaseName(mzXMLFileName) + "_ProtIDs.csv");
@@ -599,7 +604,7 @@ public class LCMSID implements Serializable {
         GenearteAssignIonList();
     }
 
-   
+
     public void SetFilterByGroupWeight() {
         for (PepIonID pep : GetPepIonList().values()) {
             pep.FilteringWeight = pep.GroupWeight;
@@ -668,7 +673,7 @@ public class LCMSID implements Serializable {
         FindLocalPWThresholdByFDR();
         RemoveLowProbProteinDecoy();
     }
-    
+
     private void RemoveLowProbProteinDecoy() {
 
         ArrayList<ProtID> removelist = new ArrayList<>();
@@ -682,7 +687,7 @@ public class LCMSID implements Serializable {
         }
         GenearteAssignIonList();
     }
-    
+
     private void FindLocalPWThresholdByFDR() {
         //FileWriter writer = null;
         //try {
@@ -717,7 +722,7 @@ public class LCMSID implements Serializable {
             }
         }
     }
-    
+
     public void RemoveLowLocalPWProtein(float LocalPW) {
         ArrayList<ProtID> removelist = new ArrayList<>();
         for (ProtID protein : ProteinList.values()) {
@@ -817,7 +822,7 @@ public class LCMSID implements Serializable {
 
     public void FilterByPepDecoyFDR(String DecoyTag, float fdr) {
         this.DecoyTag = DecoyTag;
-        this.FDR = fdr;        
+        this.FDR = fdr;
         FindPepProbThresholdByFDR();
         RemoveLowProbPep();
         RemoveDecoyPep();
@@ -856,13 +861,13 @@ public class LCMSID implements Serializable {
             pepIonID.Weight = 0f;
             pepIonID.GroupWeight = 0f;
         }
-        for (ProtID protein : RefID.ProteinList.values()) {            
+        for (ProtID protein : RefID.ProteinList.values()) {
             if (!protein.IsDecoy(DecoyTag)) {
                 ProtID newprot = protein.CloneProtein();
                 newprot.Probability = protein.Probability;
                 newprot.ProtPepSeq = (ArrayList<String>) protein.ProtPepSeq.clone();
 
-                for (PepIonID pep : protein.ProtPeptideID.values()) {                        
+                for (PepIonID pep : protein.ProtPeptideID.values()) {
                     if (PeptideList.containsKey(pep.Sequence)) {
                         for (PepIonID pepIonID : PeptideList.get(pep.Sequence).values()) {
                             pepIonID.Weight = pep.Weight;
@@ -909,7 +914,7 @@ public class LCMSID implements Serializable {
         for (ProtID protein : ProteinList.values()) {
             if (protein.IsDecoy(DecoyTag)) {
                 for (int i = 0; i < protein.IndisProteins.size(); i++) {
-                    if (!(protein.IndisProteins.get(i).startsWith(DecoyTag)|protein.IndisProteins.get(i).endsWith(DecoyTag))) {
+                    if (!(protein.IndisProteins.get(i).startsWith(DecoyTag) | protein.IndisProteins.get(i).endsWith(DecoyTag))) {
                         protein.setAccNo(protein.IndisProteins.get(i));
                         protein.SetDescription(protein.IndisProtDes.get(i));
                         break;
@@ -927,7 +932,7 @@ public class LCMSID implements Serializable {
                 for (PepIonID pep : protein.ProtPeptideID.values()) {
                     boolean include = true;
                     for (String prot : pep.ParentProtString_ProtXML) {
-                        if (!(prot.startsWith(DecoyTag)|prot.endsWith(DecoyTag))) {
+                        if (!(prot.startsWith(DecoyTag) | prot.endsWith(DecoyTag))) {
                             include = false;
                         }
                     }
@@ -966,7 +971,7 @@ public class LCMSID implements Serializable {
         RemoveLowMaxIniProbProteinDecoy();
     }
 
-    
+
     public void AddPeptideID(PepIonID pepID) {
         if (!PepIonList.containsKey(pepID.GetKey())) {
             pepID.Index = PepIonList.size();

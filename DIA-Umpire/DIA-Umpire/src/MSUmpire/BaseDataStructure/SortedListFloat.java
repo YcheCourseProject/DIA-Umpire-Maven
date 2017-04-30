@@ -23,14 +23,14 @@ package MSUmpire.BaseDataStructure;
  */
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class SortedListFloat extends SortedList<Float> implements Serializable{
+public class SortedListFloat extends SortedList<Float> implements Serializable {
 
     public SortedListFloat() {
         super(new Comparator<Float>() {

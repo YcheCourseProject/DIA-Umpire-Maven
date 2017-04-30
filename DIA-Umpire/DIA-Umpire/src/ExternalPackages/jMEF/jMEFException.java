@@ -4,13 +4,11 @@ package ExternalPackages.jMEF;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * This class provides exception for the jMEF library.
  */
 public class jMEFException extends Exception {

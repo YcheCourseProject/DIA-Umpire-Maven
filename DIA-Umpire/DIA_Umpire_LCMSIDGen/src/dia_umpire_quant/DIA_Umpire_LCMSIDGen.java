@@ -25,6 +25,7 @@ import MSUmpire.BaseDataStructure.DBSearchParam;
 import MSUmpire.BaseDataStructure.TandemParam;
 import MSUmpire.PSMDataStructure.PTMManager;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,12 +34,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_LCMSIDGen {
@@ -119,7 +120,7 @@ public class DIA_Umpire_LCMSIDGen {
                     case "PeptideFDR": {
                         tandemPara.PepFDR = Float.parseFloat(value);
                         break;
-                    }                                        
+                    }
                 }
             }
         }
@@ -127,7 +128,7 @@ public class DIA_Umpire_LCMSIDGen {
 
         //Initialize PTM manager using compomics library
         PTMManager.GetInstance();
-        
+
         //Generate DIA file list
         ArrayList<DIAPack> FileList = new ArrayList<>();
 
@@ -180,7 +181,7 @@ public class DIA_Umpire_LCMSIDGen {
                 }
                 Logger.getRootLogger().info("Loading identification results " + mzXMLFile + "....");
 
-                DiaFile.ParsePepXML(tandemPara,null);
+                DiaFile.ParsePepXML(tandemPara, null);
                 DiaFile.BuildStructure();
                 if (!DiaFile.MS1FeatureMap.ReadPeakCluster()) {
                     Logger.getRootLogger().info("Loading peak and structure failed, job is incomplete");

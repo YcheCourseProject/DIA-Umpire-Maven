@@ -4,13 +4,11 @@ package ExternalPackages.jMEF;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A statistical distribution is parameterized by a set of values (parameters).
  * The PVectorMatrix class implements a parameter object. Parameters are
  * represented as a mixed type vector-matrix.

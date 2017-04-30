@@ -20,16 +20,16 @@ import java.util.*;
  * The iterators this list provides are <i>fail-fast</i>, so any structural
  * modification, other than through the iterator itself, cause it to throw a
  * {@link ConcurrentModificationException}.
- *
+ * <p>
  * Once the tree is constructed, "Finalize" function can be called to transform
  * tree data structure to a sorted array to save memory
  *
+ * @param <T> the type of element that this sorted list will store.
  * @author orignalled by Mark Rhodes, modified by Chih-Chiang Tsou
  * @version 1.4
  * @see List
  * @see Collection
  * @see AbstractList
- * @param <T> the type of element that this sorted list will store.
  */
 public class SortedList<T> extends AbstractList<T> implements Serializable {
 
@@ -43,7 +43,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
     protected Object[] FinalizedSortedArray = null;
     protected boolean Finalized = false;
 
-    
+
 //    private synchronized void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
 //        if (!Finalized) {
 //            Finalize();            
@@ -62,7 +62,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
 //            FinalizedSortedArray[i]=in.readObject();
 //        }
 //    }
-    
+
     /**
      * Constructs a new, empty SortedList which sorts the elements according to
      * the given {@code Comparator}.
@@ -379,7 +379,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
      * @param index the index of the element to remove.
      * @return the element which was removed from the list.
      * @throws IllegalArgumentException in the case that the index is not a
-     * valid index.
+     *                                  valid index.
      */
     @Override
     public T remove(int index) {
@@ -435,7 +435,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
      * <i>n</i> is the number of elements in the list.
      *
      * @param toRemove the {@code Node}, which must be a {@code Node} in this
-     * {@code SortedList}.
+     *                 {@code SortedList}.
      */
     protected void remove(Node toRemove) {
         if (Finalized) {
@@ -475,7 +475,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
      * @param index the index of the element to get.
      * @return the element at the given index in this {@code SortedList}.
      * @throws IllegalArgumentException in the case that the index is not a
-     * valid index.
+     *                                  valid index.
      */
     @Override
     public T get(int index) {
@@ -490,9 +490,8 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
      *
      * @param index the index to search for.
      * @return the {@code Node} object at the specified index.
-     *
      * @throws IllegalArgumentException in the case that the the index is not
-     * valid.
+     *                                  valid.
      */
     protected Node findNodeAtIndex(int index) {
         if (Finalized) {
@@ -582,7 +581,7 @@ public class SortedList<T> extends AbstractList<T> implements Serializable {
      *
      * @return an array representation of this list.
      * @throws ClassCastException in the case that the provided array can not
-     * hold objects of this type stored in this {@code SortedList}.
+     *                            hold objects of this type stored in this {@code SortedList}.
      */
     @SuppressWarnings("unchecked")
     @Override

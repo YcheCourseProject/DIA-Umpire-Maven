@@ -24,6 +24,7 @@ package DIA_Umpire_Quant;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.DIA.DIAPack;
 import MSUmpire.DIA.RTAlignedPepIonMapping;
@@ -33,6 +34,7 @@ import MSUmpire.BaseDataStructure.TandemParam;
 import MSUmpire.PSMDataStructure.LCMSID;
 import MSUmpire.PSMDataStructure.PTMManager;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,13 +42,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_IntLibSearch {
@@ -81,8 +83,8 @@ public class DIA_Umpire_IntLibSearch {
         float RTWindow_Int = -1f;
         float Freq = 0f;
         int TopNFrag = 6;
-        
-        
+
+
         TandemParam tandemPara = new TandemParam(DBSearchParam.SearchInstrumentType.TOF5600);
         HashMap<String, File> AssignFiles = new HashMap<>();
 
@@ -113,7 +115,7 @@ public class DIA_Umpire_IntLibSearch {
                 }
                 String type = line.split("=")[0].trim();
                 String value = line.split("=")[1].trim();
-                switch (type) {                   
+                switch (type) {
                     case "Path": {
                         WorkFolder = value;
                         break;
@@ -126,17 +128,17 @@ public class DIA_Umpire_IntLibSearch {
                         NoCPUs = Integer.parseInt(value);
                         break;
                     }
-                    
+
                     case "InternalLibID": {
                         InternalLibID = value;
                         break;
                     }
-                    
+
                     case "RTWindow_Int": {
                         RTWindow_Int = Float.parseFloat(value);
                         break;
                     }
-                    
+
                     case "ProbThreshold": {
                         ProbThreshold = Float.parseFloat(value);
                         break;
@@ -144,7 +146,7 @@ public class DIA_Umpire_IntLibSearch {
                     case "TopNFrag": {
                         TopNFrag = Integer.parseInt(value);
                         break;
-                    }                    
+                    }
                     case "Freq": {
                         Freq = Float.parseFloat(value);
                         break;
@@ -161,19 +163,19 @@ public class DIA_Umpire_IntLibSearch {
         //Initialize PTM manager using compomics library
         PTMManager.GetInstance();
 
-         //Check if the fasta file can be found
+        //Check if the fasta file can be found
         if (!new File(tandemPara.FastaPath).exists()) {
-            Logger.getRootLogger().info("Fasta file :"+tandemPara.FastaPath + " cannot be found, the process will be terminated, please check.");
+            Logger.getRootLogger().info("Fasta file :" + tandemPara.FastaPath + " cannot be found, the process will be terminated, please check.");
             System.exit(1);
-        }               
-        
-        
+        }
+
+
         //Generate DIA file list
         ArrayList<DIAPack> FileList = new ArrayList<>();
         try {
             File folder = new File(WorkFolder);
-            if(!folder.exists()){
-                Logger.getRootLogger().info("The path : "+ WorkFolder + " cannot be found.");
+            if (!folder.exists()) {
+                Logger.getRootLogger().info("The path : " + WorkFolder + " cannot be found.");
                 System.exit(1);
             }
             for (final File fileEntry : folder.listFiles()) {
@@ -218,7 +220,7 @@ public class DIA_Umpire_IntLibSearch {
                     //If the serialization file for ID file existed
                     if (DiaFile.ReadSerializedLCMSID()) {
                         DiaFile.IDsummary.ReduceMemoryUsage();
-                        DiaFile.IDsummary.FastaPath=tandemPara.FastaPath;
+                        DiaFile.IDsummary.FastaPath = tandemPara.FastaPath;
                         FileList.add(DiaFile);
                     }
                 }

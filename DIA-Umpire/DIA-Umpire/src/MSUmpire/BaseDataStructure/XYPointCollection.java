@@ -20,16 +20,17 @@
 package MSUmpire.BaseDataStructure;
 
 import java.io.Serializable;
+
 import org.apache.avalon.framework.activity.Disposable;
 
 /*
  * Collection of two dimensional
  */
+
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class XYPointCollection implements Disposable,Serializable {
+public class XYPointCollection implements Disposable, Serializable {
     private static final long serialVersionUID = 654648165471L;
 
     public float MaxY;
@@ -40,36 +41,36 @@ public class XYPointCollection implements Disposable,Serializable {
         Data = new SortedXYCollectionClass();
     }
 
-    public float GetSumX(){
-        float sum=0f;
-        for(XYData point : Data){
-            sum+=point.getX();
+    public float GetSumX() {
+        float sum = 0f;
+        for (XYData point : Data) {
+            sum += point.getX();
         }
         return sum;
     }
-    
-    public float GetSumY(){
-        float sum=0f;
-        for(XYData point : Data){
-            sum+=point.getY();
+
+    public float GetSumY() {
+        float sum = 0f;
+        for (XYData point : Data) {
+            sum += point.getY();
         }
         return sum;
     }
-    
-        
+
+
     public void AddPoint(float x, float y) {
         this.Data.add(new XYData(x, y));
         if (MaxY < y) {
             MaxY = y;
         }
     }
-    
+
     public void AddPointKeepMaxIfCloseValueExisted(float x, float y, float ppm) {
         boolean insert = true;
         if (this.Data.size() > 0) {
             int idx = GetClosetIndexOfX(x);
             XYData pt = Data.get(idx);
-            if (InstrumentParameter.CalcPPM(pt.getX(),x)<ppm) {
+            if (InstrumentParameter.CalcPPM(pt.getX(), x) < ppm) {
                 insert = false;
                 if (y < pt.getY()) {
                     pt.setY(y);
@@ -122,13 +123,13 @@ public class XYPointCollection implements Disposable,Serializable {
         }
         int oldcount = Data.size();
         SortedXYCollectionClass DataTemp = Data;
-        int startindex=DataTemp.BinarySearchHigher(MinMZ);
+        int startindex = DataTemp.BinarySearchHigher(MinMZ);
         XYData pt = DataTemp.get(startindex);
         float maxintensity = pt.getY();
         float maxmz = pt.getX();
         float gap = pt.getX() / Resolution;
         Data = new SortedXYCollectionClass();
-        for (int i = startindex+1; i < oldcount; i++) {
+        for (int i = startindex + 1; i < oldcount; i++) {
             XYData pti = DataTemp.get(i);
             if (pti.getX() - maxmz < gap) {
                 if (pti.getY() > maxintensity) {
@@ -194,7 +195,7 @@ public class XYPointCollection implements Disposable,Serializable {
         }
         return NewXYCollection;
     }
-    
+
     @Override
     public void dispose() {
         if (Data != null) {

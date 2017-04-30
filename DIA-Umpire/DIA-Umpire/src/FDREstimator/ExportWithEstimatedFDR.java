@@ -25,10 +25,12 @@ import MSUmpire.PSMDataStructure.PepIonID;
 import MSUmpire.SearchResultParser.PepXMLParser;
 import MSUmpire.SearchResultParser.ProtXMLParser;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -36,7 +38,6 @@ import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class ExportWithEstimatedFDR {
@@ -60,7 +61,7 @@ public class ExportWithEstimatedFDR {
             System.out.println("\t-fp\tPeptide FDR\tex: -fp0.05 (default: 0.01, no filtering: -1)");
             System.out.println("\t-d\tDecoy tag prefix\tex: -dDECOY (default: rev_)");
             System.out.println("\t-C\t(0 or 1) Correct mass diff derived from isotope error\tex:-C0 (default:0, no correction)");
-            System.out.println("\t-fa\tFasta file");            
+            System.out.println("\t-fa\tFasta file");
             System.out.println("\t-N\tOutput filename");
             System.out.println("\t-pt\tInitial protein probability filtering threshold\tex: -pt0.5 (default: 0.5, no filtering : -1)");
             System.out.println("\t-rf\tR factor threshold, proteins with protein probablity less than the threshold will be used to estimate the R factor \n\t\tex: -rf0.2 (default: 0.2, do not use R factor: -1)");
@@ -69,12 +70,12 @@ public class ExportWithEstimatedFDR {
 
         ConsoleLogger.SetConsoleLogger(Level.INFO);
         ConsoleLogger.SetFileLogger(Level.DEBUG, FilenameUtils.getFullPath(args[0]) + "parser_debug.log");
-        
+
         float protFDR = 0.01f;
         float pepFDR = 0.01f;
-        float MinpepProb=-1f;
-        float MinprotProb=-1f;
-        boolean CorrectMassDiff=false;
+        float MinpepProb = -1f;
+        float MinprotProb = -1f;
+        boolean CorrectMassDiff = false;
         String DecoyTag = "rev_";
         String Fasta = "";
         String Outputname = "";
@@ -111,15 +112,15 @@ public class ExportWithEstimatedFDR {
                 }
                 if (args[i].startsWith("-N")) {
                     Outputname = args[i].substring(2);
-                    Logger.getRootLogger().info("Output filename: " +Outputname);
+                    Logger.getRootLogger().info("Output filename: " + Outputname);
                 }
                 if (args[i].startsWith("-C")) {
-                    if(args[i].substring(2).equals("1")){
-                        CorrectMassDiff=true;
+                    if (args[i].substring(2).equals("1")) {
+                        CorrectMassDiff = true;
                     }
-                    Logger.getRootLogger().info("Correct mass diff: " +CorrectMassDiff);
+                    Logger.getRootLogger().info("Correct mass diff: " + CorrectMassDiff);
                 }
-                
+
                 if (args[i].startsWith("-pt")) {
                     protprob = Float.parseFloat(args[i].substring(3));
                     Logger.getRootLogger().info("Initial protein probablity filtering threshold: " + protprob);
@@ -137,15 +138,15 @@ public class ExportWithEstimatedFDR {
             }
         }
 
-        if(!Outputname.equals("")){
-            Outputname=Outputname+"_";
+        if (!Outputname.equals("")) {
+            Outputname = Outputname + "_";
         }
-        Outputname=Outputname+MSUmpire.Utility.DateTimeTag.GetTag();
-        
-        LCMSID lcmsid = new LCMSID(Outputname,DecoyTag,Fasta);        
+        Outputname = Outputname + MSUmpire.Utility.DateTimeTag.GetTag();
+
+        LCMSID lcmsid = new LCMSID(Outputname, DecoyTag, Fasta);
         for (String pepxml : PepXML) {
-            LCMSID pepxmlid = new LCMSID(pepxml,DecoyTag,Fasta);
-            PepXMLParser pepxmlparser = new PepXMLParser(pepxmlid, pepxml, MinpepProb,CorrectMassDiff);
+            LCMSID pepxmlid = new LCMSID(pepxml, DecoyTag, Fasta);
+            PepXMLParser pepxmlparser = new PepXMLParser(pepxmlid, pepxml, MinpepProb, CorrectMassDiff);
             if (pepFDR != -1f) {
                 pepxmlid.FilterByPepDecoyFDR(DecoyTag, pepFDR);
             }
@@ -174,7 +175,7 @@ public class ExportWithEstimatedFDR {
             lcmsid.ReMapProPep();
             lcmsid.ExportProtID();
         }
-        lcmsid.CreateInstanceForAllPepIon();        
+        lcmsid.CreateInstanceForAllPepIon();
         lcmsid.ExportPepID();
         Logger.getRootLogger().info("Protein No.:" + lcmsid.ProteinList.size() + "; All peptide ions.:" + lcmsid.GetPepIonList().size());
     }

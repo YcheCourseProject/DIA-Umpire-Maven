@@ -22,20 +22,22 @@ package MSUmpire.SpectralProcessingModule;
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanData;
 
-/** 
+/**
  * Isotope peak grouping for a single MS or MS/MS spectrum
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 
 
-public class ScanIsotopePeakDetectionThread implements Runnable{
-    public ScanPeakGroup scanpeak=null;
-    public ScanIsotopePeakDetectionThread(ScanData scan,InstrumentParameter parameter){
-       scanpeak=new ScanPeakGroup(scan, parameter);
+public class ScanIsotopePeakDetectionThread implements Runnable {
+    public ScanPeakGroup scanpeak = null;
+
+    public ScanIsotopePeakDetectionThread(ScanData scan, InstrumentParameter parameter) {
+        scanpeak = new ScanPeakGroup(scan, parameter);
     }
 
     @Override
     public void run() {
-       scanpeak.PeakGroupDetection();
-    }    
+        scanpeak.PeakGroupDetection();
+    }
 }

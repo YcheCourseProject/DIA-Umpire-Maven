@@ -8,13 +8,11 @@ import java.util.Random;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The univariate Gaussian distribution is an exponential family and, as a
  * consequence, the probability density function is given by \f[ f(x;
  * \mathbf{\Theta}) = \exp \left( \langle t(x), \mathbf{\Theta} \rangle -
@@ -22,9 +20,8 @@ import java.util.Random;
  * natural parameters. This class implements the different functions allowing to
  * express a univariate Gaussian distribution as a member of an exponential
  * family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = ( \mu , \sigma^2 ) \in R \times R^+\f$ - Natural
  * parameters \f$\mathbf{\Theta} = ( \theta_1 , \theta_2 ) \in R \times R^-\f$ -
@@ -53,7 +50,7 @@ public final class UnivariateGaussian extends ExponentialFamily<PVector, PVector
      * Computes \f$ \nabla F ( \mathbf{\Theta} )\f$.
      *
      * @param T natural parameters \f$ \mathbf{\Theta} = ( \theta_1 , \theta_2 )
-     * \f$
+     *          \f$
      * @return \f$ \nabla F(\mathbf{\Theta}) = \left( -\frac{\theta_1}{2
      * \theta_2} , -\frac{1}{2 \theta_2} + \frac{\theta_1^2}{4 \theta_2^2}
      * \right) \f$
@@ -135,14 +132,14 @@ public final class UnivariateGaussian extends ExponentialFamily<PVector, PVector
      * Converts natural parameters to source parameters.
      *
      * @param T natural parameters \f$ \mathbf{\Theta} = ( \theta_1 , \theta_2
-     * )\f$
+     *          )\f$
      * @return source parameters \f$ \mathbf{\Lambda} = \left(
      * -\frac{\theta_1}{2 \theta_2} , -\frac{1}{2 \theta_2} \right) \f$
      */
     public PVector Theta2Lambda(PVector T) {
         PVector L = new PVector(2);
         L.array[0] = -T.array[0] / (2 * T.array[1]);
-        L.array[1] = - 1 / (2 * T.array[1]);
+        L.array[1] = -1 / (2 * T.array[1]);
         L.type = TYPE.SOURCE_PARAMETER;
         return L;
     }
@@ -180,7 +177,7 @@ public final class UnivariateGaussian extends ExponentialFamily<PVector, PVector
     /**
      * Box-Muller transform/generator.
      *
-     * @param mu mean \f$ \mu \f$
+     * @param mu    mean \f$ \mu \f$
      * @param sigma variance \f$ \sigma \f$
      * @return \f$ \mu + \sigma \sqrt{ -2 \log ( x ) } \cos (2 \pi x) \f$ where
      * \f$ x \in \mathcal{U}(0,1)\f$
@@ -202,7 +199,7 @@ public final class UnivariateGaussian extends ExponentialFamily<PVector, PVector
     /**
      * Computes the density value \f$ f(x;\mu,\sigma^2) \f$.
      *
-     * @param x point
+     * @param x     point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;\mu,\sigma^2) = \frac{1}{ \sqrt{2\pi \sigma^2} } \exp
      * \left( - \frac{(x-\mu)^2}{ 2 \sigma^2} \right) \f$

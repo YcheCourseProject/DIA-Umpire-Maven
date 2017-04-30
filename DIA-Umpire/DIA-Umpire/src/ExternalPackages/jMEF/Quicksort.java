@@ -4,13 +4,11 @@ package ExternalPackages.jMEF;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Quicksort class implements the quicksort algorithm.
  */
 public class Quicksort {
@@ -18,7 +16,7 @@ public class Quicksort {
     /**
      * Sorts an array using quicksort algorithm.
      *
-     * @param data array to be sorted
+     * @param data  array to be sorted
      * @param index initial position (index) of the sorted elements
      */
     public static void quicksort(double[] data, int[] index) {
@@ -30,9 +28,9 @@ public class Quicksort {
      * Sorts the left and the right parts of an array using recursive quicksort
      * algorithm.
      *
-     * @param a array to be sorted
-     * @param idx index
-     * @param left left index: sort between left to idx
+     * @param a     array to be sorted
+     * @param idx   index
+     * @param left  left index: sort between left to idx
      * @param right right index: sort between idx to right
      */
     private static void quicksort(double[] a, int[] idx, int left, int right) {
@@ -47,9 +45,9 @@ public class Quicksort {
     /**
      * Creates the partition.
      *
-     * @param a array to be sorted
-     * @param idx array of indexes
-     * @param left left index: sort between left to i
+     * @param a     array to be sorted
+     * @param idx   array of indexes
+     * @param left  left index: sort between left to i
      * @param right right index: sort between i to right
      */
     private static int partition(double[] a, int[] idx, int left, int right) {
@@ -57,7 +55,7 @@ public class Quicksort {
         int j = right;
         while (true) {
             while (a[++i] < a[right])      // find item on left to swap
-				;                        // a[right] acts as sentinel
+                ;                        // a[right] acts as sentinel
             while (a[right] < a[--j]) // find item on right to swap
             {
                 if (j == left) {
@@ -76,10 +74,10 @@ public class Quicksort {
     /**
      * Switches the the values a[i] and a[j] and the indexes idx[i] and idx[j].
      *
-     * @param a array to be sorted
+     * @param a   array to be sorted
      * @param idx array of indexes
-     * @param i index
-     * @param j index
+     * @param i   index
+     * @param j   index
      */
     private static void exch(double[] a, int[] idx, int i, int j) {
         double swap = a[i];
@@ -93,7 +91,7 @@ public class Quicksort {
     /**
      * Shuffles the array a
      *
-     * @param a array to be sorted
+     * @param a   array to be sorted
      * @param idx array of indexes
      */
     private static void shuffle(double[] a, int[] idx) {

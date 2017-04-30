@@ -6,13 +6,11 @@ import ExternalPackages.jMEF.Clustering.CLUSTERING_TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Bregman hierarchical clustering is the generalization of the hierarchical
  * clustering towards the exponential family. Given a set of weighted
  * distributions (mixture model), the Bregman hierarchical clustering builds a
@@ -29,17 +27,19 @@ public class BregmanHierarchicalClustering {
     public enum LINKAGE_CRITERION {
 
         MINIMUM_DISTANCE, MAXIMUM_DISTANCE, AVERAGE_DISTANCE
-    };
+    }
+
+    ;
 
     /**
      * Builds a hierarchical mixture model (class HierarchicalMixtureModel) from
      * an input mixture model and a clustering type.
      *
-     * @param f input mixture model given in source parameters
-     * @param type type of the Bregman divergence used: right-sided, left-sided,
-     * or symmetric
+     * @param f       input mixture model given in source parameters
+     * @param type    type of the Bregman divergence used: right-sided, left-sided,
+     *                or symmetric
      * @param linkage linkage criterion used: minimum, maximum, or average
-     * distance
+     *                distance
      * @return a hierarchical mixture model
      */
     public static HierarchicalMixtureModel build(MixtureModel f, Clustering.CLUSTERING_TYPE type, LINKAGE_CRITERION linkage) {
@@ -134,10 +134,10 @@ public class BregmanHierarchicalClustering {
      * divergence type.
      *
      * @param hmmArray array of hierarchical mixture models
-     * @param type type of the Bregman divergence used: right-sided, left-sided,
-     * or symmetric
-     * @param linkage linkage criterion used: minimum, maximum, or average
-     * distance return indexes of the two closest hierarchical mixture models
+     * @param type     type of the Bregman divergence used: right-sided, left-sided,
+     *                 or symmetric
+     * @param linkage  linkage criterion used: minimum, maximum, or average
+     *                 distance return indexes of the two closest hierarchical mixture models
      */
     private static int[] find2ClosestMixtureModels(HierarchicalMixtureModel[] hmmArray, Clustering.CLUSTERING_TYPE type, LINKAGE_CRITERION linkage) {
 
@@ -183,10 +183,10 @@ public class BregmanHierarchicalClustering {
      * Computes the min-distance between two mixture models relatively to a
      * Bregman divergence type
      *
-     * @param mm1 mixture model
-     * @param mm2 mixture model
+     * @param mm1  mixture model
+     * @param mm2  mixture model
      * @param type type of the Bregman divergence used: right-sided, left-sided,
-     * or symmetric
+     *             or symmetric
      * @return min-distance between mm1 and mm2
      */
     private static double computeMinDistance(MixtureModel mm1, MixtureModel mm2, Clustering.CLUSTERING_TYPE type) {
@@ -211,10 +211,10 @@ public class BregmanHierarchicalClustering {
      * Computes the max-distance between two mixture models relatively to a
      * Bregman divergence type
      *
-     * @param mm1 mixture model
-     * @param mm2 mixture model
+     * @param mm1  mixture model
+     * @param mm2  mixture model
      * @param type type of the Bregman divergence used: right-sided, left-sided,
-     * or symmetric
+     *             or symmetric
      * @return max-distance between mm1 and mm2
      */
     private static double computeMaxDistance(MixtureModel mm1, MixtureModel mm2, Clustering.CLUSTERING_TYPE type) {
@@ -239,10 +239,10 @@ public class BregmanHierarchicalClustering {
      * Computes the mean-distance between two mixture models relatively to a
      * Bregman divergence type
      *
-     * @param mm1 first mixture model
-     * @param mm2 second mixture model
+     * @param mm1  first mixture model
+     * @param mm2  second mixture model
      * @param type type of the Bregman divergence used: right-sided, left-sided,
-     * or symmetric
+     *             or symmetric
      * @return mean-distance between mm1 and mm2
      */
     private static double computeAverageDistance(MixtureModel mm1, MixtureModel mm2, Clustering.CLUSTERING_TYPE type) {

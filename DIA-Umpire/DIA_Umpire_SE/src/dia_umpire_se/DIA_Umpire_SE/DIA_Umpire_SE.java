@@ -25,6 +25,7 @@ import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.DIA.DIAPack;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
@@ -42,7 +44,6 @@ import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_SE {
@@ -67,8 +68,8 @@ public class DIA_Umpire_SE {
         }
 
         boolean Fix = false;
-        boolean Resume=false;
-        
+        boolean Resume = false;
+
         if (args.length == 3 && args[2].equals("-f")) {
             Fix = true;
         }
@@ -276,11 +277,11 @@ public class DIA_Umpire_SE {
                         param.MinMZ = Float.valueOf(value);
                         break;
                     }
-                    case "SE.MinPrecursorMass":{
+                    case "SE.MinPrecursorMass": {
                         param.MinPrecursorMass = Float.valueOf(value);
                         break;
                     }
-                    case "SE.MaxPrecursorMass":{
+                    case "SE.MaxPrecursorMass": {
                         param.MaxPrecursorMass = Float.valueOf(value);
                         break;
                     }
@@ -296,10 +297,10 @@ public class DIA_Umpire_SE {
                         param.MassDefectOffset = Float.valueOf(value);
                         break;
                     }
-                    
+
 
 //</editor-fold>//</editor-fold>
-                    
+
                     case "WindowType": {
                         WindowType = value;
                         switch (WindowType) {
@@ -337,13 +338,13 @@ public class DIA_Umpire_SE {
                 long time = System.currentTimeMillis();
                 Logger.getRootLogger().info("=================================================================================================");
                 Logger.getRootLogger().info("Processing " + MSFilePath + "....");
-                
+
                 //Initialize a DIA file data structure                
                 DIAPack DiaFile = new DIAPack(MSFile.getAbsolutePath(), NoCPUs);
-                DiaFile.Resume=Resume;
+                DiaFile.Resume = Resume;
                 DiaFile.SetDataType(dataType);
                 DiaFile.SetParameter(param);
-                
+
                 //Set DIA isolation window setting
                 if (dataType == SpectralDataType.DataType.DIA_F_Window) {
                     DiaFile.SetWindowSize(WindowSize);
@@ -352,9 +353,9 @@ public class DIA_Umpire_SE {
                         DiaFile.AddVariableWindow(window);
                     }
                 }
-                DiaFile.SaveDIASetting();                
+                DiaFile.SaveDIASetting();
                 DiaFile.SaveParams();
-                
+
                 if (Fix) {
                     DiaFile.FixScanidx();
                     return;

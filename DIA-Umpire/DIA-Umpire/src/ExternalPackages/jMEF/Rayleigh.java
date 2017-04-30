@@ -6,27 +6,23 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Rayleigh is an exponential family and, as a consequence, the probability
  * density function is given by \f[ f(x; \mathbf{\Theta}) = \exp \left( \langle
  * t(x), \mathbf{\Theta} \rangle - F(\mathbf{\Theta}) + k(x) \right) \f] where
  * \f$ \mathbf{\Theta} \f$ are the natural parameters. This class implements the
  * different functions allowing to express a Rayleigh distribution as a member
  * of an exponential family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters \f$
  * \mathbf{\Lambda} = \sigma^2 \in \mathds{R}^+ \f$ - Natural parameters \f$
  * \mathbf{\Theta} = \theta \in \mathds{R}^- \f$ - Expectation parameters \f$
  * \mathbf{H} = \eta \in \mathds{R}^+ \f$
- *
  */
 public final class Rayleigh extends ExponentialFamily<PVector, PVector> {
 
@@ -160,7 +156,7 @@ public final class Rayleigh extends ExponentialFamily<PVector, PVector> {
     /**
      * Computes the density value \f$ f(x;p) \f$.
      *
-     * @param x a point
+     * @param x     a point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;\sigma^2) = \frac{x}{\sigma^2} \exp \left(
      * -\frac{x^2}{2\sigma^2} \right) \f$
@@ -183,7 +179,7 @@ public final class Rayleigh extends ExponentialFamily<PVector, PVector> {
      */
     public PVector drawRandomPoint(PVector L) {
         PVector x = new PVector(1);
-        x.array[0] = Math.sqrt(- 2 * Math.log(Math.random()) * L.array[0]);
+        x.array[0] = Math.sqrt(-2 * Math.log(Math.random()) * L.array[0]);
         return x;
     }
 

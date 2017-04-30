@@ -23,6 +23,7 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.BaseDataStructure.XYPointCollection;
 import MSUmpire.BaseDataStructure.XYZData;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,9 +31,10 @@ import java.util.PriorityQueue;
 
 /**
  * Single m/z trace peak curve
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class PeakCurve implements Serializable  {
+public class PeakCurve implements Serializable {
     private static final long serialVersionUID = 6498163564821L;
 
     private ArrayList<XYZData> PeakList;
@@ -47,8 +49,8 @@ public class PeakCurve implements Serializable  {
     public int Index;
     private float endrt = -1f;
     private float startrt = -1f;
-    public int StartScan=-1;
-    public int EndScan=-1;
+    public int StartScan = -1;
+    public int EndScan = -1;
     private float TotalIntMzF;
     private float TotalIntF;
     public float TargetMz;
@@ -59,7 +61,7 @@ public class PeakCurve implements Serializable  {
     public boolean CheckState = false;
     public float ConflictCorr = 0f;
     public boolean Grouped = false;
-    public transient HashSet<Integer> ChargeGrouped=new HashSet<>();
+    public transient HashSet<Integer> ChargeGrouped = new HashSet<>();
     public float MzVar = -1f;
     public transient SortedRidgeCollectionClass PeakRidgeList;
     public transient WaveletMassDetector waveletMassDetector;
@@ -392,10 +394,10 @@ public class PeakCurve implements Serializable  {
 
         for (PeakCurve peak : tempArrayList) {
             if (peak.PeakList.size() > 2) {
-                peak.GetSmoothedList().Data.Finalize();                
+                peak.GetSmoothedList().Data.Finalize();
                 returnArrayList.add(peak);
             }
-        }        
+        }
         return returnArrayList;
     }
 
@@ -423,6 +425,7 @@ public class PeakCurve implements Serializable  {
         }
         return startrt;
     }
+
     float _snr = -1f;
 
     public float GetSNR() {
@@ -459,6 +462,7 @@ public class PeakCurve implements Serializable  {
             _baseLine = IntensityQueue.poll();
         }
     }
+
     float _baseLine = -1f;
 
     public float GetBaseLine() {
@@ -470,6 +474,7 @@ public class PeakCurve implements Serializable  {
         }
         return _baseLine;
     }
+
     float _noiseLevel = -1f;
 
     public float GetNoiseLevel() {
@@ -481,7 +486,7 @@ public class PeakCurve implements Serializable  {
 
     public float EndRT() {
         if (endrt == -1f) {
-            endrt = PeakList.get(PeakList.size() - 2).getX();            
+            endrt = PeakList.get(PeakList.size() - 2).getX();
         }
         return endrt;
     }
@@ -536,6 +541,7 @@ public class PeakCurve implements Serializable  {
         }
         return Width;
     }
+
     public ArrayList<XYZData> GetPeakList() {
         return PeakList;
     }

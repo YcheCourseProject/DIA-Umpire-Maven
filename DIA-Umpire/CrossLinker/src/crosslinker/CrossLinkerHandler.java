@@ -7,16 +7,17 @@ package crosslinker;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.SpectrumParser.MGFParser;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import MSUmpire.SpectrumParser.PKLScanParser;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class CrossLinkerHandler {
@@ -41,7 +42,7 @@ public class CrossLinkerHandler {
                         Scan.MsLevel = 2;
                         Scan.MGFTitle = Scan.MGFTitle.split("_")[Scan.MGFTitle.split("_").length - 2];
                         Scan.Normalization();
-                        CrossLinkerScanResult scanresult = new CrossLinkerScanResult(Scan,linker);
+                        CrossLinkerScanResult scanresult = new CrossLinkerScanResult(Scan, linker);
                         Results.add(scanresult);
                     }
                 } else if (files.toLowerCase().endsWith(".pkl")) {
@@ -49,7 +50,7 @@ public class CrossLinkerHandler {
                     pkl.scan.MsLevel = 1;
                     pkl.scan.MGFTitle = pkl.scan.MGFTitle.split("_")[pkl.scan.MGFTitle.split("_").length - 2];
                     pkl.scan.Normalization();
-                    CrossLinkerScanResult scanresult = new CrossLinkerScanResult(pkl.scan,linker);
+                    CrossLinkerScanResult scanresult = new CrossLinkerScanResult(pkl.scan, linker);
                     Results.add(scanresult);
                 }
             } else {

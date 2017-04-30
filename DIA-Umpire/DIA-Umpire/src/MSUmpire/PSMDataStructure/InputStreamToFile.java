@@ -28,14 +28,15 @@ import java.io.OutputStream;
 
 /**
  * Create a InputStream class from a text file
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class InputStreamToFile {
 
     public File GetFile(InputStream inputStream, String tmpname) throws FileNotFoundException, IOException {
 
-        File Path=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-        File file = new File(Path.getParent()+ "/"+tmpname);
+        File Path = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        File file = new File(Path.getParent() + "/" + tmpname);
 
         OutputStream outputStream = new FileOutputStream(file);
         int read = 0;

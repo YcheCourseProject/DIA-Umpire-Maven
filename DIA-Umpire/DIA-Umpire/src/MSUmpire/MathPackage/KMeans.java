@@ -34,7 +34,7 @@ public class KMeans {
      * first centroid).
      *
      * @param points point set
-     * @param k number of clusters
+     * @param k      number of clusters
      * @return clusters
      */
     public static Vector<PVector>[] run(PVector[] points, int k, PVector[] centroids) {
@@ -59,7 +59,7 @@ public class KMeans {
      * Performs a k-means on the point set to compute k clusters.
      *
      * @param points point set
-     * @param k number of clusters
+     * @param k      number of clusters
      * @return clusters
      */
     public static Vector<PVector>[] run(PVector[] points, int k) {
@@ -85,7 +85,7 @@ public class KMeans {
      * Initializes the k-means by ramdomly picking points in the set.
      *
      * @param points point set
-     * @param k number of clusters
+     * @param k      number of clusters
      * @return clusters
      */
     private static PVector[] initialize(PVector[] points, int k) {
@@ -119,11 +119,11 @@ public class KMeans {
     /**
      * Processes the repartition step.
      *
-     * @param points point set
-     * @param k number of clusters
-     * @param centroids centroids of the clusters
+     * @param points      point set
+     * @param k           number of clusters
+     * @param centroids   centroids of the clusters
      * @param repartition repartition array
-     * @param clusters clusters
+     * @param clusters    clusters
      */
     private static void repartitionStep(PVector[] points, int k, PVector[] centroids, int[] repartition, Vector<PVector>[] clusters) {
 
@@ -154,10 +154,10 @@ public class KMeans {
     /**
      * Processes the centroid step.
      *
-     * @param points point set
-     * @param k number of clusters
+     * @param points    point set
+     * @param k         number of clusters
      * @param centroids centroids of the clusters
-     * @param clusters clusters
+     * @param clusters  clusters
      */
     private static void centroidStep(PVector[] points, int k, PVector[] centroids, Vector<PVector>[] clusters) {
         for (int i = 0; i < k; i++) {

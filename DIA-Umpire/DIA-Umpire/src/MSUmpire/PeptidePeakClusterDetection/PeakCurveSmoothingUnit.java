@@ -21,10 +21,12 @@ package MSUmpire.PeptidePeakClusterDetection;
 
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.PeakDataStructure.PeakCurve;
+
 import java.util.ArrayList;
 
 /**
  * Peak shape smoothing process thread unit
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PeakCurveSmoothingUnit implements Runnable {
@@ -46,10 +48,9 @@ public class PeakCurveSmoothingUnit implements Runnable {
             curve.DoBspline();
             curve.DetectPeakRegion();
             ResultCurves = curve.SeparatePeakByRegion(parameter.SNThreshold);
-        }
-        else{
+        } else {
             curve.DoBspline();
-            ResultCurves=new ArrayList<>();
+            ResultCurves = new ArrayList<>();
             ResultCurves.add(curve);
         }
     }

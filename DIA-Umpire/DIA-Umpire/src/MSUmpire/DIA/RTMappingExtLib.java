@@ -28,6 +28,7 @@ import MSUmpire.BaseDataStructure.XYZData;
 import MSUmpire.FragmentLib.FragmentLibManager;
 import MSUmpire.PSMDataStructure.PepFragmentLib;
 import com.compomics.util.experiment.identification.matches.ModificationMatch;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -35,6 +36,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
@@ -49,9 +51,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * Generate peptide ions from external library
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class RTMappingExtLib implements Runnable{
+public class RTMappingExtLib implements Runnable {
 
     private PiecewiseRegression regression;
     private LCMSID TargetLCMS;
@@ -59,19 +62,19 @@ public class RTMappingExtLib implements Runnable{
     InstrumentParameter parameter;
 
     public RTMappingExtLib(LCMSID TargetLCMS, FragmentLibManager libManager, InstrumentParameter parameter) {
-       this.TargetLCMS=TargetLCMS;
-       this.parameter=parameter;
-       this.libManager=libManager;
+        this.TargetLCMS = TargetLCMS;
+        this.parameter = parameter;
+        this.libManager = libManager;
     }
 
     public void GenerateModel() throws IOException {
-        
+
         XYPointCollection points = new XYPointCollection();
         XYSeries series = new XYSeries("Peptide ions");
         XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
 
-        FileWriter writer= new FileWriter(FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/"+FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName)+"_"+libManager.LibID+"_RTMapPoints.txt");        
-        
+        FileWriter writer = new FileWriter(FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "_" + libManager.LibID + "_RTMapPoints.txt");
+
         for (String pepkey : libManager.PeptideFragmentLib.keySet()) {
             if (TargetLCMS.GetPepIonList().containsKey(pepkey)) {
                 PepFragmentLib peplib = libManager.GetFragmentLib(pepkey);
@@ -82,29 +85,29 @@ public class RTMappingExtLib implements Runnable{
                     writer.write(rt + "\t" + y + "\n");
                 }
             }
-        }        
+        }
         writer.close();
-        regression = new PiecewiseRegression(parameter.MaxCurveRTRange,parameter.MaxCurveRTRange);
+        regression = new PiecewiseRegression(parameter.MaxCurveRTRange, parameter.MaxCurveRTRange);
         regression.SetData(points);
         float R2 = regression.GetR2();
-        Logger.getRootLogger().info("Retention time prediction model:(" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "..R2=" + R2 + "(No. of commonly identified peptide ions="+points.PointCount()+")");
-        
+        Logger.getRootLogger().info("Retention time prediction model:(" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "..R2=" + R2 + "(No. of commonly identified peptide ions=" + points.PointCount() + ")");
+
         GenerateRTMapPNG(xySeriesCollection, series, R2);
     }
 
-    private void GenerateRTMapPNG(XYSeriesCollection xySeriesCollection, XYSeries series, float R2) throws IOException {        
-        String pngfile = FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/"+FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName)+"_"+libManager.LibID+"_RTMap.png";        
-        FileWriter writer= new FileWriter(FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/"+FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName)+"_"+libManager.LibID+"_RTMap.txt");        
-                
+    private void GenerateRTMapPNG(XYSeriesCollection xySeriesCollection, XYSeries series, float R2) throws IOException {
+        String pngfile = FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "_" + libManager.LibID + "_RTMap.png";
+        FileWriter writer = new FileWriter(FilenameUtils.getFullPath(TargetLCMS.mzXMLFileName) + "/" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "_" + libManager.LibID + "_RTMap.txt");
+
         XYSeries smoothline = new XYSeries("RT fitting curve");
         for (XYZData data : regression.PredictYList) {
             smoothline.add(data.getX(), data.getY());
-            writer.write(data.getX()+"\t"+data.getY()+"\n");
+            writer.write(data.getX() + "\t" + data.getY() + "\n");
         }
         writer.close();
         xySeriesCollection.addSeries(smoothline);
         xySeriesCollection.addSeries(series);
-        JFreeChart chart = ChartFactory.createScatterPlot("Retention time mapping: R2=" + R2, "Normalized RT ("+libManager.LibID+")", "RT:" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName), xySeriesCollection,
+        JFreeChart chart = ChartFactory.createScatterPlot("Retention time mapping: R2=" + R2, "Normalized RT (" + libManager.LibID + ")", "RT:" + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName), xySeriesCollection,
                 PlotOrientation.VERTICAL, true, true, false);
         XYPlot xyPlot = (XYPlot) chart.getPlot();
         xyPlot.setDomainCrosshairVisible(true);
@@ -123,10 +126,10 @@ public class RTMappingExtLib implements Runnable{
     public void GenerateMappedPepIon() {
         Logger.getRootLogger().info("Mapping peptide ions for " + FilenameUtils.getBaseName(TargetLCMS.mzXMLFileName) + "...");
 
-        if(!regression.valid()){
+        if (!regression.valid()) {
             return;
         }
-        int cont=0;
+        int cont = 0;
         for (String pepkey : libManager.PeptideFragmentLib.keySet()) {
             PepFragmentLib peplib = libManager.GetFragmentLib(pepkey);
             PepIonID predictedPepIon = null;
@@ -146,7 +149,7 @@ public class RTMappingExtLib implements Runnable{
                 predictedPepIon = TargetLCMS.GetPepIonList().get(pepkey);
             }
             for (float librt : peplib.RetentionTime) {
-                XYZData predict=regression.GetPredictTimeSDYByTimelist(librt);
+                XYZData predict = regression.GetPredictTimeSDYByTimelist(librt);
                 float PRT = predict.getY();
                 boolean added = true;
                 for (float rt : predictedPepIon.PredictRT) {
@@ -159,10 +162,10 @@ public class RTMappingExtLib implements Runnable{
                 }
                 predictedPepIon.SetRTSD(predict.getZ());
             }
-        }        
-        Logger.getRootLogger().info("No. of peptide ions added:"+cont);
+        }
+        Logger.getRootLogger().info("No. of peptide ions added:" + cont);
     }
-    
+
     @Override
     public void run() {
         try {

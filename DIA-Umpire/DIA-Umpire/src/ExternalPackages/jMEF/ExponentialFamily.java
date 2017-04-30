@@ -6,13 +6,11 @@ import java.io.Serializable;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * This class integrates the Kullback-Leibler divergence and conversion
  * procedures inside the exponential family. - ParamD are the distribution
  * source parameters, its dimension is the order of the exponential family. -
@@ -192,8 +190,8 @@ abstract public class ExponentialFamily<ParamX extends Parameter, ParamD extends
     /**
      * Computes the geodesic point.
      *
-     * @param T1 natural parameters \f$ \mathbf{\Theta}_1\f$
-     * @param T2 natural parameters \f$ \mathbf{\Theta}_2\f$
+     * @param T1    natural parameters \f$ \mathbf{\Theta}_1\f$
+     * @param T2    natural parameters \f$ \mathbf{\Theta}_2\f$
      * @param alpha position \f$ \alpha \f$ of the point on the geodesic link
      * @return \f$ \nabla G \left( (1-\alpha) \nabla F (\mathbf{\Theta}_1) +
      * \alpha \nabla F (\mathbf{\Theta}_2) \right) \f$

@@ -20,14 +20,15 @@
 package MSUmpire.SpectrumParser;
 
 import MSUmpire.BaseDataStructure.ScanData;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 import org.apache.commons.io.FilenameUtils;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PKLScanParser {

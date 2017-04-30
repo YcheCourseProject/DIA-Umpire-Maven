@@ -23,15 +23,18 @@ import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.SeqUtility.FastaParser;
 import MSUmpire.PSMDataStructure.PepIonID;
 import MSUmpire.Utility.DateTimeTag;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * pepXML writer for targeted re-extraction
+ *
  * @author Chih-Chiang Tsou
  */
 public class TargetHitPepXMLWriter {
@@ -41,7 +44,7 @@ public class TargetHitPepXMLWriter {
     String Filename;
     String Fasta;
     String Decoytag;
-    
+
     public class ParentProtein {
 
         String Acc;
@@ -53,14 +56,14 @@ public class TargetHitPepXMLWriter {
     public TargetHitPepXMLWriter(String Filename, String Fasta, String Decoytab, TargetMatchScoring Tscoring) throws IOException, XmlPullParserException {
         this.Filename = Filename;
         this.Fasta = Fasta;
-        this.Decoytag=Decoytab;
+        this.Decoytag = Decoytab;
         this.Tscoring = Tscoring;
         write();
     }
 
     public void write() throws IOException, XmlPullParserException {
 
-        Logger.getRootLogger().info("Writing "+Filename);
+        Logger.getRootLogger().info("Writing " + Filename);
         int minlength = Integer.MAX_VALUE;
         int maxlength = 0;
         int maxmiss = 0;
@@ -81,17 +84,17 @@ public class TargetHitPepXMLWriter {
         FastaParser fastaparser = new FastaParser(Fasta);
         fastaparser.RemoveDecoy(Decoytag);
         //FastaParser_V2 fastaparser = FastaParser.FasterSerialzationRead(Fasta);        
-        fastaparser.digestion(maxmiss, minlength, maxlength,Decoytag);
+        fastaparser.digestion(maxmiss, minlength, maxlength, Decoytag);
 
         Header();
         sb.append("<msms_run_summary base_name=\"" + FilenameUtils.getBaseName(Filename) + "\" search_engine=\"interprophet\" >\n");
         SearchSummary();
         int index = 0;
-        for (UmpireSpecLibMatch match : Tscoring.libTargetMatches) {            
+        for (UmpireSpecLibMatch match : Tscoring.libTargetMatches) {
             //<editor-fold defaultstate="collapsed" desc="Forward hit">            
             PeakGroupScore bestscore = match.BestHit;
-            String Sequence=match.pepIonID.Sequence;
-            if (bestscore!=null) {
+            String Sequence = match.pepIonID.Sequence;
+            if (bestscore != null) {
                 ArrayList<ParentProtein> parentprots = new ArrayList<>();
                 if (!fastaparser.PeptideList.containsKey(Sequence)) {
                     //Logger.getRootLogger().warn(Sequence + " is not found as tryptic peptides in " + Fasta + ". Searching in protein sequences..");
@@ -135,9 +138,9 @@ public class TargetHitPepXMLWriter {
                 if (parentprots.isEmpty()) {
                     Logger.getRootLogger().warn(Sequence + " is not found in " + Fasta);
                 } else {
-                    sb.append("<spectrum_query spectrum=\"" +FilenameUtils.getBaseName(Filename)+"."+ index+"."+ index+"."+match.pepIonID.Charge+ "\" start_scan=\""+index+"\" end_scan=\""+index+"\" precursor_neutral_mass=\"" + bestscore.PrecursorNeutralMass+ "\" assumed_charge=\"" + match.pepIonID.Charge + "\" index=\"" + (index++) + "\" retention_time_sec=\"" +bestscore.PrecursorRT* 60f + "\">\n"
+                    sb.append("<spectrum_query spectrum=\"" + FilenameUtils.getBaseName(Filename) + "." + index + "." + index + "." + match.pepIonID.Charge + "\" start_scan=\"" + index + "\" end_scan=\"" + index + "\" precursor_neutral_mass=\"" + bestscore.PrecursorNeutralMass + "\" assumed_charge=\"" + match.pepIonID.Charge + "\" index=\"" + (index++) + "\" retention_time_sec=\"" + bestscore.PrecursorRT * 60f + "\">\n"
                             + "<search_result>\n"
-                            + "<search_hit hit_rank=\"1\" peptide=\"" + Sequence + "\" peptide_prev_aa=\"" + parentprots.get(0).PreAA + "\" peptide_next_aa=\"" + parentprots.get(0).NextAA + "\" protein=\"" + parentprots.get(0).Acc + "\" protein_descr=\"" + parentprots.get(0).Des + "\" num_tot_proteins=\"" + parentprots.size() + "\" num_matched_ions=\"" + (bestscore.NoMatchB+bestscore.NoMatchY) + "\" tot_num_ions=\"" + 2 * (Sequence.length() - 1) + "\" calc_neutral_pep_mass=\"" + match.pepIonID.CalcNeutralPepMass() + "\" massdiff=\"" + (match.pepIonID.CalcNeutralPepMass() - bestscore.PrecursorNeutralMass) + "\"  num_tol_term=\"2\" num_missed_cleavages=\"" + match.pepIonID.getNMissedCleavages() + "\" is_rejected=\"0\">\n");
+                            + "<search_hit hit_rank=\"1\" peptide=\"" + Sequence + "\" peptide_prev_aa=\"" + parentprots.get(0).PreAA + "\" peptide_next_aa=\"" + parentprots.get(0).NextAA + "\" protein=\"" + parentprots.get(0).Acc + "\" protein_descr=\"" + parentprots.get(0).Des + "\" num_tot_proteins=\"" + parentprots.size() + "\" num_matched_ions=\"" + (bestscore.NoMatchB + bestscore.NoMatchY) + "\" tot_num_ions=\"" + 2 * (Sequence.length() - 1) + "\" calc_neutral_pep_mass=\"" + match.pepIonID.CalcNeutralPepMass() + "\" massdiff=\"" + (match.pepIonID.CalcNeutralPepMass() - bestscore.PrecursorNeutralMass) + "\"  num_tol_term=\"2\" num_missed_cleavages=\"" + match.pepIonID.getNMissedCleavages() + "\" is_rejected=\"0\">\n");
 
                     for (int i = 1; i < parentprots.size(); i++) {
                         sb.append("<alternative_protein protein=\"" + parentprots.get(i).Acc + "\" protein_descr=\"" + parentprots.get(i).Des + "\" num_tol_term=\"2\" peptide_prev_aa=\"" + parentprots.get(i).PreAA + "\" peptide_next_aa=\"" + parentprots.get(i).NextAA + "\"/>");
@@ -157,7 +160,7 @@ public class TargetHitPepXMLWriter {
                     //                        + "</peptideprophet_result>\n"
                     //                        + "</analysis_result>\n"
                     sb.append("<analysis_result analysis=\"interprophet\">\n"
-                            + "<interprophet_result probability=\"" + bestscore.MixtureModelLocalProb + "\" all_ntt_prob=\"("+ bestscore.MixtureModelLocalProb +","+ bestscore.MixtureModelLocalProb +","+ bestscore.MixtureModelLocalProb +")\">\n"
+                            + "<interprophet_result probability=\"" + bestscore.MixtureModelLocalProb + "\" all_ntt_prob=\"(" + bestscore.MixtureModelLocalProb + "," + bestscore.MixtureModelLocalProb + "," + bestscore.MixtureModelLocalProb + ")\">\n"
                             //                        + "<search_score_summary>\n"
                             //                        + "<parameter name=\"nrs\" value=\"0\"/>\n"
                             //                        + "<parameter name=\"nsi\" value=\"0\"/>\n"
@@ -170,15 +173,15 @@ public class TargetHitPepXMLWriter {
                             + "</spectrum_query>\n");
                 }
             }
-                //</editor-fold>
+            //</editor-fold>
 
             //<editor-fold defaultstate="collapsed" desc="Decoy hit">
             bestscore = match.BestDecoyHit;
-            if(!fastaparser.PeptideList.containsKey(Sequence)){
+            if (!fastaparser.PeptideList.containsKey(Sequence)) {
                 continue;
             }
-            String DecoySeq=fastaparser.PeptideList.get(Sequence).Decoy;
-             if (bestscore!=null) {
+            String DecoySeq = fastaparser.PeptideList.get(Sequence).Decoy;
+            if (bestscore != null) {
                 ArrayList<ParentProtein> parentprots = new ArrayList<>();
                 if (!fastaparser.PeptideList.containsKey(Sequence)) {
                     //Logger.getRootLogger().warn(Sequence + " is not found as tryptic peptides in " + Fasta + ". Searching in protein sequences..");
@@ -222,12 +225,12 @@ public class TargetHitPepXMLWriter {
                 if (parentprots.isEmpty()) {
                     Logger.getRootLogger().warn(Sequence + " is not found in " + Fasta);
                 } else {
-                    sb.append("<spectrum_query spectrum=\""+Decoytag+"_" + Sequence+ "\" precursor_neutral_mass=\"" + bestscore.PrecursorNeutralMass + "\" assumed_charge=\"" + match.pepIonID.Charge + "\" index=\"" + (index++) + "\" retention_time_sec=\"" +bestscore.PrecursorRT* 60f + "\">\n"
+                    sb.append("<spectrum_query spectrum=\"" + Decoytag + "_" + Sequence + "\" precursor_neutral_mass=\"" + bestscore.PrecursorNeutralMass + "\" assumed_charge=\"" + match.pepIonID.Charge + "\" index=\"" + (index++) + "\" retention_time_sec=\"" + bestscore.PrecursorRT * 60f + "\">\n"
                             + "<search_result>\n"
-                            + "<search_hit hit_rank=\"1\" peptide=\"" + DecoySeq + "\" peptide_prev_aa=\"" + parentprots.get(0).PreAA + "\" peptide_next_aa=\"" + parentprots.get(0).NextAA + "\" protein=\""+Decoytag+"_" + parentprots.get(0).Acc + "\" protein_descr=\""+Decoytag+"_" + parentprots.get(0).Des + "\" num_tot_proteins=\"" + parentprots.size() + "\" num_matched_ions=\"" + (bestscore.NoMatchB+bestscore.NoMatchY) + "\" tot_num_ions=\"" + 2 * (Sequence.length() - 1) + "\" calc_neutral_pep_mass=\"" + match.pepIonID.CalcNeutralPepMass() + "\" massdiff=\"" + (match.pepIonID.CalcNeutralPepMass() - bestscore.PrecursorNeutralMass) + "\" num_missed_cleavages=\"" + match.pepIonID.getNMissedCleavages() + "\" is_rejected=\"0\">\n");
+                            + "<search_hit hit_rank=\"1\" peptide=\"" + DecoySeq + "\" peptide_prev_aa=\"" + parentprots.get(0).PreAA + "\" peptide_next_aa=\"" + parentprots.get(0).NextAA + "\" protein=\"" + Decoytag + "_" + parentprots.get(0).Acc + "\" protein_descr=\"" + Decoytag + "_" + parentprots.get(0).Des + "\" num_tot_proteins=\"" + parentprots.size() + "\" num_matched_ions=\"" + (bestscore.NoMatchB + bestscore.NoMatchY) + "\" tot_num_ions=\"" + 2 * (Sequence.length() - 1) + "\" calc_neutral_pep_mass=\"" + match.pepIonID.CalcNeutralPepMass() + "\" massdiff=\"" + (match.pepIonID.CalcNeutralPepMass() - bestscore.PrecursorNeutralMass) + "\" num_missed_cleavages=\"" + match.pepIonID.getNMissedCleavages() + "\" is_rejected=\"0\">\n");
 
                     for (int i = 1; i < parentprots.size(); i++) {
-                        sb.append("<alternative_protein protein=\""+Decoytag+"_" + parentprots.get(i).Acc + "\" protein_descr=\""+Decoytag+"_" + parentprots.get(i).Des + "\" num_tol_term=\"2\" peptide_prev_aa=\"" + parentprots.get(i).PreAA + "\" peptide_next_aa=\"" + parentprots.get(i).NextAA + "\"/>");
+                        sb.append("<alternative_protein protein=\"" + Decoytag + "_" + parentprots.get(i).Acc + "\" protein_descr=\"" + Decoytag + "_" + parentprots.get(i).Des + "\" num_tol_term=\"2\" peptide_prev_aa=\"" + parentprots.get(i).PreAA + "\" peptide_next_aa=\"" + parentprots.get(i).NextAA + "\"/>");
                     }
                     //                        + "<modification_info modified_peptide=\"KITIADCGQLE\">\n"
                     //                        + "<mod_aminoacid_mass position=\"7\" mass=\"160.0306\"/>\n"
@@ -244,7 +247,7 @@ public class TargetHitPepXMLWriter {
                     //                        + "</peptideprophet_result>\n"
                     //                        + "</analysis_result>\n"
                     sb.append("<analysis_result analysis=\"interprophet\">\n"
-                            + "<interprophet_result probability=\"" + bestscore.MixtureModelLocalProb + "\" all_ntt_prob=\"("+ bestscore.MixtureModelLocalProb +","+ bestscore.MixtureModelLocalProb +","+ bestscore.MixtureModelLocalProb +")\">\n"
+                            + "<interprophet_result probability=\"" + bestscore.MixtureModelLocalProb + "\" all_ntt_prob=\"(" + bestscore.MixtureModelLocalProb + "," + bestscore.MixtureModelLocalProb + "," + bestscore.MixtureModelLocalProb + ")\">\n"
                             //                        + "<search_score_summary>\n"
                             //                        + "<parameter name=\"nrs\" value=\"0\"/>\n"
                             //                        + "<parameter name=\"nsi\" value=\"0\"/>\n"
@@ -257,7 +260,7 @@ public class TargetHitPepXMLWriter {
                             + "</spectrum_query>\n");
                 }
             }
-            
+
             //</editor-fold>
         }
         sb.append("</msms_run_summary>\n");

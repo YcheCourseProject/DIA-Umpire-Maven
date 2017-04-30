@@ -27,6 +27,7 @@ import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeakDataStructure.PeakCurve;
 import MSUmpire.PeakDataStructure.SortedCurveCollectionApexRT;
 import MSUmpire.SpectrumParser.SpectrumParserBase;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,6 +37,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 import java.util.logging.Level;
+
 import net.sf.javaml.core.kdtree.KDTree;
 import net.sf.javaml.core.kdtree.KeyDuplicateException;
 import net.sf.javaml.core.kdtree.KeySizeException;
@@ -49,13 +51,14 @@ import org.nustaq.serialization.FSTObjectOutput;
 
 /**
  * Parent peak data structure related to an LCMS map
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class LCMSPeakBase {
 
-    public ArrayList<PeakCluster> PeakClusters = new ArrayList<>(1000);            
-    private KDTree PeakClusterMassSearchTree=null;    
-    private KDTree PeakCurveSearchTree=null;
+    public ArrayList<PeakCluster> PeakClusters = new ArrayList<>(1000);
+    private KDTree PeakClusterMassSearchTree = null;
+    private KDTree PeakCurveSearchTree = null;
     public String ScanCollectionName;
     public String ParentmzXMLName;
     protected SpectrumParserBase SpectrumParser;
@@ -66,26 +69,27 @@ public class LCMSPeakBase {
     public float MiniIntensity;
     public float SNR;
     private SortedCurveCollectionApexRT PeakCurveListRT = null;
-    
-    public ArrayList<PeakCurve> UnSortedPeakCurves;        
+
+    public ArrayList<PeakCurve> UnSortedPeakCurves;
     public InstrumentParameter parameter;
     public SpectralDataType.DataType datattype;
     public boolean Resume = true;
-    public boolean ExportPeakClusterTable=true;
-    public boolean SaveSerializationFile=true;
-    public boolean ExportPeakCurveTable=false;
+    public boolean ExportPeakClusterTable = true;
+    public boolean SaveSerializationFile = true;
+    public boolean ExportPeakCurveTable = false;
     int NoCPUs = Runtime.getRuntime().availableProcessors() - 2;
     public PolynomialSplineFunction Masscalibrationfunction;
 
-    public void ClearAllPeaks(){
+    public void ClearAllPeaks() {
         BaseClearAllPeaks();
     }
-    public void BaseClearAllPeaks() {        
+
+    public void BaseClearAllPeaks() {
         PeakClusters = null;
         PeakCurveListRT = null;
-        UnSortedPeakCurves=null;
-        PeakCurveSearchTree=null;
-        PeakClusterMassSearchTree=null;
+        UnSortedPeakCurves = null;
+        PeakCurveSearchTree = null;
+        PeakClusterMassSearchTree = null;
     }
 
     public void ClearRawPeaks() {
@@ -93,7 +97,7 @@ public class LCMSPeakBase {
             peakCurve.GetPeakList().clear();
         }
     }
-     
+
     //Get all peak clusters given PSMs related to a peptide ion
     public ArrayList<PeakCluster> FindAllPeakClustersForPepByPSM(PepIonID pep) {
         ArrayList<PeakCluster> allclusterList = new ArrayList<>();
@@ -120,8 +124,8 @@ public class LCMSPeakBase {
     }
 
     public ArrayList<PeakCluster> FindAllPeakClustersForMappedPep(PepIonID pep) {
-        ArrayList<PeakCluster> allclusterList = new ArrayList<>();        
-        float idrt=pep.GetRT();
+        ArrayList<PeakCluster> allclusterList = new ArrayList<>();
+        float idrt = pep.GetRT();
         if (idrt != -1) {
             float calibratedmass = InstrumentParameter.GetMzByPPM(pep.CalcNeutralPepMass(), 1, -GetMassError(idrt));
             ArrayList<PeakCluster> clusterList = FindPeakClustersByMassIDTime(calibratedmass, pep.Charge, idrt, parameter.RTtol);
@@ -129,7 +133,7 @@ public class LCMSPeakBase {
         }
         for (float rt : pep.PredictRT) {
             float calibratedmass = InstrumentParameter.GetMzByPPM(pep.CalcNeutralPepMass(), 1, -GetMassError(rt));
-            float rtrange=parameter.RT_window_Targeted;            
+            float rtrange = parameter.RT_window_Targeted;
             if (rtrange == -1) {
                 rtrange = Math.min(5, Math.max(pep.GetRTSD() * 2, parameter.RTtol));
             }
@@ -142,26 +146,26 @@ public class LCMSPeakBase {
         }
         return allclusterList;
     }
-    
+
     public ArrayList<PeakCluster> FindPeakClustersByMassIDTime(float mass, int charge, float RT, float RTtol) {
         ArrayList<PeakCluster> ReturnList = new ArrayList<>();
         float lowrt = RT - RTtol;
         float highrt = RT + RTtol;
         float lowmass = InstrumentParameter.GetMzByPPM(mass, 1, parameter.MS1PPM);
         float highmass = InstrumentParameter.GetMzByPPM(mass, 1, -parameter.MS1PPM);
-       
-        Object[] found=null;
+
+        Object[] found = null;
         try {
-            found = GetPeakClusterMassSearchTree().range(new double[]{lowrt,lowmass}, new double[]{highrt,highmass});
+            found = GetPeakClusterMassSearchTree().range(new double[]{lowrt, lowmass}, new double[]{highrt, highmass});
         } catch (KeySizeException ex) {
-            
+
         }
-        if(found==null || found.length==0){
+        if (found == null || found.length == 0) {
             return ReturnList;
         }
         for (Object obj : found) {
-            PeakCluster candidateCluster = (PeakCluster) obj;            
-            if (candidateCluster.Charge == charge && Math.abs(candidateCluster.PeakHeightRT[0] - RT) <= RTtol) {                
+            PeakCluster candidateCluster = (PeakCluster) obj;
+            if (candidateCluster.Charge == charge && Math.abs(candidateCluster.PeakHeightRT[0] - RT) <= RTtol) {
                 ReturnList.add(candidateCluster);
             }
         }
@@ -169,22 +173,22 @@ public class LCMSPeakBase {
     }
 
     public ArrayList<PeakCluster> FindPeakClustersByMassRTTol(float mass, int charge, float RT, float RTtol) {
-        
+
         ArrayList<PeakCluster> Clusters = new ArrayList<>();
         ArrayList<PeakCluster> TightRangeClusters = new ArrayList<>();
-        
+
         float lowrt = RT - RTtol;
         float highrt = RT + RTtol;
         float lowmass = InstrumentParameter.GetMzByPPM(mass, 1, parameter.MS1PPM);
         float highmass = InstrumentParameter.GetMzByPPM(mass, 1, -parameter.MS1PPM);
-       
-        Object[] found=null;
+
+        Object[] found = null;
         try {
-            found = GetPeakClusterMassSearchTree().range(new double[]{lowrt,lowmass}, new double[]{highrt,highmass});
+            found = GetPeakClusterMassSearchTree().range(new double[]{lowrt, lowmass}, new double[]{highrt, highmass});
         } catch (KeySizeException ex) {
-            
+
         }
-        if(found==null || found.length==0){
+        if (found == null || found.length == 0) {
             return Clusters;
         }
         for (Object obj : found) {
@@ -255,7 +259,7 @@ public class LCMSPeakBase {
             PeakAreaString += ",PeakArea" + (i + 1);
         }
 
-        writer.write("Cluster_Index,StartRT,EndRT,StartScan,EndScan,Identified,Charge" + mzstring + Idxstring + CorrString + SNRString + PeakheightString + PeakheightRTString + PeakAreaString  + ",IsoMapProb,ConflictCorr,LeftInt,RightInt,NoRidges,MS1Score,MS1Prob,MS1LProb\n");
+        writer.write("Cluster_Index,StartRT,EndRT,StartScan,EndScan,Identified,Charge" + mzstring + Idxstring + CorrString + SNRString + PeakheightString + PeakheightRTString + PeakAreaString + ",IsoMapProb,ConflictCorr,LeftInt,RightInt,NoRidges,MS1Score,MS1Prob,MS1LProb\n");
 
         for (PeakCluster cluster : PeakClusters) {
             IdentifiedString = "0";
@@ -284,30 +288,30 @@ public class LCMSPeakBase {
                 PeakheightRTString += cluster.PeakHeightRT[i] + ",";
                 PeakAreaString += cluster.PeakArea[i] + ",";
             }
-            statementString += mzstring + Idxstring + CorrString + SNRString + PeakheightString + PeakheightRTString + PeakAreaString  + cluster.IsoMapProb + "," + cluster.GetConflictCorr() + "," + cluster.LeftInt + "," + cluster.RightInt + "," + cluster.NoRidges + "," + cluster.MS1Score + "," + cluster.MS1ScoreProbability + "," + cluster.MS1ScoreLocalProb + "\n";
+            statementString += mzstring + Idxstring + CorrString + SNRString + PeakheightString + PeakheightRTString + PeakAreaString + cluster.IsoMapProb + "," + cluster.GetConflictCorr() + "," + cluster.LeftInt + "," + cluster.RightInt + "," + cluster.NoRidges + "," + cluster.MS1Score + "," + cluster.MS1ScoreProbability + "," + cluster.MS1ScoreLocalProb + "\n";
             writer.write(statementString);
         }
         writer.close();
         //System.out.print("Finished multithreading\n");
     }
-    
+
     public void ExportPeakCluster() throws IOException {
-        WritePeakClusterSerialization();      
+        WritePeakClusterSerialization();
     }
 
     //Default path to store peak data serialization files  
-     public void CreatePeakFolder(){
-        new File(FilenameUtils.getFullPath(ParentmzXMLName)+FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/").mkdir();        
+    public void CreatePeakFolder() {
+        new File(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/").mkdir();
     }
-    
-    public void WritePeakClusterSerialization() {        
+
+    public void WritePeakClusterSerialization() {
         FS_PeakClusterWrite();
     }
 
     private void FS_PeakClusterWrite() {
         try {
-            Logger.getRootLogger().info("Writing PeakCluster serialization to file:" +  FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS...");
-            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS", false);
+            Logger.getRootLogger().info("Writing PeakCluster serialization to file:" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS...");
+            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS", false);
             FSTObjectOutput out = new FSTObjectOutput(fout);
             out.writeObject(PeakClusters);
             out.close();
@@ -317,11 +321,11 @@ public class LCMSPeakBase {
             JavaSerializationPeakClusterWrite();
         }
     }
-    
+
     private void JavaSerializationPeakClusterWrite() {
         try {
-            Logger.getRootLogger().info("Writing PeakCluster serialization to file:" +  FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser...");
-            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser", false);
+            Logger.getRootLogger().info("Writing PeakCluster serialization to file:" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser...");
+            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser", false);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(PeakClusters);
             oos.close();
@@ -331,30 +335,31 @@ public class LCMSPeakBase {
         }
     }
 
-     public boolean ReadPeakCluster() {
+    public boolean ReadPeakCluster() {
         return ReadPeakClusterSerialization();
     }
+
     private boolean ReadPeakClusterSerialization() {
-        if(!FS_PeakClusterRead()){
+        if (!FS_PeakClusterRead()) {
             if (JavaSerializationPeakClusterRead()) {
                 return true;
             }
             return false;
         }
-        for(PeakCluster cluster : PeakClusters){
+        for (PeakCluster cluster : PeakClusters) {
             cluster.CreateLock();
         }
-        return true;        
+        return true;
     }
 
     private boolean JavaSerializationPeakClusterRead() {
-        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser").exists()) {
+        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser").exists()) {
             return false;
         }
         try {
             Logger.getRootLogger().info("Reading PeakCluster serialization from file:" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser...");
 
-            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser");
+            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             PeakClusters = (ArrayList<PeakCluster>) in.readObject();
             in.close();
@@ -367,49 +372,49 @@ public class LCMSPeakBase {
     }
 
     private boolean FS_PeakClusterRead() {
-        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS").exists()) {
+        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS").exists()) {
             return false;
         }
         try {
             Logger.getRootLogger().info("Reading PeakCluster serialization from file:" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS...");
 
-            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName)+ "_PeakCluster.serFS");
+            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS");
             FSTObjectInput in = new FSTObjectInput(fileIn);
             PeakClusters = (ArrayList<PeakCluster>) in.readObject();
             in.close();
-            fileIn.close();            
-        } catch (Exception ex) {            
+            fileIn.close();
+        } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
-            if(FS_PeakClusterRead_Old()){
-                WritePeakClusterSerialization();                
+            if (FS_PeakClusterRead_Old()) {
+                WritePeakClusterSerialization();
                 return true;
             }
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return false;
-        } 
+        }
         return true;
     }
-    
+
     private boolean FS_PeakClusterRead_Old() {
-        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS").exists()) {
+        if (!new File(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS").exists()) {
             return false;
         }
         try {
             Logger.getRootLogger().info("Old PeakCluster serialization from file:" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS...");
 
-            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName)+ FilenameUtils.getBaseName(ParentmzXMLName)+"_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS");
+            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakCluster.serFS");
             org.nustaq_old.serialization.FSTObjectInput in = new org.nustaq_old.serialization.FSTObjectInput(fileIn);
             PeakClusters = (ArrayList<PeakCluster>) in.readObject();
             in.close();
-            fileIn.close();            
+            fileIn.close();
         } catch (Exception ex) {
             Logger.getRootLogger().error("Old version reader still failed.");
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return false;
-        } 
+        }
         return true;
     }
-    
+
     public void ExportPeakClusterRegionTXT() throws IOException {
         FileWriter writer = new FileWriter(FilenameUtils.getFullPath(ScanCollectionName) + FilenameUtils.getBaseName(ScanCollectionName) + "_PeakClusterRange.txt");
         for (PeakCluster cluster : PeakClusters) {
@@ -424,7 +429,7 @@ public class LCMSPeakBase {
             peak.MonoIsotopePeak = null;
         }
     }
-    
+
     public KDTree GetPeakClusterMassSearchTree() {
         if (PeakClusterMassSearchTree == null) {
             Logger.getRootLogger().info("Building PeakCluster Mass-RT KD tree");
@@ -440,14 +445,14 @@ public class LCMSPeakBase {
         }
         return PeakClusterMassSearchTree;
     }
-       
-    public KDTree GetPeakCurveSearchTree(){
-        if(PeakCurveSearchTree==null){
+
+    public KDTree GetPeakCurveSearchTree() {
+        if (PeakCurveSearchTree == null) {
             Logger.getRootLogger().info("Building PeakCurve Mass-RT KD tree");
-            PeakCurveSearchTree=new KDTree(2);
-            for(PeakCurve peakCurve : UnSortedPeakCurves){
+            PeakCurveSearchTree = new KDTree(2);
+            for (PeakCurve peakCurve : UnSortedPeakCurves) {
                 try {
-                    PeakCurveSearchTree.insert(new double[]{peakCurve.ApexRT,peakCurve.TargetMz}, peakCurve);
+                    PeakCurveSearchTree.insert(new double[]{peakCurve.ApexRT, peakCurve.TargetMz}, peakCurve);
                 } catch (KeySizeException ex) {
                     java.util.logging.Logger.getLogger(LCMSPeakBase.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (KeyDuplicateException ex) {
@@ -460,7 +465,7 @@ public class LCMSPeakBase {
 
     public SortedCurveCollectionApexRT GetPeakCurveListRT() {
         if (PeakCurveListRT == null) {
-            PeakCurveListRT=new SortedCurveCollectionApexRT();
+            PeakCurveListRT = new SortedCurveCollectionApexRT();
             PeakCurveListRT.addAll(UnSortedPeakCurves);
         }
         return PeakCurveListRT;

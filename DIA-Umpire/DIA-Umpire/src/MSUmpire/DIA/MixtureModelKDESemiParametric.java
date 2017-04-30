@@ -23,6 +23,7 @@ import MSUmpire.MathPackage.KMeans;
 import ExternalPackages.jMEF.ExpectationMaximization1D;
 import ExternalPackages.jMEF.MixtureModel;
 import ExternalPackages.jMEF.PVector;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Vector;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
@@ -76,9 +78,9 @@ public class MixtureModelKDESemiParametric {
     double[] inicorrect_kde_y;
 
     public void GeneratePlot(String pngfile) throws IOException {
-        String modelfile = FilenameUtils.getFullPath(pngfile) + "/" + FilenameUtils.getBaseName(pngfile)+ "_ModelPoints.txt";
-        FileWriter writer=new FileWriter(modelfile);
-        
+        String modelfile = FilenameUtils.getFullPath(pngfile) + "/" + FilenameUtils.getBaseName(pngfile) + "_ModelPoints.txt";
+        FileWriter writer = new FileWriter(modelfile);
+
         double[] IDObs = new double[IDEmpiricalDist.getN()];
         double[] DecoyObs = new double[DecoyEmpiricalDist.getN()];
 
@@ -98,10 +100,10 @@ public class MixtureModelKDESemiParametric {
             model1.add(model_kde_x[i], decoy_kde_y[i]);
             model2.add(model_kde_x[i], correct_kde_y[i]);
             model3.add(model_kde_x[i], model_kde_y[i]);
-            writer.write(model_kde_x[i]+"\t"+model_kde_y[i]+"\t"+correct_kde_y[i]+"\t"+decoy_kde_y[i]+"\n");
+            writer.write(model_kde_x[i] + "\t" + model_kde_y[i] + "\t" + correct_kde_y[i] + "\t" + decoy_kde_y[i] + "\n");
         }
         writer.close();
-        
+
         MixtureModelProb = new Float[NoBinPoints + 1][3];
         float positiveaccu = 0f;
         float negativeaccu = 0f;
@@ -111,14 +113,14 @@ public class MixtureModelKDESemiParametric {
         MixtureModelProb[0][2] = 1f;
 
         for (int i = 1; i < NoBinPoints + 1; i++) {
-            double positiveNumber = correct_kde_y[NoBinPoints-i];
-            double negativeNumber = decoy_kde_y[NoBinPoints-i];
-            MixtureModelProb[i][0] = (float) model_kde_x[NoBinPoints-i];
+            double positiveNumber = correct_kde_y[NoBinPoints - i];
+            double negativeNumber = decoy_kde_y[NoBinPoints - i];
+            MixtureModelProb[i][0] = (float) model_kde_x[NoBinPoints - i];
             positiveaccu += positiveNumber;
             negativeaccu += negativeNumber;
             MixtureModelProb[i][2] = 0.999999f * (float) (positiveNumber / (negativeNumber + positiveNumber));
             MixtureModelProb[i][1] = 0.999999f * (float) (positiveaccu / (negativeaccu + positiveaccu));
-            }
+        }
 
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(model1);
@@ -159,17 +161,17 @@ public class MixtureModelKDESemiParametric {
         f1 = new double[TargetEmpiricalDist.getN()];
         f0 = new double[TargetEmpiricalDist.getN()];
         //double[] plast = new double[TargetEmpiricalDist.getN()];
-        double miniIDscore=IDEmpiricalDist.getMean()-IDEmpiricalDist.getStandardDeviation()*3;
-        double meandecoy=DecoyEmpiricalDist.getSampleMean();
+        double miniIDscore = IDEmpiricalDist.getMean() - IDEmpiricalDist.getStandardDeviation() * 3;
+        double meandecoy = DecoyEmpiricalDist.getSampleMean();
         if (meandecoy > miniIDscore) {
             miniIDscore = meandecoy;
         }
-        
-        double targetlowidcdf=TargetEmpiricalDist.cdf(miniIDscore);
-        double decoylowidcdf=DecoyEmpiricalDist.cdf(miniIDscore);
-        weight_incorrect = targetlowidcdf/ decoylowidcdf;
-        weight_correct = 1-weight_incorrect;
-        
+
+        double targetlowidcdf = TargetEmpiricalDist.cdf(miniIDscore);
+        double decoylowidcdf = DecoyEmpiricalDist.cdf(miniIDscore);
+        weight_incorrect = targetlowidcdf / decoylowidcdf;
+        weight_correct = 1 - weight_incorrect;
+
         //initialization
         GenerateIniCorrectDensity();
         GenerateDecoyDensity();
@@ -178,7 +180,7 @@ public class MixtureModelKDESemiParametric {
             f1[i] = IniCorrectKDELookUp(TargetEmpiricalDist.getObs(i));
             f0[i] = DecoyKDELookUp(TargetEmpiricalDist.getObs(i));
             //p[i] = f1[i] / TargetKDELookUp(TargetEmpiricalDist.getObs(i));
-            p[i] = f1[i] / (f1[i]+f0[i]);
+            p[i] = f1[i] / (f1[i] + f0[i]);
             pisum += p[i];
         }
 
@@ -190,7 +192,7 @@ public class MixtureModelKDESemiParametric {
         for (int i = 0; i < TargetEmpiricalDist.getN(); i++) {
             decoydensity = DecoyKDELookUp(TargetEmpiricalDist.getObs(i));
             correctdensity = CorrectKDELookUp(TargetEmpiricalDist.getObs(i));
-            likelihood += Math.log(decoydensity + correctdensity);            
+            likelihood += Math.log(decoydensity + correctdensity);
         }
 
         int iterations = 0;
@@ -202,18 +204,18 @@ public class MixtureModelKDESemiParametric {
         do {
 
             logLikelihoodOld = logLikelihoodNew;
-            
+
             // Update of iterations and log likelihood value
             Update();
             iterations++;
-            logLikelihoodNew=0;
+            logLikelihoodNew = 0;
             for (int i = 0; i < TargetEmpiricalDist.getN(); i++) {
                 decoydensity = DecoyKDELookUp(TargetEmpiricalDist.getObs(i));
                 correctdensity = CorrectKDELookUp(TargetEmpiricalDist.getObs(i));
-                logLikelihoodNew += Math.log(decoydensity + correctdensity);    
+                logLikelihoodNew += Math.log(decoydensity + correctdensity);
             }
             // Display
-            Logger.getRootLogger().debug("Iterations:"+iterations + " LogLikelihood :"+logLikelihoodNew+ " total prob="+pisum);
+            Logger.getRootLogger().debug("Iterations:" + iterations + " LogLikelihood :" + logLikelihoodNew + " total prob=" + pisum);
             //System.out.printf("%2d : %12.6f\n", iterations, logLikelihoodNew);
         } while (Math.abs(logLikelihoodNew - logLikelihoodOld) > logLikelihoodThreshold && iterations < MAX_ITERATIONS);
         weight_correct = pisum / TargetEmpiricalDist.getN();
@@ -223,14 +225,14 @@ public class MixtureModelKDESemiParametric {
     }
 
     private void Update() {
-        pisum=0d;
+        pisum = 0d;
         for (int i = 0; i < TargetEmpiricalDist.getN(); i++) {
             f1[i] = CorrectKDELookUp(TargetEmpiricalDist.getObs(i));
             f0[i] = DecoyKDELookUp(TargetEmpiricalDist.getObs(i));
-            p[i] = f1[i] / (f1[i]+f0[i]);
+            p[i] = f1[i] / (f1[i] + f0[i]);
             pisum += p[i];
         }
-        GenerateCorrectDensity(); 
+        GenerateCorrectDensity();
     }
 
     public void SetData(double[] targetdata, double[] decoydata, double[] iddata) {
@@ -244,14 +246,14 @@ public class MixtureModelKDESemiParametric {
         IDEmpiricalDist = new EmpiricalDist(iddata);
         //Silverman's ‘rule of thumb’ (Scott Variation uses factor = 1.06)
         bandWidth = 0.99 * Math.min(TargetEmpiricalDist.getSampleStandardDeviation(), (TargetEmpiricalDist.getInterQuartileRange() / 1.34)) / Math.pow(TargetEmpiricalDist.getN(), 0.2);
-        
+
         float intv = (max - min) / NoBinPoints;
         //bandWidth=intv*5;
         model_kde_x = new double[NoBinPoints];
         for (int i = 0; i < NoBinPoints; i++) {
             model_kde_x[i] = min + i * intv;
         }
-        GenerateTargetDensity();        
+        GenerateTargetDensity();
     }
 
     private void GenerateIniCorrectDensity() {
@@ -387,5 +389,5 @@ public class MixtureModelKDESemiParametric {
 
     private double DecoyKDE(double x) {
         return KDE(DecoyEmpiricalDist, x);
-    }    
+    }
 }

@@ -23,23 +23,26 @@ import com.compomics.util.experiment.biology.PTM;
 import com.compomics.util.experiment.biology.PTMFactory;
 import com.compomics.util.experiment.identification.matches.ModificationMatch;
 import com.compomics.util.io.SerializationUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * PTM library manager from compomics
+ *
  * @author Chih-Chiang Tsou
  */
 public class PTMManager {
 
     private PTMFactory ptmFactory;
     private static PTMManager pTMManager;
-    private String tempptmfile="ptmFactory-3.28.24.cus";
-    private String tmpfilefolder=System.getProperty("user.home") + "/.compomics";
+    private String tempptmfile = "ptmFactory-3.28.24.cus";
+    private String tmpfilefolder = System.getProperty("user.home") + "/.compomics";
 
     public static PTMManager GetInstance() throws XmlPullParserException, IOException {
         if (pTMManager == null) {
@@ -47,20 +50,20 @@ public class PTMManager {
         }
         return pTMManager;
     }
-       
-    private PTMManager() throws XmlPullParserException, IOException { 
+
+    private PTMManager() throws XmlPullParserException, IOException {
         //PTMManager.GetInstance();
-        
+
         InputStream is = this.getClass().getClassLoader().getResourceAsStream("resource/mods.xml");
         String tmpfile = "mods.xml";
         InputStreamToFile convert = new InputStreamToFile();
 
         File ptmFile = convert.GetFile(is, tmpfile);
         PTMFactory.setSerializationFolder(tmpfilefolder);
-        
+
         PTMFactory.getInstance().clearFactory();
         PTMFactory.getInstance().importModifications(ptmFile, false, true);
-        ptmFactory = PTMFactory.getInstance();   
+        ptmFactory = PTMFactory.getInstance();
         if (!ptmFactory.getDefaultModifications().isEmpty()) {
             SaveTempFile();
         } else {
@@ -75,24 +78,23 @@ public class PTMManager {
         }
         SerializationUtils.writeObject(ptmFactory, factoryFile);
     }
-    
-    
-    
-    public void ImportUserMod(String file) throws XmlPullParserException, IOException{
-        File usermod=new File(file);        
+
+
+    public void ImportUserMod(String file) throws XmlPullParserException, IOException {
+        File usermod = new File(file);
         if (usermod.exists()) {
-            ptmFactory.importModifications(usermod, true,false);
+            ptmFactory.importModifications(usermod, true, false);
             if (!ptmFactory.getDefaultModifications().isEmpty()) {
                 SaveTempFile();
+            } else {
+                Logger.getRootLogger().error("Modification map file is empty");
+                ;
             }
-            else{
-                Logger.getRootLogger().error("Modification map file is empty");;
-            }
-        }        
+        }
     }
-    
-    
-    public static ArrayList<ModificationMatch> TranslateModificationString(String ModificationString) {        
+
+
+    public static ArrayList<ModificationMatch> TranslateModificationString(String ModificationString) {
         ArrayList<ModificationMatch> modlist = new ArrayList<>();
         if (ModificationString != null && !"".equals(ModificationString)) {
             String[] Mods = ModificationString.split(";");
@@ -104,13 +106,13 @@ public class PTMManager {
         }
         return modlist;
     }
-    
-    
-    public void AddPTM(PTM ptm) throws IOException{
+
+
+    public void AddPTM(PTM ptm) throws IOException {
         ptmFactory.addUserPTM(ptm);
         ptmFactory.saveFactory();
     }
-    
+
     public PTM GetPTM(String AA, float massdiff) {
 
         double smallmassdiff = Double.MAX_VALUE;
@@ -141,16 +143,16 @@ public class PTMManager {
         }
         return smallestdiffptm;
     }
-    
+
     public PTM GetPTMByName(String modname) {
 
         for (int i = 0; i < ptmFactory.getPTMs().size(); i++) {
             String name = ptmFactory.getPTMs().get(i);
             PTM ptm = ptmFactory.getPTM(name);
-            if (ptm.getName()== null ? modname == null : ptm.getName().equals(modname)) {
+            if (ptm.getName() == null ? modname == null : ptm.getName().equals(modname)) {
                 return ptm;
             }
         }
         return null;
-    }        
+    }
 }

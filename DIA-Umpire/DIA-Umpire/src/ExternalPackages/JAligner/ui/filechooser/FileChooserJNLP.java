@@ -26,58 +26,58 @@ import javax.jnlp.ServiceManager;
 
 /**
  * Opens and saves files.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public class FileChooserJNLP extends FileChooser {
     private static final Logger logger = Logger.getLogger(FileChooserJNLP.class.getName());
-    
-	/**
-	 * Shows a dialog to select a file.
-	 * 
-	 * @return InputStream
-	 * @throws FileChooserException
-	 */
-	public NamedInputStream open() throws FileChooserException {
-		try {
-		    FileOpenService fos = (FileOpenService) ServiceManager.lookup(FileOpenService.class.getName());
-			FileContents fc = null;
-			if ((fc = fos.openFileDialog(getUserDirectory(), null)) != null) {
-			    logger.info("Loaded: " + fc.getName());
-				return new NamedInputStream(fc.getName(), fc.getInputStream());
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-		    String message = "Failed open: " + e.getMessage();
-		    logger.warning(message);
-		    throw new FileChooserException(message);
-		}
-	}
 
-	/**
-	 * Saves an input stream to a file.
-	 * 
-	 * @param is
-	 * @param fileName
-	 * @return Boolean
-	 * @throws FileChooserException
-	 */
-	public boolean save(InputStream is, String fileName) throws FileChooserException {
-		try {
-		    FileSaveService fss = (FileSaveService) ServiceManager.lookup(FileSaveService.class.getName());
-		    FileContents fc = fss.saveFileDialog(getUserDirectory(), null, is, fileName);
-		    if (fc != null) {
-		        logger.info("Saved: " + fc.getName());
-		        return true;
-		    } else {
-		        return false;
-		    }
-		} catch (Exception e) {
-		    String message = "Failed save: " + e.getMessage();
-		    logger.warning(message);
-		    throw new FileChooserException(message);
-		}
-	} 
+    /**
+     * Shows a dialog to select a file.
+     *
+     * @return InputStream
+     * @throws FileChooserException
+     */
+    public NamedInputStream open() throws FileChooserException {
+        try {
+            FileOpenService fos = (FileOpenService) ServiceManager.lookup(FileOpenService.class.getName());
+            FileContents fc = null;
+            if ((fc = fos.openFileDialog(getUserDirectory(), null)) != null) {
+                logger.info("Loaded: " + fc.getName());
+                return new NamedInputStream(fc.getName(), fc.getInputStream());
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            String message = "Failed open: " + e.getMessage();
+            logger.warning(message);
+            throw new FileChooserException(message);
+        }
+    }
+
+    /**
+     * Saves an input stream to a file.
+     *
+     * @param is
+     * @param fileName
+     * @return Boolean
+     * @throws FileChooserException
+     */
+    public boolean save(InputStream is, String fileName) throws FileChooserException {
+        try {
+            FileSaveService fss = (FileSaveService) ServiceManager.lookup(FileSaveService.class.getName());
+            FileContents fc = fss.saveFileDialog(getUserDirectory(), null, is, fileName);
+            if (fc != null) {
+                logger.info("Saved: " + fc.getName());
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            String message = "Failed save: " + e.getMessage();
+            logger.warning(message);
+            throw new FileChooserException(message);
+        }
+    }
 }

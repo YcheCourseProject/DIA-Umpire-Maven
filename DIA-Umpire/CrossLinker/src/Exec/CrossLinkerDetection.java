@@ -18,6 +18,7 @@ import MSUmpire.SpectralProcessingModule.ScanIsotopePeakDetectionThread;
 import MSUmpire.SpectralProcessingModule.ScanPeakGroup;
 import MSUmpire.Utility.ConsoleLogger;
 import crosslinker.Linker;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,6 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Level;
@@ -39,7 +41,6 @@ import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class CrossLinkerDetection {
@@ -64,7 +65,7 @@ public class CrossLinkerDetection {
         Logger logger = Logger.getRootLogger();
 
         InstrumentParameter parameter = null;
-        Linker linker=new Linker();
+        Linker linker = new Linker();
         parameter = new InstrumentParameter(InstrumentParameter.InstrumentType.Orbitrap);
         parameter.MS1PPM = 20;
         parameter.MS2PPM = 600f;
@@ -79,7 +80,7 @@ public class CrossLinkerDetection {
         parameter.RemoveGroupedPeaksRTOverlap = 0.6f;
         parameter.MS2PairTopN = 5;
         parameter.DetectSameChargePairOnly = true;
-        
+
         parameter.MinPeakPerPeakCurve = 3;
         parameter.MaxCurveRTRange = 5f;
         parameter.NoMissedScan = 3;
@@ -258,14 +259,14 @@ public class CrossLinkerDetection {
                         parameter.MS2Pairing = Boolean.parseBoolean(value);
                         break;
                     }
-                    case "CXL.CoreMass":{
-                        linker.Core=Float.parseFloat(value);
+                    case "CXL.CoreMass": {
+                        linker.Core = Float.parseFloat(value);
                         break;
                     }
-                    case "CXL.ArmMass":{
-                        linker.Arm=Float.parseFloat(value);
+                    case "CXL.ArmMass": {
+                        linker.Arm = Float.parseFloat(value);
                         break;
-                    }                            
+                    }
 
 //</editor-fold>//</editor-fold>                   
                 }
@@ -280,7 +281,7 @@ public class CrossLinkerDetection {
         ArrayList<ScanPeakGroup> MS2ScanPeakGroup = null;
 
         lCMSPeakBase = new LCMSPeakMS1(FilePath, parameter, NoCPUs);
-        lCMSPeakBase.Resume=false;
+        lCMSPeakBase.Resume = false;
         try {
             //Detect MS1 peak clusters
             lCMSPeakBase.PeakClusterDetection();
@@ -334,10 +335,10 @@ public class CrossLinkerDetection {
             for (ScanIsotopePeakDetectionThread scan : ResultList) {
                 MS2ScanPeakGroup.add(scan.scanpeak);
             }
-        //detection.DetectSingleMZTraces(scans);
+            //detection.DetectSingleMZTraces(scans);
             //lCMSPeakBase.ExportPeakCurveResult();
         }
-        
+
         //Initialize crosslinker peak pair finder
         CrosslinkerPepFinder finder = new CrosslinkerPepFinder(lCMSPeakBase, medianIntensity, linker);
 
@@ -397,6 +398,6 @@ public class CrossLinkerDetection {
             }
             writer.close();
         }
-         Logger.getRootLogger().info("Done");
+        Logger.getRootLogger().info("Done");
     }
 }

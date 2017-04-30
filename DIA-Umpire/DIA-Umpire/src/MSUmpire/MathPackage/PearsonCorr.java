@@ -23,7 +23,6 @@ import MSUmpire.BaseDataStructure.XYPointCollection;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PearsonCorr {
@@ -96,10 +95,10 @@ public class PearsonCorr {
         arrayB = null;
         return R2;
     }
-    
+
     public double CalcCorrV2(XYPointCollection CollectionA, XYPointCollection CollectionB, int NoPointPerInterval) {
         SpearmansCorrelation pearsonsCorrelation = new SpearmansCorrelation();
-        
+
         int num = Math.max(CollectionA.PointCount(), CollectionB.PointCount()) / 2;
         float timeinterval = 2f / (float) NoPointPerInterval;
         if (num < 6) {
@@ -149,11 +148,11 @@ public class PearsonCorr {
             }
         }
 
-        if(arrayA[0]==0f){
-            arrayA[0]=arrayA[1];
+        if (arrayA[0] == 0f) {
+            arrayA[0] = arrayA[1];
         }
-        if(arrayB[0]==0f){
-            arrayB[0]=arrayB[1];
+        if (arrayB[0] == 0f) {
+            arrayB[0] = arrayB[1];
         }
         for (int idx = 1; idx < num - 1; idx++) {
             if (arrayA[idx] == 0f) {
@@ -163,17 +162,17 @@ public class PearsonCorr {
                 arrayB[idx] = (arrayB[idx - 1] + arrayB[idx + 1]) / 2;
             }
         }
-        
-        if(arrayA[num - 1]==0f){
-            arrayA[num - 1]=arrayA[num - 2];
+
+        if (arrayA[num - 1] == 0f) {
+            arrayA[num - 1] = arrayA[num - 2];
         }
-        if(arrayB[num - 1]==0f){
-            arrayB[num - 1]=arrayB[num - 2];
+        if (arrayB[num - 1] == 0f) {
+            arrayB[num - 1] = arrayB[num - 2];
         }
-        double R2 =pearsonsCorrelation.correlation(arrayA, arrayB); 
+        double R2 = pearsonsCorrelation.correlation(arrayA, arrayB);
         return R2;
     }
-    
+
     public float CalcCorr(XYPointCollection CollectionA, XYPointCollection CollectionB, int NoPointPerInterval) {
         Regression regression = new Regression();
 

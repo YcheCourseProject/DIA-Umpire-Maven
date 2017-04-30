@@ -21,22 +21,22 @@ package MSUmpire.MathPackage;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import jsc.distributions.ChiSquared;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class ChiSquareGOF {
 
     private static ChiSquareGOF models = null;
     public static ChiSquared[] chimodels;
-    public static ReadWriteLock lock = new ReentrantReadWriteLock();    
-    
-    private ChiSquareGOF(int maxpeak) {      
-        chimodels = new ChiSquared[maxpeak-1];
+    public static ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    private ChiSquareGOF(int maxpeak) {
+        chimodels = new ChiSquared[maxpeak - 1];
         for (int i = 1; i < maxpeak; i++) {
-            chimodels[i-1] = new ChiSquared(i);
+            chimodels[i - 1] = new ChiSquared(i);
         }
     }
 
@@ -67,11 +67,11 @@ public class ChiSquareGOF {
         if (Float.isNaN(gof) || nopeaks < 2) {
             return 0f;
         }
-        
-        if(chimodels[nopeaks-2]==null){
+
+        if (chimodels[nopeaks - 2] == null) {
             System.out.println("");
         }
-        
+
         float prob = 1 - (float) chimodels[nopeaks - 2].cdf(gof);
         return prob;
     }

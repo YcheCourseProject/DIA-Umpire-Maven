@@ -18,79 +18,86 @@ package ExternalPackages.JAligner;
 
 /**
  * A cell in a similarity matrix, to hold row, column and score.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public class Cell {
-	/**
-	 * Row of the cell
-	 */
-	private int row;
-	/**
-	 * Column of the cell
-	 */
-	private int col;
-	/**
-	 * Alignment score at this cell
-	 */
-	private float score;
-	
-	/**
-	 * Constructor
-	 */
-	public Cell() {
-		super();
-		this.row = 0;
-		this.col = 0;
-		this.score = Float.NEGATIVE_INFINITY;
-	}
-	/**
-	 * @return Returns the col.
-	 */
-	public int getCol() {
-		return this.col;
-	}
-	/**
-	 * @param col The col to set.
-	 */
-	public void setCol(int col) {
-		this.col = col;
-	}
-	/**
-	 * @return Returns the row.
-	 */
-	public int getRow() {
-		return this.row;
-	}
-	/**
-	 * @param row The row to set.
-	 */
-	public void setRow(int row) {
-		this.row = row;
-	}
-	/**
-	 * @return Returns the score.
-	 */
-	public float getScore() {
-		return this.score;
-	}
-	/**
-	 * @param score The score to set.
-	 */
-	public void setScore(float score) {
-		this.score = score;
-	}
-	
-	/**
-	 * Sets the row, column and score of the cell.
-	 * @param row The row to set.
-	 * @param col The col to set.
-	 * @param score The score to set.
-	 */
-	public void set(int row, int col, float score) {
-		this.row = row;
-		this.col = col;
-		this.score = score;
-	}
+    /**
+     * Row of the cell
+     */
+    private int row;
+    /**
+     * Column of the cell
+     */
+    private int col;
+    /**
+     * Alignment score at this cell
+     */
+    private float score;
+
+    /**
+     * Constructor
+     */
+    public Cell() {
+        super();
+        this.row = 0;
+        this.col = 0;
+        this.score = Float.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * @return Returns the col.
+     */
+    public int getCol() {
+        return this.col;
+    }
+
+    /**
+     * @param col The col to set.
+     */
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    /**
+     * @return Returns the row.
+     */
+    public int getRow() {
+        return this.row;
+    }
+
+    /**
+     * @param row The row to set.
+     */
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    /**
+     * @return Returns the score.
+     */
+    public float getScore() {
+        return this.score;
+    }
+
+    /**
+     * @param score The score to set.
+     */
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    /**
+     * Sets the row, column and score of the cell.
+     *
+     * @param row   The row to set.
+     * @param col   The col to set.
+     * @param score The score to set.
+     */
+    public void set(int row, int col, float score) {
+        this.row = row;
+        this.col = col;
+        this.score = score;
+    }
 }

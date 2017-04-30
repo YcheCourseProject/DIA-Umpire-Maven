@@ -34,6 +34,7 @@ import MSUmpire.PeptidePeakClusterDetection.PDHandlerDIAMS2;
 import MSUmpire.SpectrumParser.SpectrumParserBase;
 import MSUmpire.SpectrumParser.mzXMLParser;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,6 +50,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -56,7 +58,8 @@ import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
 
 /**
- * MS2 peak feature map related to a DIA MS2 isolation window 
+ * MS2 peak feature map related to a DIA MS2 isolation window
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class LCMSPeakDIAMS2 extends LCMSPeakBase {
@@ -89,48 +92,48 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
         this.NoCPUs = NoCPUs;
     }
 
-    public void ClearAllPeaks() {        
+    public void ClearAllPeaks() {
         BaseClearAllPeaks();
         FragmentsClu2Cur = null;
         UnFragIonClu2Cur = null;
-        FragmentMS1Ranking=null;
-        FragmentUnfragRanking=null;
-        MatchedFragmentMap=null;
-        System.gc();        
+        FragmentMS1Ranking = null;
+        FragmentUnfragRanking = null;
+        MatchedFragmentMap = null;
+        System.gc();
         //System.out.print("Peak data is released (Memory usage:" + Math.round((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576) + "MB)\n");
     }
 
-    public void RemoveFragmentPeakByMassDefect(){
-        MassDefect MD=new MassDefect();
-     Logger.getRootLogger().info("Performing mass defect filter on fragment peaks");
-     Logger.getRootLogger().info("No. of fragment peaks: "+UnSortedPeakCurves.size());
-        ArrayList<PeakCurve> newlist=new ArrayList<>();
+    public void RemoveFragmentPeakByMassDefect() {
+        MassDefect MD = new MassDefect();
+        Logger.getRootLogger().info("Performing mass defect filter on fragment peaks");
+        Logger.getRootLogger().info("No. of fragment peaks: " + UnSortedPeakCurves.size());
+        ArrayList<PeakCurve> newlist = new ArrayList<>();
         for (PeakCurve peakCurve : UnSortedPeakCurves) {
             for (int charge = 1; charge <= 2; charge++) {
-                float mass = charge * (peakCurve.TargetMz - (float)ElementaryIon.proton.getTheoreticMass());
+                float mass = charge * (peakCurve.TargetMz - (float) ElementaryIon.proton.getTheoreticMass());
                 if (MD.InMassDefectRange(mass, parameter.MassDefectOffset)) {
                     newlist.add(peakCurve);
                     break;
                 }
             }
         }
-        UnSortedPeakCurves=newlist;
-        Logger.getRootLogger().info("No. of remaining fragment peaks: "+UnSortedPeakCurves.size());
+        UnSortedPeakCurves = newlist;
+        Logger.getRootLogger().info("No. of remaining fragment peaks: " + UnSortedPeakCurves.size());
     }
 
     public void PeakDetectionPFGrouping(LCMSPeakMS1 ms1lcms) throws InterruptedException, ExecutionException, IOException, FileNotFoundException, Exception {
         if (!(Resume && ReadIfProcessed())) {
             PDHandlerDIAMS2 swathdetection = new PDHandlerDIAMS2(this, NoCPUs, ms1lcms, parameter.MS2PPM);
-            swathdetection.MSlevel = 2;            
+            swathdetection.MSlevel = 2;
             if (datattype != SpectralDataType.DataType.pSMART) {
                 swathdetection.DetectPeakCurves(GetScanCollection());
                 if (UnSortedPeakCurves.isEmpty()) {
                     Logger.getRootLogger().info("No peak detected...................");
                     return;
                 }
-                
+
                 ExportPeakCluster();
-                if(parameter.MassDefectFilter){
+                if (parameter.MassDefectFilter) {
                     RemoveFragmentPeakByMassDefect();
                 }
                 swathdetection.FragmentGrouping();
@@ -290,14 +293,14 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
         mgfWriter4.close();
         mapwriter3.close();
     }
-    
+
     public void GenerateMGF(LCMSPeakMS1 ms1lcms) throws IOException, InterruptedException {
         PrepareMGF_MS1Cluster(ms1lcms);
         PrepareMGF_UnfragmentIon();
     }
 
     public ScanCollection GetScanCollection() throws InterruptedException, ExecutionException, IOException {
-        return SpectrumParser.GetScanCollectionDIAMS2(DIA_MZ_Range, true,parameter.startRT, parameter.endRT);
+        return SpectrumParser.GetScanCollectionDIAMS2(DIA_MZ_Range, true, parameter.startRT, parameter.endRT);
     }
 
     public boolean ReadIfProcessed() {
@@ -307,25 +310,25 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
 
     HashMap<Integer, ArrayList<Float>> FragmentMS1Ranking;
     HashMap<Integer, ArrayList<Float>> FragmentUnfragRanking;
-    
+
     public void FilterByCriteriaUnfrag() {
-        
-        HashMap<Integer, ArrayList<PrecursorFragmentPairEdge>> templist=new HashMap<>();
-        
+
+        HashMap<Integer, ArrayList<PrecursorFragmentPairEdge>> templist = new HashMap<>();
+
         for (int clusterindex : UnFragIonClu2Cur.keySet()) {
             ArrayList<PrecursorFragmentPairEdge> newlist = new ArrayList<>();
             ArrayList<Float> CorrArrayList = new ArrayList<>();
-           HashMap<PrecursorFragmentPairEdge,Float> ScoreList=new HashMap<>();
-            for (PrecursorFragmentPairEdge fragmentClusterUnit : UnFragIonClu2Cur.get(clusterindex)) {                
-                float score=fragmentClusterUnit.Correlation*fragmentClusterUnit.Correlation*(float)Math.log(fragmentClusterUnit.Intensity);
-                ScoreList.put(fragmentClusterUnit,score);
+            HashMap<PrecursorFragmentPairEdge, Float> ScoreList = new HashMap<>();
+            for (PrecursorFragmentPairEdge fragmentClusterUnit : UnFragIonClu2Cur.get(clusterindex)) {
+                float score = fragmentClusterUnit.Correlation * fragmentClusterUnit.Correlation * (float) Math.log(fragmentClusterUnit.Intensity);
+                ScoreList.put(fragmentClusterUnit, score);
                 CorrArrayList.add(score);
             }
             Collections.sort(CorrArrayList);
             Collections.reverse(CorrArrayList);
-            
+
             for (PrecursorFragmentPairEdge fragmentClusterUnit : UnFragIonClu2Cur.get(clusterindex)) {
-                int CorrRank = 0;                
+                int CorrRank = 0;
                 for (int intidx = 0; intidx < CorrArrayList.size(); intidx++) {
                     if (CorrArrayList.get(intidx) <= ScoreList.get(fragmentClusterUnit)) {
                         CorrRank = intidx + 1;
@@ -337,13 +340,13 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
                 }
             }
             templist.put(clusterindex, newlist);
-            
+
         }
-        UnFragIonClu2Cur=templist;
+        UnFragIonClu2Cur = templist;
     }
-        
-    public void FilterByCriteria() {        
-        HashMap<Integer, ArrayList<PrecursorFragmentPairEdge>> templist=new HashMap<>();        
+
+    public void FilterByCriteria() {
+        HashMap<Integer, ArrayList<PrecursorFragmentPairEdge>> templist = new HashMap<>();
         for (int clusterindex : FragmentsClu2Cur.keySet()) {
             ArrayList<PrecursorFragmentPairEdge> newlist = new ArrayList<>();
             ArrayList<Float> CorrArrayList = new ArrayList<>();
@@ -368,11 +371,11 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
                     newlist.add(fragmentClusterUnit);
                 }
             }
-            templist.put(clusterindex, newlist);            
+            templist.put(clusterindex, newlist);
         }
-        FragmentsClu2Cur=templist;
+        FragmentsClu2Cur = templist;
     }
-    
+
     //Calculate precursor-fragment MS1 ranking (described in DIA-Umpire paper)
     public void BuildFragmentMS1ranking() {
         FragmentMS1Ranking = new HashMap<>();
@@ -402,7 +405,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
             }
         }
     }
-    
+
     //Calculate precursor-fragment MS2 unfragmented ion ranking (described in DIA-Umpire paper)
     public void BuildFragmentUnfragranking() {
         FragmentUnfragRanking = new HashMap<>();
@@ -432,15 +435,15 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
             }
         }
     }
-    
+
     public boolean ReadPrecursorFragmentClu2Cur() {
         return ReadCluster2CurveCorrSerialization() & ReadUnfragmentedCluster2CurveCorrSerialization();
     }
-  
+
     public void ExportUnfragmentedClusterCurve() throws IOException, SQLException {
         WriteUnfragmentedCluster2CurveCorrSerialization();
     }
-    
+
     public void WritePrecursorFragmentGrouping() {
         WriteCluster2CurveCorrSerialization();
         WriteUnfragmentedCluster2CurveCorrSerialization();
@@ -463,7 +466,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
         }
     }
 
-    private boolean ReadCluster2CurveCorrSerialization() {        
+    private boolean ReadCluster2CurveCorrSerialization() {
         if (!FSCluster2CurveRead()) {
             if (JavaSerializationCluster2CurveRead()) {
                 FSCluster2CurveWrite();
@@ -486,12 +489,13 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
             in.close();
             fileIn.close();
 
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return false;
         }
         return true;
     }
+
     private boolean JavaSerializationCluster2CurveRead() {
         if (!new File(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName) + "_Peak/" + FilenameUtils.getBaseName(ScanCollectionName) + "_Clus2Cur.ser").exists()) {
             return false;
@@ -511,7 +515,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
         return true;
     }
 
-    private void WriteUnfragmentedCluster2CurveCorrSerialization() {        
+    private void WriteUnfragmentedCluster2CurveCorrSerialization() {
         FSCluster2CurveUnfragWrite();
     }
 
@@ -551,7 +555,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
             in.close();
             fileIn.close();
 
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return false;
         }
@@ -583,7 +587,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
 
 
     public void ExtractFragmentForPeakCluser(PeakCluster Cluster) {
-        if (FragmentsClu2Cur!=null && FragmentsClu2Cur.containsKey(Cluster.Index)) {
+        if (FragmentsClu2Cur != null && FragmentsClu2Cur.containsKey(Cluster.Index)) {
             Cluster.fraglock.writeLock().lock();
             try {
                 for (PrecursorFragmentPairEdge fragmentClusterUnit : FragmentsClu2Cur.get(Cluster.Index)) {
@@ -598,7 +602,7 @@ public class LCMSPeakDIAMS2 extends LCMSPeakBase {
     }
 
     public void ExtractFragmentForUnfragPeakCluser(PeakCluster Cluster) {
-        if (UnFragIonClu2Cur!=null && UnFragIonClu2Cur.containsKey(Cluster.Index)) {
+        if (UnFragIonClu2Cur != null && UnFragIonClu2Cur.containsKey(Cluster.Index)) {
             Cluster.fraglock.writeLock().lock();
             try {
                 for (PrecursorFragmentPairEdge fragmentClusterUnit : UnFragIonClu2Cur.get(Cluster.Index)) {

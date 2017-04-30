@@ -37,6 +37,7 @@ import MSUmpire.SpectrumParser.DIA_Setting;
 import MSUmpire.SpectrumParser.SpectrumParserBase;
 import MSUmpire.SpectrumParser.mzXMLParser;
 import MSUmpire.Utility.MSConvert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -61,6 +63,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * Main data structure which represents a DIA file
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class DIAPack {
@@ -84,7 +87,7 @@ public class DIAPack {
     TargetMatchScoring TScoring;
     public boolean Resume;
 
-    
+
     private void RemoveIndexFile() {
         new File(FilenameUtils.removeExtension(Filename) + ".ScanPosFS").delete();
         new File(FilenameUtils.removeExtension(Filename) + ".RTidxFS").delete();
@@ -92,7 +95,7 @@ public class DIAPack {
         new File(FilenameUtils.removeExtension(Filename) + ".ScanidxFS").delete();
         new File(FilenameUtils.removeExtension(Filename) + ".DIAWindowsFS").delete();
     }
-    
+
     public void FixScanidx() {
         RemoveIndexFile();
         GetSpectrumParser();
@@ -101,7 +104,7 @@ public class DIAPack {
     public int Q1Scan = 0;
     public int Q2Scan = 0;
     public int Q3Scan = 0;
-  
+
     //Whether to use IDs from targeted re-extraction for quantification analysis
     public boolean UseMappedIon = false;
     //Whether to use probability threshold for targeted re-extraction to filter IDs
@@ -160,11 +163,11 @@ public class DIAPack {
                 System.exit(2);
             }
             dIA_Setting = SpectrumParser.dIA_Setting;
-            SaveDIASetting();            
+            SaveDIASetting();
         }
         return SpectrumParser;
     }
- 
+
     //Entry of processing of signal extraction and generating pseudo MS/MS spectra
     public void process() throws SQLException, IOException, InterruptedException, ExecutionException, ParserConfigurationException, SAXException, FileNotFoundException, DataFormatException, Exception {
         BuildDIAWindows();
@@ -185,9 +188,9 @@ public class DIAPack {
             if (i < WindowRange.length - 1) {
                 LastWinMz = (XYData) WindowRange[i + 1];
             }
-            
+
             LCMSPeakDIAMS2 diawindow = new LCMSPeakDIAMS2(Filename, this, parameter, DiaWinMz, LastWinMz, GetSpectrumParser(), NoCPUs);
-            diawindow.Resume=Resume;
+            diawindow.Resume = Resume;
             //pass the settings through to MS2 feature map
             diawindow.datattype = dIA_Setting.dataType;
             diawindow.ExportPeakCurveTable = ExportFragmentPeak;
@@ -295,7 +298,7 @@ public class DIAPack {
         reader4.close();
     }
 
-     public String GetForLibQ1Name() {
+    public String GetForLibQ1Name() {
         //return FilenameUtils.getBaseName(ScanCollectionName) + ".Q1";
         return FilenameUtils.getBaseName(Filename) + ".ForLibQ1";
     }
@@ -309,7 +312,7 @@ public class DIAPack {
         //return FilenameUtils.getBaseName(ScanCollectionName) + ".Q3";
         return FilenameUtils.getBaseName(Filename) + ".ForLibQ3";
     }
-    
+
     public String GetQ1Name() {
         //return FilenameUtils.getBaseName(ScanCollectionName) + ".Q1";
         return FilenameUtils.getBaseName(Filename) + "_Q1";
@@ -326,7 +329,7 @@ public class DIAPack {
     }
 
     public String GetiProphExtPepxml(String tag) {
-        return FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + "_"+tag+".iproph.pep.xml");
+        return FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + "_" + tag + ".iproph.pep.xml");
     }
 
     public String GetQ1Pepxml() {
@@ -448,21 +451,21 @@ public class DIAPack {
     public void AssignQuant(boolean export) throws IOException, SQLException {
         Logger.getRootLogger().info("Assign peak cluster to identified peptides");
         GenerateClusterScanNomapping();
-        
+
         ExecutorService executorPool = null;
         for (PeakCluster cluster : MS1FeatureMap.PeakClusters) {
             cluster.Identified = false;
         }
-        
+
         for (PepIonID pepIonID : IDsummary.GetPepIonList().values()) {
             pepIonID.MS1PeakClusters = new ArrayList<>();
             pepIonID.MS2UnfragPeakClusters = new ArrayList<>();
         }
-        
+
         //Assign precursor features and grouped fragments for all identified peptide ions for a isolation window
-        for (LCMSPeakDIAMS2 DIAWindow : DIAWindows) {            
-            DIA_window_Quant dia_w = new DIA_window_Quant(GetQ1Name(), GetQ2Name(), GetQ3Name(), ScanClusterMap_Q1, ScanClusterMap_Q2, ScanClusterMap_Q3, MS1FeatureMap, DIAWindow, IDsummary, NoCPUs);            
-            dia_w.run();            
+        for (LCMSPeakDIAMS2 DIAWindow : DIAWindows) {
+            DIA_window_Quant dia_w = new DIA_window_Quant(GetQ1Name(), GetQ2Name(), GetQ3Name(), ScanClusterMap_Q1, ScanClusterMap_Q2, ScanClusterMap_Q3, MS1FeatureMap, DIAWindow, IDsummary, NoCPUs);
+            dia_w.run();
         }
 
         executorPool = Executors.newFixedThreadPool(NoCPUs);
@@ -486,7 +489,7 @@ public class DIAPack {
     }
 
     public void AssignMappedPepQuant(boolean export, FragmentLibManager libManager) throws IOException, SQLException, XmlPullParserException {
-        TargetedExtractionQuant(export, libManager, 1.1f,-1f);
+        TargetedExtractionQuant(export, libManager, 1.1f, -1f);
     }
 
     //Quantification process for peptide ions from targeted re-extraction
@@ -495,10 +498,10 @@ public class DIAPack {
             Logger.getRootLogger().error("There is no peptide ion for targeted re-extraction.");
             return;
         }
-        parameter.RT_window_Targeted=RTWindow;
+        parameter.RT_window_Targeted = RTWindow;
         GenerateClusterScanNomapping();
         ExecutorService executorPool = null;
-        
+
         //Targeted re-extraction scoring
         TScoring = new TargetMatchScoring(Filename, libManager.LibID);
 
@@ -518,7 +521,7 @@ public class DIAPack {
                 pepIonID.MS1AlignmentProbability = 0f;
                 pepIonID.UScoreProbability_MS2 = 0f;
                 pepIonID.MS2AlignmentProbability = 0f;
-                pepIonID.TPPModSeq="Ext";
+                pepIonID.TPPModSeq = "Ext";
                 SearchList.add(pepIonID);
             }
         }
@@ -527,7 +530,7 @@ public class DIAPack {
         for (LCMSPeakDIAMS2 DIAWindow : DIAWindows) {
             Logger.getRootLogger().info("Assigning clusters for peak groups in MS2 isolation window:" + FilenameUtils.getBaseName(DIAWindow.ScanCollectionName));
 
-            if (!DIAWindow.ReadPeakCluster()|| !DIAWindow.ReadPrecursorFragmentClu2Cur()) {
+            if (!DIAWindow.ReadPeakCluster() || !DIAWindow.ReadPrecursorFragmentClu2Cur()) {
                 Logger.getRootLogger().warn("Reading results for " + DIAWindow.ScanCollectionName + " failed");
                 continue;
             }
@@ -540,7 +543,7 @@ public class DIAPack {
                     if (libManager.GetFragmentLib(pepIonID.GetKey()).FragmentGroups.size() >= 3) {
                         //U-score spectral matching
                         UmpireSpecLibMatch matchunit = new UmpireSpecLibMatch(MS1FeatureMap, DIAWindow, pepIonID, libManager.GetFragmentLib(pepIonID.GetKey()), libManager.GetDecoyFragmentLib(pepIonID.GetKey()), parameter);
-                        executorPool.execute(matchunit);                        
+                        executorPool.execute(matchunit);
                         TScoring.libTargetMatches.add(matchunit);
                     } else {
                         Logger.getRootLogger().warn("skipping " + pepIonID.GetKey() + ", it has only " + libManager.GetFragmentLib(pepIonID.GetKey()).FragmentGroups.size() + " matched fragments");
@@ -551,7 +554,7 @@ public class DIAPack {
             //For each identified peptide ion, calculate their U-score for LDA training
             for (PepIonID pepIonID : IDsummary.GetPepIonList().values()) {
                 if (libManager.PeptideFragmentLib.containsKey(pepIonID.GetKey()) && DIAWindow.DIA_MZ_Range.getX() <= pepIonID.NeutralPrecursorMz() && DIAWindow.DIA_MZ_Range.getY() >= pepIonID.NeutralPrecursorMz()) {
-                   //If the spectrum of peptide ion in the spectral library has more than three fragment peaks
+                    //If the spectrum of peptide ion in the spectral library has more than three fragment peaks
                     if (libManager.GetFragmentLib(pepIonID.GetKey()).FragmentGroups.size() >= 3) {
                         //U-score spectral matching
                         UmpireSpecLibMatch matchunit = new UmpireSpecLibMatch(MS1FeatureMap, DIAWindow, pepIonID, libManager.GetFragmentLib(pepIonID.GetKey()), libManager.GetDecoyFragmentLib(pepIonID.GetKey()), parameter);
@@ -572,23 +575,23 @@ public class DIAPack {
             }
             DIAWindow.ClearAllPeaks();
         }
-        
-        Logger.getRootLogger().info("Removing entries with no precursor signal hits: total target entries: "+TScoring.libTargetMatches.size());
-        ArrayList<UmpireSpecLibMatch> newlist=new ArrayList<>();
-        for(UmpireSpecLibMatch match : TScoring.libTargetMatches){
+
+        Logger.getRootLogger().info("Removing entries with no precursor signal hits: total target entries: " + TScoring.libTargetMatches.size());
+        ArrayList<UmpireSpecLibMatch> newlist = new ArrayList<>();
+        for (UmpireSpecLibMatch match : TScoring.libTargetMatches) {
             if (!match.DecoyHits.isEmpty() || !match.TargetHits.isEmpty()) {
                 newlist.add(match);
             }
         }
-        TScoring.libTargetMatches=newlist;
-        Logger.getRootLogger().info("Remaining entries: "+TScoring.libTargetMatches.size());
-        
+        TScoring.libTargetMatches = newlist;
+        Logger.getRootLogger().info("Remaining entries: " + TScoring.libTargetMatches.size());
+
         //U-score and probablilty calculatation  
-        TScoring.Process();    
-        TargetHitPepXMLWriter pepxml=new TargetHitPepXMLWriter(GetiProphExtPepxml(libManager.LibID), IDsummary.FastaPath, IDsummary.DecoyTag, TScoring);
+        TScoring.Process();
+        TargetHitPepXMLWriter pepxml = new TargetHitPepXMLWriter(GetiProphExtPepxml(libManager.LibID), IDsummary.FastaPath, IDsummary.DecoyTag, TScoring);
         TScoring = null;
         executorPool = Executors.newFixedThreadPool(NoCPUs);
-        
+
         //Assign precursor peak cluster, extract fragments and do quantification
         for (PepIonID pepIonID : IDsummary.GetMappedPepIonList().values()) {
             DIAAssignQuantUnit quantunit = new DIAAssignQuantUnit(pepIonID, MS1FeatureMap, parameter);
@@ -605,7 +608,7 @@ public class DIAPack {
         } catch (InterruptedException e) {
             Logger.getRootLogger().info("interrupted..");
         }
-        
+
         if (export) {
             ExportID();
         }
@@ -624,11 +627,11 @@ public class DIAPack {
             MS1FeatureMap.IDsummary = IDsummary;
         }
         this.IDsummary.Filename = Filename;
-        this.IDsummary.mzXMLFileName=Filename;
+        this.IDsummary.mzXMLFileName = Filename;
         return true;
     }
-    
-    public void SetPepXMLPath(){
+
+    public void SetPepXMLPath() {
         iProphPepXMLs = new ArrayList<String>();
         String PepXMLPath1 = FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(Filename) + "interact-" + GetQ1Name() + ".pep.xml");
         String PepXMLPath2 = FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(Filename) + "interact-" + GetQ2Name() + ".pep.xml");
@@ -637,7 +640,7 @@ public class DIAPack {
         iProphPepXMLs.add(PepXMLPath2);
         iProphPepXMLs.add(PepXMLPath3);
     }
-    
+
     public void ParsePepXML(DBSearchParam searchPara, LCMSID refID) throws ParserConfigurationException, SAXException, IOException, XmlPullParserException, ClassNotFoundException, InterruptedException {
 
         SetPepXMLPath();
@@ -667,34 +670,34 @@ public class DIAPack {
         }
     }
 
-    private String GetSkylineFolder(){
+    private String GetSkylineFolder() {
         return FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + "_Skyline/";
     }
-    
+
     public void CreateSkylingImportFolder() {
         new File(GetSkylineFolder()).mkdir();
     }
-    
-    public boolean RawMGFExist(){
-        return (new File(GetSkylineFolder() + GetForLibQ1Name() + ".mgf").exists() && new File(GetSkylineFolder() + GetForLibQ2Name() + ".mgf").exists() && new File(GetSkylineFolder() + GetForLibQ3Name() + ".mgf").exists());            
+
+    public boolean RawMGFExist() {
+        return (new File(GetSkylineFolder() + GetForLibQ1Name() + ".mgf").exists() && new File(GetSkylineFolder() + GetForLibQ2Name() + ".mgf").exists() && new File(GetSkylineFolder() + GetForLibQ3Name() + ".mgf").exists());
     }
-    
-    public void ConvertRawMGF(String msconvertpath){        
+
+    public void ConvertRawMGF(String msconvertpath) {
         MSConvert mSConvert = new MSConvert(GetSkylineFolder() + GetForLibQ1Name() + ".mgf");
-        mSConvert.msconvertpath=msconvertpath;
+        mSConvert.msconvertpath = msconvertpath;
         mSConvert.Convert();
         mSConvert.SpectrumPath = GetSkylineFolder() + GetForLibQ2Name() + ".mgf";
         mSConvert.Convert();
         mSConvert.SpectrumPath = GetSkylineFolder() + GetForLibQ3Name() + ".mgf";
-        mSConvert.Convert();        
+        mSConvert.Convert();
     }
-    
+
     //Generate pseudo MS/MS spectra with raw fragment intensities
     public void GenerateRawMGF() throws IOException, Exception {
-        
-        if(RawMGFExist()){
+
+        if (RawMGFExist()) {
             return;
-        }        
+        }
         Logger.getRootLogger().info("Extracting pseudo MS/MS spectra with raw intensity");
         HashMap<Integer, ArrayList<PseudoMSMSProcessing>> ScanList = new HashMap<>();
         HashMap<String, PseudoMSMSProcessing> UnfragScanList = new HashMap<>();
@@ -709,7 +712,7 @@ public class DIAPack {
             DIAwindow.FilterByCriteriaUnfrag();
             for (PeakCluster ms1cluster : MS1FeatureMap.PeakClusters) {
                 if (DIAwindow.DIA_MZ_Range.getX() <= ms1cluster.GetMaxMz() && DIAwindow.DIA_MZ_Range.getY() >= ms1cluster.TargetMz() && DIAwindow.FragmentsClu2Cur.containsKey(ms1cluster.Index)) {
-                    DIAwindow.ExtractFragmentForPeakCluser(ms1cluster);   
+                    DIAwindow.ExtractFragmentForPeakCluser(ms1cluster);
                     if (DIAwindow.Last_MZ_Range == null || DIAwindow.Last_MZ_Range.getY() < ms1cluster.TargetMz()) {
                         PseudoMSMSProcessing mSMSProcessing = new PseudoMSMSProcessing(ms1cluster, parameter);
                         executorPool.execute(mSMSProcessing);
@@ -720,7 +723,7 @@ public class DIAPack {
                     }
                 }
             }
-            
+
             for (PeakCluster ms2cluster : DIAwindow.PeakClusters) {
                 if (DIAwindow.DIA_MZ_Range.getX() <= ms2cluster.TargetMz() && DIAwindow.DIA_MZ_Range.getY() >= ms2cluster.TargetMz() && DIAwindow.UnFragIonClu2Cur.containsKey(ms2cluster.Index)) {
                     DIAwindow.ExtractFragmentForUnfragPeakCluser(ms2cluster);
@@ -827,52 +830,52 @@ public class DIAPack {
     }
 
     //Check each PSM, if they don't have retention time from pepXML, fill the RT from SpectrumParser file.
-    private void FindPSMRT(){        
+    private void FindPSMRT() {
         try {
-            if(!new File(FilenameUtils.getFullPath(Filename) + GetQ1Name() + ".mzXML").exists()){
-                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ1Name() + ".mzXML doesn't exsit." );
+            if (!new File(FilenameUtils.getFullPath(Filename) + GetQ1Name() + ".mzXML").exists()) {
+                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ1Name() + ".mzXML doesn't exsit.");
                 return;
             }
-            if(!new File(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML").exists()){
-                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML doesn't exsit." );
+            if (!new File(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML").exists()) {
+                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML doesn't exsit.");
                 return;
             }
-            if(!new File(FilenameUtils.getFullPath(Filename) + GetQ3Name() + ".mzXML").exists()){
-                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ3Name() + ".mzXML doesn't exsit." );
+            if (!new File(FilenameUtils.getFullPath(Filename) + GetQ3Name() + ".mzXML").exists()) {
+                Logger.getRootLogger().warn(FilenameUtils.getFullPath(Filename) + GetQ3Name() + ".mzXML doesn't exsit.");
                 return;
             }
-            
+
             mzXMLParser mgfname1 = new mzXMLParser(FilenameUtils.getFullPath(Filename) + GetQ1Name() + ".mzXML", parameter, SpectralDataType.DataType.DDA, null, NoCPUs);
-            mzXMLParser mgfname2 =  new mzXMLParser(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML", parameter, SpectralDataType.DataType.DDA, null, NoCPUs);
+            mzXMLParser mgfname2 = new mzXMLParser(FilenameUtils.getFullPath(Filename) + GetQ2Name() + ".mzXML", parameter, SpectralDataType.DataType.DDA, null, NoCPUs);
             mzXMLParser mgfname3 = new mzXMLParser(FilenameUtils.getFullPath(Filename) + GetQ3Name() + ".mzXML", parameter, SpectralDataType.DataType.DDA, null, NoCPUs);
-            HashMap<String, mzXMLParser> mgfs=new HashMap<>();
+            HashMap<String, mzXMLParser> mgfs = new HashMap<>();
             mgfs.put(GetQ1Name(), mgfname1);
             mgfs.put(GetQ2Name(), mgfname2);
             mgfs.put(GetQ3Name(), mgfname3);
-            for(PSM psm : IDsummary.PSMList.values()){
-                if(psm.RetentionTime==-1f){                    
-                    psm.RetentionTime=mgfs.get(psm.GetRawNameString()).GetScanElutionTimeMap().get(psm.ScanNo);
-                    psm.NeighborMaxRetentionTime=psm.RetentionTime;
+            for (PSM psm : IDsummary.PSMList.values()) {
+                if (psm.RetentionTime == -1f) {
+                    psm.RetentionTime = mgfs.get(psm.GetRawNameString()).GetScanElutionTimeMap().get(psm.ScanNo);
+                    psm.NeighborMaxRetentionTime = psm.RetentionTime;
                 }
             }
         } catch (Exception ex) {
             Logger.getRootLogger().warn("Exception trying to fill PSM RTs");
         }
     }
-   
+
     public void CheckPSMRT() {
-        boolean PSMRT0=false;
-        for(PSM psm : IDsummary.PSMList.values()){
-            if(psm.RetentionTime==-1f){
-                PSMRT0=true;
+        boolean PSMRT0 = false;
+        for (PSM psm : IDsummary.PSMList.values()) {
+            if (psm.RetentionTime == -1f) {
+                PSMRT0 = true;
                 break;
             }
         }
-        if(PSMRT0){
+        if (PSMRT0) {
             FindPSMRT();
         }
     }
-        
+
     public void ClearStructure() {
         MS1FeatureMap = null;
         DIAWindows = null;
@@ -881,12 +884,12 @@ public class DIAPack {
     }
 
     public void BuildStructure() throws SQLException, FileNotFoundException, IOException, InterruptedException, ExecutionException, ParserConfigurationException, SAXException, DataFormatException {
-        
+
         LoadDIASetting();
         MS1FeatureMap = new LCMSPeakMS1(Filename, NoCPUs);
         MS1FeatureMap.datattype = dIA_Setting.dataType;
         MS1FeatureMap.SetParameter(parameter);
-        
+
         if (IDsummary != null) {
             MS1FeatureMap.IDsummary = IDsummary;
         }
@@ -904,18 +907,18 @@ public class DIAPack {
     private void MS1PeakDetection() throws SQLException, InterruptedException, ExecutionException, IOException, ParserConfigurationException, SAXException, FileNotFoundException, Exception {
         //Remove existing pseudo MS/MS MGF files
         RemoveMGF();
-                
+
         MS1FeatureMap = new LCMSPeakMS1(Filename, NoCPUs);
         MS1FeatureMap.datattype = dIA_Setting.dataType;
         MS1FeatureMap.SetParameter(parameter);
-        MS1FeatureMap.Resume=Resume;
+        MS1FeatureMap.Resume = Resume;
         //Assign MS1 feature maps
         MS1FeatureMap.SetMS1Windows(dIA_Setting.MS1Windows);
         MS1FeatureMap.CreatePeakFolder();
         MS1FeatureMap.ExportPeakCurveTable = false;
-        
+
         MS1FeatureMap.SetSpectrumParser(GetSpectrumParser());
-        Logger.getRootLogger().info("Processing MS1 peak detection");        
+        Logger.getRootLogger().info("Processing MS1 peak detection");
         MS1FeatureMap.ExportPeakClusterTable = ExportPrecursorPeak;
         //Start MS1 feature detection
         MS1FeatureMap.PeakClusterDetection();
@@ -957,7 +960,7 @@ public class DIAPack {
         }
     }
 
-    
+
     public void ExportID() throws SQLException, IOException {
         ExportID("");
     }

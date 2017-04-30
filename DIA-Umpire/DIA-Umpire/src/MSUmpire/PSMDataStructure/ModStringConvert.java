@@ -22,13 +22,16 @@ package MSUmpire.PSMDataStructure;
 import com.compomics.util.experiment.biology.AminoAcid;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
 import com.compomics.util.experiment.identification.matches.ModificationMatch;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * Modification tag conversion class
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class ModStringConvert {
@@ -46,27 +49,27 @@ public class ModStringConvert {
                 site = "N-term";
                 idx = 1;
                 massdiff = (float) (Float.parseFloat(modString.substring(modString.indexOf("[") + 1, modString.indexOf("]"))) - ElementaryIon.proton.getTheoreticMass());
-                int replacestart=idx;
-                String temp=modString.replaceFirst("[\\[0-9\\]]", "");
-                int replaceend=temp.indexOf("]");
-                modString = modString.substring(0,replacestart).concat(temp.substring(replaceend+1));
+                int replacestart = idx;
+                String temp = modString.replaceFirst("[\\[0-9\\]]", "");
+                int replaceend = temp.indexOf("]");
+                modString = modString.substring(0, replacestart).concat(temp.substring(replaceend + 1));
             } else if (site.equals("c")) {
                 site = "C-term";
                 idx = Sequence.length();
-                massdiff = (float) (Float.parseFloat(modString.substring(modString.indexOf("[")+1, modString.indexOf("]"))) - ElementaryIon.proton.getTheoreticMass());
-                int replacestart=idx;
-                String temp=modString.replaceFirst("[\\[0-9\\]]", "");
-                int replaceend=temp.indexOf("]");
-                modString = modString.substring(0,replacestart).concat(temp.substring(replaceend+1));
+                massdiff = (float) (Float.parseFloat(modString.substring(modString.indexOf("[") + 1, modString.indexOf("]"))) - ElementaryIon.proton.getTheoreticMass());
+                int replacestart = idx;
+                String temp = modString.replaceFirst("[\\[0-9\\]]", "");
+                int replaceend = temp.indexOf("]");
+                modString = modString.substring(0, replacestart).concat(temp.substring(replaceend + 1));
             } else {
                 idx = modString.indexOf("[");
                 site = String.valueOf(modString.charAt(idx - 1));
                 AminoAcid aa = AminoAcid.getAminoAcid(site.charAt(0));
-                massdiff = (float) (Float.parseFloat(modString.substring(modString.indexOf("[")+1, modString.indexOf("]"))) - aa.monoisotopicMass);
-                int replacestart=idx;
-                String temp=modString.replaceFirst("[\\[0-9\\]]", "");
-                int replaceend=temp.indexOf("]");
-                modString = modString.substring(0,replacestart).concat(temp.substring(replaceend+1));
+                massdiff = (float) (Float.parseFloat(modString.substring(modString.indexOf("[") + 1, modString.indexOf("]"))) - aa.monoisotopicMass);
+                int replacestart = idx;
+                String temp = modString.replaceFirst("[\\[0-9\\]]", "");
+                int replaceend = temp.indexOf("]");
+                modString = modString.substring(0, replacestart).concat(temp.substring(replaceend + 1));
             }
             ModificationInfo modinfo = new ModificationInfo();
             modinfo.site = site;
@@ -86,8 +89,8 @@ public class ModStringConvert {
         }
         return modString;
     }
-    
-    
+
+
     public static String AddModIntoSeqBeforeSite(String seq, String modstring, int index) {
         boolean inmod = false;
         if (index == -1) {
@@ -122,7 +125,7 @@ public class ModStringConvert {
                 inmod = false;
             } else if (!inmod) {
                 if (countidx == index) {
-                    return seq.substring(0, i+1) + modstring + seq.substring(i+1);
+                    return seq.substring(0, i + 1) + modstring + seq.substring(i + 1);
                 }
                 countidx++;
             }

@@ -7,25 +7,26 @@
 package CXL_PeakPairFinder;
 
 import MSUmpire.PeakDataStructure.PeakCluster;
+
 import java.util.HashMap;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class PairGroup {
     public PeakCluster lowMassPeak;
     public HashMap<Integer, CoElutePeak> highMassPeak;
-    public HashMap<Integer,CoElutePeak> DeadEndpairs;
-    private CoElutePeak BestPair=null; 
-    
-    public PairGroup(PeakCluster peakClusterA){
-        this.lowMassPeak=peakClusterA;
+    public HashMap<Integer, CoElutePeak> DeadEndpairs;
+    private CoElutePeak BestPair = null;
+
+    public PairGroup(PeakCluster peakClusterA) {
+        this.lowMassPeak = peakClusterA;
     }
+
     public CoElutePeak GetBestPeakPair() {
-        if (BestPair == null && highMassPeak!=null) {
+        if (BestPair == null && highMassPeak != null) {
             for (CoElutePeak coElutePeak : highMassPeak.values()) {
-                if (BestPair==null || (coElutePeak.Correlation > BestPair.Correlation || (coElutePeak.Correlation == BestPair.Correlation && coElutePeak.PPM < BestPair.PPM))) {
+                if (BestPair == null || (coElutePeak.Correlation > BestPair.Correlation || (coElutePeak.Correlation == BestPair.Correlation && coElutePeak.PPM < BestPair.PPM))) {
                     BestPair = coElutePeak;
                 }
             }

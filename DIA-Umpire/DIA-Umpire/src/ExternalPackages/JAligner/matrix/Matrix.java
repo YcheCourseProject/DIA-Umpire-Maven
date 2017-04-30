@@ -66,7 +66,6 @@ public class Matrix implements Serializable {
     }
 
     /**
-     *
      * @param a
      * @param b
      * @return score

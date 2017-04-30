@@ -9,13 +9,11 @@ import java.util.Random;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Bregman hard clustering is the generalization of the hard clustering
  * (also know as k-means) towards the exponential family. Given a set of
  * weighted distributions (mixture model), the Bregman hard clustering partition
@@ -34,10 +32,10 @@ public class BregmanHardClustering {
      * Simplifies a mixture model f into a mixture model g of m components using
      * Bregman hard clustering algorithm.
      *
-     * @param f initial mixture model
-     * @param m number of components in g
-     * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     * @param f          initial mixture model
+     * @param m          number of components in g
+     * @param type       type of the Bregman divergence used (right-sided, left-sided,
+     *                   or symmetric)
      * @param iterations maximum number of iterations allowed
      * @return simplified mixture model g of m components
      */
@@ -50,10 +48,10 @@ public class BregmanHardClustering {
      * Simplifies a mixture model f into a mixture model g of m components using
      * Bregman hard clustering algorithm.
      *
-     * @param f initial mixture model
-     * @param m number of components in g
+     * @param f    initial mixture model
+     * @param m    number of components in g
      * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     *             or symmetric)
      * @return simplified mixture model g of m components
      */
     public static MixtureModel simplify(MixtureModel f, int m, Clustering.CLUSTERING_TYPE type) {
@@ -61,7 +59,7 @@ public class BregmanHardClustering {
         // Initialization
         MixtureModel fT = mixtureL2T(f);
         MixtureModel gT = initialize(fT, m, type);
-		//MixtureModel gT = initialize2(fT, m);
+        //MixtureModel gT = initialize2(fT, m);
 
         // Batch k-means
         int[] repartition = new int[fT.size];
@@ -75,10 +73,10 @@ public class BregmanHardClustering {
      * Simplifies a mixture model f into a mixture model g of m components using
      * Bregman hard clustering algorithm.
      *
-     * @param f initial mixture model
-     * @param g initialization of the mixture model g
+     * @param f    initial mixture model
+     * @param g    initialization of the mixture model g
      * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     *             or symmetric)
      * @return simplified mixture model g of m components
      */
     public static MixtureModel simplify(MixtureModel f, MixtureModel g, Clustering.CLUSTERING_TYPE type) {
@@ -135,10 +133,10 @@ public class BregmanHardClustering {
      * Initializes a mixture model g by selecting the first m components of the
      * mixture model f.
      *
-     * @param f initial mixture model
-     * @param m number of components in the simplified mixture model
+     * @param f    initial mixture model
+     * @param m    number of components in the simplified mixture model
      * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     *             or symmetric)
      * @return initialization of the simplified mixture model
      */
     private static MixtureModel initialize2(MixtureModel f, int m) {
@@ -157,10 +155,10 @@ public class BregmanHardClustering {
      * Initializes a simplified mixture model g from f using k-means++
      * algorithm.
      *
-     * @param f initial mixture model
-     * @param m number of components in the simplified mixture model
+     * @param f    initial mixture model
+     * @param m    number of components in the simplified mixture model
      * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     *             or symmetric)
      * @return initialization of the simplified mixture model
      */
     private static MixtureModel initialize(MixtureModel f, int m, Clustering.CLUSTERING_TYPE type) {
@@ -266,10 +264,10 @@ public class BregmanHardClustering {
     /**
      * Performs the batch Bregman k-means algorithm.
      *
-     * @param f initial mixture model
-     * @param g simplified mixture model
-     * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     * @param f           initial mixture model
+     * @param g           simplified mixture model
+     * @param type        type of the Bregman divergence used (right-sided, left-sided,
+     *                    or symmetric)
      * @param repartition array of repartition
      */
     private static void batchKMeans(MixtureModel f, MixtureModel g, Clustering.CLUSTERING_TYPE type, int[] repartition) {
@@ -286,10 +284,10 @@ public class BregmanHardClustering {
     /**
      * Performs the incremental Bregman k-means algorithm.
      *
-     * @param f initial mixture model
-     * @param g simplified mixture model containing the centroids
-     * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     * @param f           initial mixture model
+     * @param g           simplified mixture model containing the centroids
+     * @param type        type of the Bregman divergence used (right-sided, left-sided,
+     *                    or symmetric)
      * @param repartition array of repartition
      * @return true if the incremental k-means decraeses the loss function,
      * false otherwise
@@ -346,10 +344,10 @@ public class BregmanHardClustering {
     /**
      * Computes the repartition of components of f in g
      *
-     * @param f initial mixture model
-     * @param g simplified mixture model
-     * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     * @param f           initial mixture model
+     * @param g           simplified mixture model
+     * @param type        type of the Bregman divergence used (right-sided, left-sided,
+     *                    or symmetric)
      * @param repartition array of repartition
      */
     private static void computeRepartition(MixtureModel f, MixtureModel g, Clustering.CLUSTERING_TYPE type, int[] repartition) {
@@ -386,10 +384,10 @@ public class BregmanHardClustering {
     /**
      * Computes the centroids of the clusters.
      *
-     * @param f initial mixture model
-     * @param g simplified mixture model containing the centroids
-     * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     * @param f           initial mixture model
+     * @param g           simplified mixture model containing the centroids
+     * @param type        type of the Bregman divergence used (right-sided, left-sided,
+     *                    or symmetric)
      * @param repartition array of repartition
      */
     private static void computeCentroids(MixtureModel f, MixtureModel g, Clustering.CLUSTERING_TYPE type, int[] repartition) {
@@ -446,10 +444,10 @@ public class BregmanHardClustering {
     /**
      * Computes the loss function.
      *
-     * @param f initial mixture model
-     * @param g simplified mixture model containing the centroids
+     * @param f    initial mixture model
+     * @param g    simplified mixture model containing the centroids
      * @param type type of the Bregman divergence used (right-sided, left-sided,
-     * or symmetric)
+     *             or symmetric)
      * @return value of the loss function
      */
     private static double getLossFunction(MixtureModel f, MixtureModel g, Clustering.CLUSTERING_TYPE type) {

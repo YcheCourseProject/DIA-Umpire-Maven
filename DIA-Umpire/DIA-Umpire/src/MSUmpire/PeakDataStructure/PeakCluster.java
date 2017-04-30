@@ -26,6 +26,7 @@ import MSUmpire.MathPackage.ChiSquareGOF;
 import MSUmpire.SpectralProcessingModule.Binning;
 import MSUmpire.SpectralProcessingModule.ScoreFunction;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,7 +35,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Peak isotope cluster data structure 
+ * Peak isotope cluster data structure
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PeakCluster implements Serializable {
@@ -58,7 +60,7 @@ public class PeakCluster implements Serializable {
     public int Charge;
     public float IsoMapProb = -1f;
     private float conflictCorr = -1f;
-    public float[] PeakDis;    
+    public float[] PeakDis;
     public int NoRidges;
     public float OverlapP;
     public transient float[] OverlapRT;
@@ -77,7 +79,7 @@ public class PeakCluster implements Serializable {
         IsoPeaksCurves = new PeakCurve[IsotopicNum];
         Corrs = new float[IsotopicNum - 1];
         SNR = new float[IsotopicNum];
-        OverlapRT = new float[IsotopicNum-1];
+        OverlapRT = new float[IsotopicNum - 1];
         PeakHeight = new float[IsotopicNum];
         PeakHeightRT = new float[IsotopicNum];
         PeakArea = new float[IsotopicNum];
@@ -90,19 +92,19 @@ public class PeakCluster implements Serializable {
         this.Charge = Charge;
     }
 
-    public transient ReadWriteLock fraglock = new ReentrantReadWriteLock();          
+    public transient ReadWriteLock fraglock = new ReentrantReadWriteLock();
     transient ReadWriteLock lock = new ReentrantReadWriteLock();
-    
-    boolean locked=false;
+
+    boolean locked = false;
+
     public XYPointCollection GetNormalizedFragmentScan() throws InterruptedException {
         if (FragmentScan != null && !locked) {
             return FragmentScan;
-        }        
-        else {
+        } else {
             lock.writeLock().lock();
             try {
                 if (FragmentScan == null) {
-                    locked=true;
+                    locked = true;
                     FragmentScan = new XYPointCollection();
                     for (PrecursorFragmentPairEdge fragment : GroupedFragmentPeaks) {
                         FragmentScan.AddPoint(fragment.FragmentMz, fragment.Intensity);
@@ -110,33 +112,33 @@ public class PeakCluster implements Serializable {
                     FragmentScan.Data.Finalize();
                     Binning bining = new Binning();
                     if (FragmentScan.PointCount() > 2) {
-                        FragmentScan=ScoreFunction.SpectralNormalizationForScan(bining.Binning(FragmentScan, 0f, null));
+                        FragmentScan = ScoreFunction.SpectralNormalizationForScan(bining.Binning(FragmentScan, 0f, null));
                     }
-                    locked=false;
+                    locked = false;
                 }
-            }
-            finally {
+            } finally {
                 lock.writeLock().unlock();
             }
         }
         return FragmentScan;
     }
-    
+
     public void AddScore(float score) {
         if (MatchScores == null) {
             MatchScores = new SortedListFloat();
         }
         MatchScores.add(score);
     }
+
     public int GetScoreRank(float score) {
         if (MatchScores != null) {
             return MatchScores.size() - MatchScores.BinarySearchHigher(score) + 1;
         }
         return -1;
     }
-    
+
     public int GetQualityCategory() {
-        if ((IsoPeaksCurves==null ||IsoPeaksCurves[2] == null) && mz[2] == 0.0f) {
+        if ((IsoPeaksCurves == null || IsoPeaksCurves[2] == null) && mz[2] == 0.0f) {
             return 2;
         }
         return 1;
@@ -145,6 +147,7 @@ public class PeakCluster implements Serializable {
     public void SetMz(int pkidx, float value) {
         mz[pkidx] = value;
     }
+
     float RTVar = 0f;
 
     public float GetConflictCorr() {
@@ -171,23 +174,22 @@ public class PeakCluster implements Serializable {
 
     public float GetSNR(int pkidx) {
         if (SNR[pkidx] == -1) {
-            if (IsoPeaksCurves!=null && IsoPeaksCurves[pkidx] != null) {
+            if (IsoPeaksCurves != null && IsoPeaksCurves[pkidx] != null) {
                 SNR[pkidx] = IsoPeaksCurves[pkidx].GetRawSNR();
-            }
-            else if (pkidx==1){
+            } else if (pkidx == 1) {
                 //Logger.getRootLogger().error("Failed to get SNR");
             }
         }
         return SNR[pkidx];
     }
 
-    private transient float mass=0f;
+    private transient float mass = 0f;
+
     public float NeutralMass() {
         if (mass == 0f) {
             if (MonoIsotopePeak != null) {
                 mass = Charge * (MonoIsotopePeak.TargetMz - (float) ElementaryIon.proton.getTheoreticMass());
-            }
-            else {
+            } else {
                 mass = Charge * (mz[0] - (float) ElementaryIon.proton.getTheoreticMass());
             }
         }
@@ -216,15 +218,15 @@ public class PeakCluster implements Serializable {
         PeakCurve peakA = MonoIsotopePeak;
         startRT = MonoIsotopePeak.StartRT();
         endRT = MonoIsotopePeak.EndRT();
-        
-        if (IsoPeaksCurves.length>1 && IsoPeaksCurves[1]!=null) {
+
+        if (IsoPeaksCurves.length > 1 && IsoPeaksCurves[1] != null) {
             startRT = Math.min(MonoIsotopePeak.StartRT(), IsoPeaksCurves[1].StartRT());
             endRT = Math.max(MonoIsotopePeak.EndRT(), IsoPeaksCurves[1].EndRT());
         }
-        
-        if(endRT==startRT){
-            startRT=MonoIsotopePeak.GetSmoothedList().Data.get(0).getX();
-            endRT=MonoIsotopePeak.GetSmoothedList().Data.get(MonoIsotopePeak.GetSmoothedList().PointCount()-1).getX();
+
+        if (endRT == startRT) {
+            startRT = MonoIsotopePeak.GetSmoothedList().Data.get(0).getX();
+            endRT = MonoIsotopePeak.GetSmoothedList().Data.get(MonoIsotopePeak.GetSmoothedList().PointCount() - 1).getX();
         }
 
         NoRidges = 0;
@@ -251,9 +253,9 @@ public class PeakCluster implements Serializable {
                     }
                 }
             }
-            mz[i]=peak.TargetMz;
-            IsoPeakIndex[i]=peak.Index;
-        }        
+            mz[i] = peak.TargetMz;
+            IsoPeakIndex[i] = peak.Index;
+        }
     }
 
     //Generate isotope peak distribution
@@ -319,7 +321,7 @@ public class PeakCluster implements Serializable {
     //Check is the number of detected isotope peaks passes the criterion
     public boolean IsotopeComplete(int minIsonum) {
         for (int i = 0; i < minIsonum; i++) {
-            if ((IsoPeaksCurves==null || IsoPeaksCurves[i] == null) && mz[i] == 0.0f) {
+            if ((IsoPeaksCurves == null || IsoPeaksCurves[i] == null) && mz[i] == 0.0f) {
                 return false;
             }
         }
@@ -328,9 +330,9 @@ public class PeakCluster implements Serializable {
 
     //Create locks for multithreading 
     public void CreateLock() {
-        lock=new ReentrantReadWriteLock();
-        locked=false;
-        fraglock=new ReentrantReadWriteLock();
+        lock = new ReentrantReadWriteLock();
+        locked = false;
+        fraglock = new ReentrantReadWriteLock();
     }
 
     public float GetMaxMz() {

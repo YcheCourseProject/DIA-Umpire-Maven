@@ -23,7 +23,6 @@ import MSUmpire.BaseDataStructure.XYData;
 import MSUmpire.BaseDataStructure.XYPointCollection;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class LinearInterpolation {

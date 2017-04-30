@@ -9,15 +9,14 @@ package CXL_PeakPairFinder;
 import MSUmpire.SpectralProcessingModule.IsotopePeakGroup;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class PairGroupMS2 {
     public IsotopePeakGroup LowMassPeak;
     public IsotopePeakGroup HighMassPeak;
     public IsotopePeakGroup DeadEndpairs;
-    
-    public PairGroupMS2(IsotopePeakGroup lowmasspeak){
-        this.LowMassPeak=lowmasspeak;
+
+    public PairGroupMS2(IsotopePeakGroup lowmasspeak) {
+        this.LowMassPeak = lowmasspeak;
     }
 }

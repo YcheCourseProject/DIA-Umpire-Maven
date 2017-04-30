@@ -6,13 +6,11 @@ import ExternalPackages.jMEF.Clustering.CLUSTERING_TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A hierarchical mixture model is a hierarchical structure (tree) containing
  * the elements of a mixture model. A HierarchicalMixtureModel object is created
  * by the BregmanHierarchicalClustering class.
@@ -135,7 +133,7 @@ public class HierarchicalMixtureModel {
      * (estimated using a Monte-Carlo method).
      *
      * @param t maximum value of the KLD between the initial and the optimal
-     * models
+     *          models
      * @return optimal mixture model
      */
     public MixtureModel getOptimalMixtureModel(double t) {
@@ -147,7 +145,7 @@ public class HierarchicalMixtureModel {
      * (estimated using a Monte-Carlo method).
      *
      * @param t maximum value of the KLD between the initial and the optimal
-     * models
+     *          models
      * @param n number of points drawn from the initial mixture model
      * @return optimal mixture model
      */

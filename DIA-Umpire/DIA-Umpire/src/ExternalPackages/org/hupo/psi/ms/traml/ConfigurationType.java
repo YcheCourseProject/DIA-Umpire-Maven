@@ -21,11 +21,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Instrument configuration used in the testing, validation or optimization of the transitions
- * 
+ * <p>
  * <p>Java class for ConfigurationType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="ConfigurationType">
  *   &lt;complexContent>
@@ -41,14 +41,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ConfigurationType", propOrder = {
-    "cvParam",
-    "userParam",
-    "validationStatus"
+        "cvParam",
+        "userParam",
+        "validationStatus"
 })
 public class ConfigurationType {
 
@@ -67,25 +65,23 @@ public class ConfigurationType {
 
     /**
      * Gets the value of the cvParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cvParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCvParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link CvParamType }
-     * 
-     * 
      */
     public List<CvParamType> getCvParam() {
         if (cvParam == null) {
@@ -96,25 +92,23 @@ public class ConfigurationType {
 
     /**
      * Gets the value of the userParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UserParamType }
-     * 
-     * 
      */
     public List<UserParamType> getUserParam() {
         if (userParam == null) {
@@ -125,25 +119,23 @@ public class ConfigurationType {
 
     /**
      * Gets the value of the validationStatus property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the validationStatus property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getValidationStatus().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ValidationStatusType }
-     * 
-     * 
      */
     public List<ValidationStatusType> getValidationStatus() {
         if (validationStatus == null) {
@@ -154,11 +146,9 @@ public class ConfigurationType {
 
     /**
      * Gets the value of the contactRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getContactRef() {
         return contactRef;
@@ -166,11 +156,9 @@ public class ConfigurationType {
 
     /**
      * Sets the value of the contactRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setContactRef(Object value) {
         this.contactRef = value;
@@ -178,11 +166,9 @@ public class ConfigurationType {
 
     /**
      * Gets the value of the instrumentRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getInstrumentRef() {
         return instrumentRef;
@@ -190,11 +176,9 @@ public class ConfigurationType {
 
     /**
      * Sets the value of the instrumentRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setInstrumentRef(Object value) {
         this.instrumentRef = value;

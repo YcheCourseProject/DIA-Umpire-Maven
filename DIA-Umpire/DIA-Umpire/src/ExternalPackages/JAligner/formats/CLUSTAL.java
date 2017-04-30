@@ -46,74 +46,76 @@ import ExternalPackages.JAligner.Alignment;
  */
 
 public class CLUSTAL extends Format {
-	
-	/**
-	 * Name width 
-	 */
-    private static final int NAME_WIDTH = 36;
-	
-    /**
-	 * Sequence width
-	 */
-    private static final int SEQUENCE_WIDTH = 50;
-	
-    /**
-	 * CLUSTAL header
-	 */
-    private static final String HEADER = "CLUSTAL_FORMAT W(1.60) multiple sequence alignment\n\n";
-	
-	/**
-	 * Constructor
-	 */
-	public CLUSTAL() {
-		super( );
-		setId("CLUSTAL");
-	}
-	
-	/**
-	 * Returns CLUSTAL format
-	 * @param names array of the names of the sequences.
-	 * @param sequences	array of the sequences 
-	 */
-	public String format(String[] names, String[] sequences) {
-		StringBuffer buffer = new StringBuffer (HEADER);
-		int maxSequenceLength = 0;
-		for (int i = 0; i < sequences.length; i++) {
-			if (sequences[i].length() > maxSequenceLength) {
-				maxSequenceLength = sequences[i].length(); 
-			}
-		}
-		
-		for (int i = 0; i * SEQUENCE_WIDTH < maxSequenceLength; i++) {
-			
-			for (int j = 0; j < sequences.length; j++) {
-				buffer.append(  NAME_WIDTH <= names[j].length() ? names[j].substring(0, NAME_WIDTH - 1) : names[j] ); 
-				for (int k = names[j].length(); k < NAME_WIDTH; k++) {
-					buffer.append(" ");
-				}
-				if (names[j].length() >= NAME_WIDTH) {
-					buffer.append(" ");
-				}
-				buffer.append(sequences[j].substring(i * SEQUENCE_WIDTH, ((i + 1) * SEQUENCE_WIDTH) < sequences[j].length() ? (i + 1) * SEQUENCE_WIDTH: sequences[j].length()));
-				if (j < sequences.length) {
-					buffer.append("\n");
-				}
-			}
-			if ((i + 1) * SEQUENCE_WIDTH < maxSequenceLength) {
-				buffer.append("\n\n");
-			}
-		}
-		return buffer.toString();
-	}
 
-	/**
-	 * Returns CLUSTAL format of the alignment
-	 * @param alignment ({@link Alignment})
-	 * @return CLUSTAL format of the alignment 
-	 */
-	public String format (Alignment alignment) {
-		String[] sequences = {new String(alignment.getSequence1()), new String(alignment.getSequence2())};
-		String[] names = {alignment.getName1(), alignment.getName2()};
-		return format (names, sequences);
-	}
+    /**
+     * Name width
+     */
+    private static final int NAME_WIDTH = 36;
+
+    /**
+     * Sequence width
+     */
+    private static final int SEQUENCE_WIDTH = 50;
+
+    /**
+     * CLUSTAL header
+     */
+    private static final String HEADER = "CLUSTAL_FORMAT W(1.60) multiple sequence alignment\n\n";
+
+    /**
+     * Constructor
+     */
+    public CLUSTAL() {
+        super();
+        setId("CLUSTAL");
+    }
+
+    /**
+     * Returns CLUSTAL format
+     *
+     * @param names     array of the names of the sequences.
+     * @param sequences array of the sequences
+     */
+    public String format(String[] names, String[] sequences) {
+        StringBuffer buffer = new StringBuffer(HEADER);
+        int maxSequenceLength = 0;
+        for (int i = 0; i < sequences.length; i++) {
+            if (sequences[i].length() > maxSequenceLength) {
+                maxSequenceLength = sequences[i].length();
+            }
+        }
+
+        for (int i = 0; i * SEQUENCE_WIDTH < maxSequenceLength; i++) {
+
+            for (int j = 0; j < sequences.length; j++) {
+                buffer.append(NAME_WIDTH <= names[j].length() ? names[j].substring(0, NAME_WIDTH - 1) : names[j]);
+                for (int k = names[j].length(); k < NAME_WIDTH; k++) {
+                    buffer.append(" ");
+                }
+                if (names[j].length() >= NAME_WIDTH) {
+                    buffer.append(" ");
+                }
+                buffer.append(sequences[j].substring(i * SEQUENCE_WIDTH, ((i + 1) * SEQUENCE_WIDTH) < sequences[j].length() ? (i + 1) * SEQUENCE_WIDTH : sequences[j].length()));
+                if (j < sequences.length) {
+                    buffer.append("\n");
+                }
+            }
+            if ((i + 1) * SEQUENCE_WIDTH < maxSequenceLength) {
+                buffer.append("\n\n");
+            }
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * Returns CLUSTAL format of the alignment
+     *
+     * @param alignment ({@link Alignment})
+     * @return CLUSTAL format of the alignment
+     */
+    public String format(Alignment alignment) {
+        String[] sequences = {new String(alignment.getSequence1()), new String(alignment.getSequence2())};
+        String[] names = {alignment.getName1(), alignment.getName2()};
+        return format(names, sequences);
+    }
 }

@@ -22,11 +22,13 @@ package MSUmpire.PeptidePeakClusterDetection;
 import MSUmpire.BaseDataStructure.XYPointCollection;
 import MSUmpire.MathPackage.PearsonCorr;
 import MSUmpire.PeakDataStructure.PeakCurve;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
  * Calculate peak profile peak correlation given two peak curves
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PeakCurveCorrCalc {
@@ -35,17 +37,17 @@ public class PeakCurveCorrCalc {
         return CalPeakCorr_Overlap(peakA, peakB, Astart, Aend, Bstart, Bend, false, NoPeakPerMin);
     }
 
-    public static float CalPeakCorr(PeakCurve peakA, PeakCurve peakB, int NoPointPerMin) throws IOException {        
+    public static float CalPeakCorr(PeakCurve peakA, PeakCurve peakB, int NoPointPerMin) throws IOException {
         PearsonCorr corr = new PearsonCorr();
         float startRT = Math.max(peakA.StartRT(), peakB.StartRT());
         float endRT = Math.min(peakA.EndRT(), peakB.EndRT());
         XYPointCollection PeakACollection = peakA.GetSmoothPeakCollection(startRT, endRT);
         XYPointCollection PeakBCollection = peakB.GetSmoothPeakCollection(startRT, endRT);
         float corre = 0f;
-        
+
         //double corre2 = 0f;
         if (PeakACollection.Data.size() > 0 && PeakBCollection.Data.size() > 0) {
-            corre = corr.CalcCorr(PeakACollection, PeakBCollection, NoPointPerMin);   
+            corre = corr.CalcCorr(PeakACollection, PeakBCollection, NoPointPerMin);
         }
         PeakACollection.dispose();
         PeakBCollection.dispose();
@@ -54,6 +56,7 @@ public class PeakCurveCorrCalc {
         corr = null;
         return corre;
     }
+
     public static float CalPeakCorr_Overlap(PeakCurve peakA, PeakCurve peakB, int Astart, int Aend, int Bstart, int Bend, boolean output, int NoPeakPerMin) throws IOException {
         PearsonCorr corr = new PearsonCorr();
         float startRT = Math.max(peakA.GetPeakRegionList().get(Astart).getX(), peakB.GetPeakRegionList().get(Bstart).getX());

@@ -7,13 +7,11 @@ import java.util.Locale;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A statistical distribution is parameterized by a set of values (parameters).
  * The PVector class implements a parameter object. Parameters are represented
  * as a vector.

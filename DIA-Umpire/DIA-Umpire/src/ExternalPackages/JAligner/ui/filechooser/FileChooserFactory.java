@@ -20,7 +20,7 @@ import ExternalPackages.JAligner.util.Commons;
 
 /**
  * A factory for {@link ExternalPackages.JAligner.ui.filechooser.FileChooser}.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -28,27 +28,28 @@ public class FileChooserFactory {
     /**
      * Instance of a concrete {@link FileChooser}.
      */
-	private static FileChooser instance = null;
-    
-	/**
-	 * Constructor
-	 */
-	private FileChooserFactory ( ) {
-		super();
-	}
-	
+    private static FileChooser instance = null;
+
+    /**
+     * Constructor
+     */
+    private FileChooserFactory() {
+        super();
+    }
+
     /**
      * Returns an instance of a concrete {@link FileChooser}.
+     *
      * @return Concrete {@link FileChooser}.
      */
-    public static FileChooser getFileChooser( ) {
-    	if (instance == null) {
-    		 if (Commons.isJnlp()) {
-    		 	instance = new FileChooserJNLP();
-    		 } else {
-    		 	instance = new FileChooserTrusted();
-    		 }
-    	}
-    	return instance;
+    public static FileChooser getFileChooser() {
+        if (instance == null) {
+            if (Commons.isJnlp()) {
+                instance = new FileChooserJNLP();
+            } else {
+                instance = new FileChooserTrusted();
+            }
+        }
+        return instance;
     }
 }

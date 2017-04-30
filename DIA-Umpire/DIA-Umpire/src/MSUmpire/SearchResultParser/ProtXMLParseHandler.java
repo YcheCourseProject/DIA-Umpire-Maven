@@ -24,50 +24,51 @@ import MSUmpire.PSMDataStructure.ModStringConvert;
 import MSUmpire.PSMDataStructure.PepIonID;
 import MSUmpire.PSMDataStructure.ProtID;
 import com.vseravno.solna.SolnaHandler;
+
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class ProtXMLParseHandler implements SolnaHandler<Element> {
 
-    public ProtXMLParseHandler(LCMSID SingleLCMSID, float threshold) {        
-        this.SingleLCMSID=SingleLCMSID;
-        this.threshold=threshold;
+    public ProtXMLParseHandler(LCMSID SingleLCMSID, float threshold) {
+        this.SingleLCMSID = SingleLCMSID;
+        this.threshold = threshold;
     }
+
     float threshold;
     LCMSID SingleLCMSID;
 
     @Override
     public void handle(Element node) throws Exception {
-        switch(node.getNodeName()){
+        switch (node.getNodeName()) {
             case "protein_group": {
                 ParseProteinGroupNode(node);
                 break;
             }
         }
     }
-    
+
     private void ParseProteinGroupNode(Element protgroupnode) throws XmlPullParserException, IOException, ClassNotFoundException, InterruptedException {
 
         int groupindex = Integer.parseInt(protgroupnode.getAttributes().getNamedItem("group_number").getNodeValue());
-        
-        float groupprob=0f;
+
+        float groupprob = 0f;
         if (protgroupnode.getAttributes().getNamedItem("probability") != null) {
             groupprob = Float.parseFloat(protgroupnode.getAttributes().getNamedItem("probability").getNodeValue());
-        }
-        else if (protgroupnode.getAttributes().getNamedItem("probability") != null) {
+        } else if (protgroupnode.getAttributes().getNamedItem("probability") != null) {
             groupprob = Float.parseFloat(protgroupnode.getAttributes().getNamedItem("group_probability").getNodeValue());
         }
-        
+
         int alphabet = 1;
-        
+
         for (int j = 0; j < protgroupnode.getChildNodes().getLength(); j++) {
             Node protnode = protgroupnode.getChildNodes().item(j);
             if ("protein".equals(protnode.getNodeName())) {
@@ -76,8 +77,8 @@ public class ProtXMLParseHandler implements SolnaHandler<Element> {
                 proid.IndisProteins.add(proid.getAccNo());
                 proid.UniProtID = proid.getAccNo();
                 proid.Probability = Float.parseFloat(protnode.getAttributes().getNamedItem("probability").getNodeValue());
-                proid.GroupProb=groupprob;              
-                
+                proid.GroupProb = groupprob;
+
                 if (proid.Probability < threshold) {
                     continue;
                 }
@@ -106,11 +107,11 @@ public class ProtXMLParseHandler implements SolnaHandler<Element> {
                         case ("peptide"): {
                             //iProphet
                             if (child.getAttributes().getNamedItem("charge") == null || "0".equals(child.getAttributes().getNamedItem("charge").getNodeValue())) {
-                                ArrayList<String> prots=new ArrayList<>();
+                                ArrayList<String> prots = new ArrayList<>();
                                 for (int l = 0; l < child.getChildNodes().getLength(); l++) {
-                                    Node chidpep = child.getChildNodes().item(l);                                    
+                                    Node chidpep = child.getChildNodes().item(l);
                                     if ("peptide_parent_protein".equals(chidpep.getNodeName())) {
-                                        prots.add(chidpep.getAttributes().getNamedItem("protein_name").getNodeValue());                                              
+                                        prots.add(chidpep.getAttributes().getNamedItem("protein_name").getNodeValue());
                                     }
                                     if ("indistinguishable_peptide".equals(chidpep.getNodeName())) {
                                         PepIonID pepIonID = new PepIonID();
@@ -120,7 +121,7 @@ public class ProtXMLParseHandler implements SolnaHandler<Element> {
                                         pepIonID.Weight = Float.parseFloat(child.getAttributes().getNamedItem("weight").getNodeValue());
                                         pepIonID.GroupWeight = Float.parseFloat(child.getAttributes().getNamedItem("group_weight").getNodeValue());
                                         pepIonID.Charge = Integer.parseInt(chidpep.getAttributes().getNamedItem("charge").getNodeValue());
-                                        pepIonID.ParentProtString_ProtXML=prots;
+                                        pepIonID.ParentProtString_ProtXML = prots;
                                         String modseq = pepIonID.Sequence;
                                         for (int n = 0; n < chidpep.getChildNodes().getLength(); n++) {
                                             Node mod = chidpep.getChildNodes().item(n);
@@ -159,10 +160,10 @@ public class ProtXMLParseHandler implements SolnaHandler<Element> {
                                         break;
                                     }
                                 }
-                            } else {                               
+                            } else {
                                 PepIonID pepIonID = new PepIonID();
                                 pepIonID.Sequence = child.getAttributes().getNamedItem("peptide_sequence").getNodeValue();
-                                
+
                                 if (child.getAttributes().getNamedItem("initial_probability") != null) {
                                     pepIonID.MaxProbability = Float.parseFloat(child.getAttributes().getNamedItem("initial_probability").getNodeValue());
                                 }
@@ -229,7 +230,7 @@ public class ProtXMLParseHandler implements SolnaHandler<Element> {
                     SingleLCMSID.ProteinGroups.get(groupindex).add(proid);
                 }
             }
-        }        
+        }
     }
-    
+
 }

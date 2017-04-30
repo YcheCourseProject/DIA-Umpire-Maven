@@ -24,9 +24,10 @@ import java.util.ArrayList;
 
 /**
  * Precursor-fragment group class
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class FragmentPeakGroup extends PeptideFragment implements Serializable{
+public class FragmentPeakGroup extends PeptideFragment implements Serializable {
     private static final long serialVersionUID = 736478436L;
 
     public ArrayList<Float> IntensityGroup = new ArrayList<>();
@@ -34,30 +35,30 @@ public class FragmentPeakGroup extends PeptideFragment implements Serializable{
     public ArrayList<Float> PPMGroup = new ArrayList<>();
     public ArrayList<Float> ApexDeltaGroup = new ArrayList<>();
     public ArrayList<Float> RTOverlapPGroup = new ArrayList<>();
-    
-    private float AvgInt=-1f;
-    
-    public void ClearGroups(){
+
+    private float AvgInt = -1f;
+
+    public void ClearGroups() {
         GetAvgInt();
-        IntensityGroup=null;
-        CorrGroup=null;
-        PPMGroup=null;
-        ApexDeltaGroup=null;
-        RTOverlapPGroup=null;                
+        IntensityGroup = null;
+        CorrGroup = null;
+        PPMGroup = null;
+        ApexDeltaGroup = null;
+        RTOverlapPGroup = null;
     }
-    
-    public float GetAvgInt(){
-        if(AvgInt==-1){
-            AvgInt=0;
-            for(float intensity : IntensityGroup){
-                AvgInt+=intensity;
+
+    public float GetAvgInt() {
+        if (AvgInt == -1) {
+            AvgInt = 0;
+            for (float intensity : IntensityGroup) {
+                AvgInt += intensity;
             }
-            AvgInt/=IntensityGroup.size();
-            AvgInt=(float) Math.sqrt(AvgInt);
-        }        
+            AvgInt /= IntensityGroup.size();
+            AvgInt = (float) Math.sqrt(AvgInt);
+        }
         return AvgInt;
     }
-    
+
     public String GetCorrString() {
         String output = "";
         for (float corr : CorrGroup) {
@@ -81,7 +82,7 @@ public class FragmentPeakGroup extends PeptideFragment implements Serializable{
         }
         return output;
     }
-    
+
     public String GetApexDeltaString() {
         String output = "";
         for (float delta : ApexDeltaGroup) {
@@ -89,7 +90,7 @@ public class FragmentPeakGroup extends PeptideFragment implements Serializable{
         }
         return output;
     }
-    
+
     public String GetRTOverlapString() {
         String output = "";
         for (float overlap : RTOverlapPGroup) {
@@ -97,20 +98,20 @@ public class FragmentPeakGroup extends PeptideFragment implements Serializable{
         }
         return output;
     }
-   
-    
+
+
     @Override
-    public FragmentPeakGroup clone(){
-        FragmentPeakGroup fragmentPeakGroup=new FragmentPeakGroup();
-        fragmentPeakGroup.AvgInt=AvgInt;
-        fragmentPeakGroup.Charge=Charge;
-        fragmentPeakGroup.CorrGroup=CorrGroup;
-        fragmentPeakGroup.IntensityGroup=IntensityGroup;
-        fragmentPeakGroup.ApexDeltaGroup=ApexDeltaGroup;
-        fragmentPeakGroup.RTOverlapPGroup=RTOverlapPGroup;
-        fragmentPeakGroup.PPMGroup=PPMGroup;
-        fragmentPeakGroup.ObservedMZ=ObservedMZ;
-        fragmentPeakGroup.IonType=IonType;
+    public FragmentPeakGroup clone() {
+        FragmentPeakGroup fragmentPeakGroup = new FragmentPeakGroup();
+        fragmentPeakGroup.AvgInt = AvgInt;
+        fragmentPeakGroup.Charge = Charge;
+        fragmentPeakGroup.CorrGroup = CorrGroup;
+        fragmentPeakGroup.IntensityGroup = IntensityGroup;
+        fragmentPeakGroup.ApexDeltaGroup = ApexDeltaGroup;
+        fragmentPeakGroup.RTOverlapPGroup = RTOverlapPGroup;
+        fragmentPeakGroup.PPMGroup = PPMGroup;
+        fragmentPeakGroup.ObservedMZ = ObservedMZ;
+        fragmentPeakGroup.IonType = IonType;
         return fragmentPeakGroup;
     }
 }

@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead
- * 
+ * <p>
  * <p>Java class for UserParamType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="UserParamType">
  *   &lt;complexContent>
@@ -37,8 +37,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UserParamType")
@@ -61,11 +59,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -73,11 +69,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -85,11 +79,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getType() {
         return type;
@@ -97,11 +89,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setType(String value) {
         this.type = value;
@@ -109,11 +99,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getValue() {
         return value;
@@ -121,11 +109,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setValue(String value) {
         this.value = value;
@@ -133,11 +119,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the unitAccession property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getUnitAccession() {
         return unitAccession;
@@ -145,11 +129,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the unitAccession property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setUnitAccession(String value) {
         this.unitAccession = value;
@@ -157,11 +139,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the unitName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getUnitName() {
         return unitName;
@@ -169,11 +149,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the unitName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setUnitName(String value) {
         this.unitName = value;
@@ -181,11 +159,9 @@ public class UserParamType {
 
     /**
      * Gets the value of the unitCvRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getUnitCvRef() {
         return unitCvRef;
@@ -193,11 +169,9 @@ public class UserParamType {
 
     /**
      * Sets the value of the unitCvRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setUnitCvRef(Object value) {
         this.unitCvRef = value;

@@ -36,75 +36,71 @@ import java.util.logging.Logger;
  */
 
 public class SmithWatermanGotohExample {
-	
-	/**
-	 * 
-	 */
-	private static final String SAMPLE_SEQUENCE_P35_HUMAN = "jaligner/example/sequences/p53_human.fasta";
-	
-	/**
-	 * 
-	 */
-	private static final String SAMPLE_SEQUENCE_P35_MOUSE = "jaligner/example/sequences/p53_mouse.fasta";
-	
-	/**
-	 * Logger
-	 */
-	private static final Logger logger = Logger.getLogger(SmithWatermanGotohExample.class.getName());
-	
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
+
+    /**
+     *
+     */
+    private static final String SAMPLE_SEQUENCE_P35_HUMAN = "jaligner/example/sequences/p53_human.fasta";
+
+    /**
+     *
+     */
+    private static final String SAMPLE_SEQUENCE_P35_MOUSE = "jaligner/example/sequences/p53_mouse.fasta";
+
+    /**
+     * Logger
+     */
+    private static final Logger logger = Logger.getLogger(SmithWatermanGotohExample.class.getName());
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
         try {
-        	logger.info("Running example...");
-        	
-			Sequence s1 = SequenceParser.parse(loadP53Human());  
-			Sequence s2 = SequenceParser.parse(loadP53Mouse());
-	        
-	        Alignment alignment = SmithWatermanGotoh.align(s1, s2, MatrixLoader.load("BLOSUM62"), 10f, 0.5f);
-	        
-	        System.out.println ( alignment.getSummary() );
-	        System.out.println ( new Pair().format(alignment) );
-	        
-	        logger.info("Finished running example");
+            logger.info("Running example...");
+
+            Sequence s1 = SequenceParser.parse(loadP53Human());
+            Sequence s2 = SequenceParser.parse(loadP53Mouse());
+
+            Alignment alignment = SmithWatermanGotoh.align(s1, s2, MatrixLoader.load("BLOSUM62"), 10f, 0.5f);
+
+            System.out.println(alignment.getSummary());
+            System.out.println(new Pair().format(alignment));
+
+            logger.info("Finished running example");
         } catch (Exception e) {
-        	logger.log(Level.SEVERE, "Failed running example: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, "Failed running example: " + e.getMessage(), e);
         }
     }
-	
-	/**
-	 * 
-	 * @param path location of the sequence
-	 * @return sequence string
-	 * @throws IOException
-	 */
-	private static String loadSampleSequence(String path) throws IOException {
-		InputStream inputStream = NeedlemanWunschExample.class.getClassLoader().getResourceAsStream(path);
+
+    /**
+     * @param path location of the sequence
+     * @return sequence string
+     * @throws IOException
+     */
+    private static String loadSampleSequence(String path) throws IOException {
+        InputStream inputStream = NeedlemanWunschExample.class.getClassLoader().getResourceAsStream(path);
         StringBuffer buffer = new StringBuffer();
         int ch;
         while ((ch = inputStream.read()) != -1) {
-            buffer.append((char)ch);
+            buffer.append((char) ch);
         }
         return buffer.toString();
-	}
-	
-	/**
-	 * 
-	 * @return sequence string
-	 * @throws IOException
-	 */
-	public static String loadP53Human( ) throws IOException {
-		return loadSampleSequence(SAMPLE_SEQUENCE_P35_HUMAN);
-	}
+    }
 
-	/**
-	 * 
-	 * @return sequence string
-	 * @throws IOException
-	 */
-	public static String loadP53Mouse( ) throws IOException {
-		return loadSampleSequence(SAMPLE_SEQUENCE_P35_MOUSE);
-	}
+    /**
+     * @return sequence string
+     * @throws IOException
+     */
+    public static String loadP53Human() throws IOException {
+        return loadSampleSequence(SAMPLE_SEQUENCE_P35_HUMAN);
+    }
+
+    /**
+     * @return sequence string
+     * @throws IOException
+     */
+    public static String loadP53Mouse() throws IOException {
+        return loadSampleSequence(SAMPLE_SEQUENCE_P35_MOUSE);
+    }
 }

@@ -19,22 +19,22 @@ package ExternalPackages.JAligner.ui.clipboard;
 /**
  * Abstract class to handle setting and getting "text" contents of
  * the system clipboard.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public interface ClipboardHandler {
-	/**
-	 * Returns the contents of the system of the clipboard
-	 * 
-	 * @return String
-	 */
-	public String getContents();
+    /**
+     * Returns the contents of the system of the clipboard
+     *
+     * @return String
+     */
+    public String getContents();
 
-	/**
-	 * Sets the contents of the system of the clipboard
-	 * 
-	 * @param s the clipboard contents to set
-	 */
-	public void setContents(String s);
+    /**
+     * Sets the contents of the system of the clipboard
+     *
+     * @param s the clipboard contents to set
+     */
+    public void setContents(String s);
 }

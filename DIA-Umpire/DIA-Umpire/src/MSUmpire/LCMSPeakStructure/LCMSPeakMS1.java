@@ -32,6 +32,7 @@ import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeptidePeakClusterDetection.PDHandlerMS1;
 import MSUmpire.SearchResultParser.PepXMLParser;
 import MSUmpire.SpectrumParser.SpectrumParserBase;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -44,6 +45,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.DataFormatException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.math3.analysis.interpolation.LoessInterpolator;
@@ -62,6 +64,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * MS1 peak feature data related to a LCMS1 feature map
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class LCMSPeakMS1 extends LCMSPeakBase {
@@ -70,26 +73,26 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
     public boolean UseMappedIon = false;
     public TreeMap<XYData, ArrayList<Integer>> MS1Windows;
 
-     public LCMSPeakMS1(String Filename, InstrumentParameter parameter, int NoCPUs) {
+    public LCMSPeakMS1(String Filename, InstrumentParameter parameter, int NoCPUs) {
         this.ScanCollectionName = Filename;
         this.ParentmzXMLName = Filename;
         this.datattype = SpectralDataType.DataType.DDA;
         this.NoCPUs = NoCPUs;
         SetParameter(parameter);
     }
-    
+
     public LCMSPeakMS1(String Filename, int NoCPUs) {
         this.ScanCollectionName = Filename;
-        this.ParentmzXMLName=Filename;
-        this.datattype=SpectralDataType.DataType.DDA;        
+        this.ParentmzXMLName = Filename;
+        this.datattype = SpectralDataType.DataType.DDA;
         this.NoCPUs = NoCPUs;
     }
-        
-    public void SetMS1Windows(TreeMap<XYData, ArrayList<Integer>> MS1Windows){
-        this.MS1Windows=MS1Windows;
+
+    public void SetMS1Windows(TreeMap<XYData, ArrayList<Integer>> MS1Windows) {
+        this.MS1Windows = MS1Windows;
     }
 
-    public void SetParameter(InstrumentParameter parameter){
+    public void SetParameter(InstrumentParameter parameter) {
         this.parameter = parameter;
         this.MaxNoPeakCluster = parameter.MaxNoPeakCluster;
         this.MinNoPeakCluster = parameter.MinNoPeakCluster;
@@ -102,41 +105,44 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
 
     public void GeneratePeptideFragmentByMSMS(DBSearchParam para) throws InterruptedException, ExecutionException, IOException, SQLException {
         IDsummary.GenerateFragmentPeakForPepIonByMSMS(GetSpectrumParser().GetAllScanCollectionByMSLabel(false, true, false, true), para.FragPPM);
-}
+    }
 
-    public void WriteLCMSIDSerialization(){
+    public void WriteLCMSIDSerialization() {
         WriteLCMSIDSerialization("");
     }
-    public void WriteLCMSIDSerialization(String tag){
-        this.IDsummary.WriteLCMSIDSerialization(ParentmzXMLName,tag);
+
+    public void WriteLCMSIDSerialization(String tag) {
+        this.IDsummary.WriteLCMSIDSerialization(ParentmzXMLName, tag);
     }
-    public boolean ReadSerializedLCMSID() throws Exception{
+
+    public boolean ReadSerializedLCMSID() throws Exception {
         return ReadSerializedLCMSID("");
     }
-    public boolean ReadSerializedLCMSID(String tag) throws Exception{
-        this.IDsummary=LCMSID.ReadLCMSIDSerialization(ParentmzXMLName,tag);            
-        if(this.IDsummary==null){
+
+    public boolean ReadSerializedLCMSID(String tag) throws Exception {
+        this.IDsummary = LCMSID.ReadLCMSIDSerialization(ParentmzXMLName, tag);
+        if (this.IDsummary == null) {
             return false;
         }
-        this.IDsummary.mzXMLFileName=ParentmzXMLName;
-        this.IDsummary.Filename=ParentmzXMLName;
+        this.IDsummary.mzXMLFileName = ParentmzXMLName;
+        this.IDsummary.Filename = ParentmzXMLName;
         return true;
     }
-       
+
     public String GetDefaultPepXML() {
         return FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(ScanCollectionName) + "interact-" + FilenameUtils.getBaseName(ScanCollectionName) + ".pep.xml");
     }
 
     public String GetDefaultProtXML() {
-        return GetDefaultPepXML().replace(".pep.xml",".prot.xml");
+        return GetDefaultPepXML().replace(".pep.xml", ".prot.xml");
     }
 
     public void SetDefaultPath(DBSearchParam para) {
         para.PepXMLPath = GetDefaultPepXML();
         para.ProtXMLPath = GetDefaultProtXML();
     }
-    
-     public void AssignMS1Cluster() {
+
+    public void AssignMS1Cluster() {
         for (PepIonID pepIonID : IDsummary.GetPepIonList().values()) {
             for (String indexint : pepIonID.MS1ClusIndex.split(";")) {
                 if (!"".equals(indexint)) {
@@ -154,7 +160,7 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
             }
         }
     }
-  
+
     public void SetSpectrumParser(SpectrumParserBase mzxml) {
         this.SpectrumParser = mzxml;
     }
@@ -181,26 +187,25 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         ArrayList<ScanCollection> scanCollections = new ArrayList<>();
         //Calculate how many point per minute when we do B-spline peak smoothing
         parameter.NoPeakPerMin = (int) (parameter.SmoothFactor / GetSpectrumParser().GetMS1CycleTime());
-        Logger.getRootLogger().info("MS1 average cycle time : "+GetSpectrumParser().GetMS1CycleTime()*60+ " seconds");
-        
+        Logger.getRootLogger().info("MS1 average cycle time : " + GetSpectrumParser().GetMS1CycleTime() * 60 + " seconds");
+
         if (MS1Windows == null || MS1Windows.isEmpty()) {
             //The data has only one MS1 scan set
-            ScanCollection scanCollection=GetSpectrumParser().GetAllScanCollectionByMSLabel(true, true, true, false,parameter.startRT, parameter.endRT);
-            scanCollections.add(scanCollection);            
-        }
-        else{
+            ScanCollection scanCollection = GetSpectrumParser().GetAllScanCollectionByMSLabel(true, true, true, false, parameter.startRT, parameter.endRT);
+            scanCollections.add(scanCollection);
+        } else {
             //Get MS1 ScanCollection for each MS1 scan set
-            for( XYData window : MS1Windows.keySet()){
+            for (XYData window : MS1Windows.keySet()) {
                 scanCollections.add(GetSpectrumParser().GetScanCollectionMS1Window(window, true));
             }
         }
-        
-        PDHandlerMS1 detection = new PDHandlerMS1(this, NoCPUs, parameter.MS1PPM);        
+
+        PDHandlerMS1 detection = new PDHandlerMS1(this, NoCPUs, parameter.MS1PPM);
         //Set the flag to tell the program to do targeted peak detection.
-        if(parameter.TargetIDOnly){
+        if (parameter.TargetIDOnly) {
             detection.SetTargetedDetectionOnly();
         }
-        
+
         if (IDsummary != null) {
             //If identifications are present, assign mz-RT for each PSM into targeted peak detection list.
             for (PSM psm : IDsummary.PSMList.values()) {
@@ -208,23 +213,23 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
                     detection.AddToInclusionList(psm.GetObsrIsotopicMz(i), psm.RetentionTime);
                 }
             }
-            Logger.getRootLogger().info("No. of targeted PSM IDs:"+IDsummary.PSMList.size());
+            Logger.getRootLogger().info("No. of targeted PSM IDs:" + IDsummary.PSMList.size());
         }
         //Start detect MS1 peak curve and isotope clusters
         detection.DetectPeakClusters(scanCollections);
-        
+
         //Release scan collection data structure
         scanCollections.clear();
-        scanCollections=null;
-        
+        scanCollections = null;
+
         //Find closet scan number for each detected isotope peak cluster
         MapScanNoForPeakClusters();
-        
+
         //Export peak cluster CSV table
         if (ExportPeakClusterTable) {
             ExportPeakClusterResultCSV();
         }
-        
+
         //Export peak cluster serialization file
         if (SaveSerializationFile) {
             ExportPeakCluster();
@@ -237,8 +242,8 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
             peakCluster.EndScan = GetSpectrumParser().GetScanNoByRT(peakCluster.endRT);
         }
     }
-  
-    public void AssignQuant() throws IOException{
+
+    public void AssignQuant() throws IOException {
         AssignQuant(true);
     }
 
@@ -250,8 +255,8 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
             return;
         }
         Logger.getRootLogger().info("Assigning peak cluster to peptide IDs......");
-        Logger.getRootLogger().info("Total peptide ions to be quantified..:"+IDsummary.GetPepIonList().size());
-        int count=0;
+        Logger.getRootLogger().info("Total peptide ions to be quantified..:" + IDsummary.GetPepIonList().size());
+        int count = 0;
         for (PepIonID pepIonID : IDsummary.GetPepIonList().values()) {
             pepIonID.CreateQuantInstance(MaxNoPeakCluster);
             pepIonID.MS1PeakClusters.clear();
@@ -277,14 +282,13 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
                 pepIonID.ObservedMz = targetCluster.mz[0];
                 targetCluster.AssignedPepIon = pepIonID.GetKey();
                 targetCluster.Identified = true;
-            }
-            else {
-                Logger.getRootLogger().warn("Feature for "+pepIonID.ModSequence+ " not found: Charge="+pepIonID.Charge+", mz="+pepIonID.ObservedMz+", RT="+pepIonID.GetRT());
+            } else {
+                Logger.getRootLogger().warn("Feature for " + pepIonID.ModSequence + " not found: Charge=" + pepIonID.Charge + ", mz=" + pepIonID.ObservedMz + ", RT=" + pepIonID.GetRT());
             }
         }
         DecimalFormat df = new DecimalFormat("###.##");
-              
-        Logger.getRootLogger().info("No. of peptide ions quantified..:"+count+"("+ df.format((float)count/IDsummary.GetPepIonList().size()*100)+"%)");
+
+        Logger.getRootLogger().info("No. of peptide ions quantified..:" + count + "(" + df.format((float) count / IDsummary.GetPepIonList().size() * 100) + "%)");
 
         if (export) {
             ExportID();
@@ -332,10 +336,10 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         }
     }
 
-    public boolean ReadIfProcessed(){
-        return ReadPeakCluster();    
+    public boolean ReadIfProcessed() {
+        return ReadPeakCluster();
     }
-    
+
     public void ExportMappedIDQuant() throws SQLException, IOException {
         if (IDsummary == null) {
             return;
@@ -346,10 +350,10 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         IDsummary.ExportMappedPepID();
     }
 
-    public void ExportID()throws IOException{
+    public void ExportID() throws IOException {
         ExportID("");
     }
-            
+
     public void ExportID(String tag) throws IOException {
         if (IDsummary == null) {
             return;
@@ -357,9 +361,9 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         if (!FilenameUtils.getBaseName(IDsummary.mzXMLFileName).equals(FilenameUtils.getBaseName(ScanCollectionName))) {
             return;
         }
-        IDsummary.WriteLCMSIDSerialization(ParentmzXMLName,tag);
+        IDsummary.WriteLCMSIDSerialization(ParentmzXMLName, tag);
     }
-    
+
     public void GenerateMassCalibrationRTMap() throws IOException {
         String pngfile = FilenameUtils.getFullPath(ScanCollectionName) + "/" + FilenameUtils.getBaseName(ScanCollectionName) + "_masscaliRT.png";
         XYSeries series = new XYSeries("PSM");
@@ -370,7 +374,7 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         );
 
         for (PSM psm : this.IDsummary.PSMList.values()) {
-            float ppm = InstrumentParameter.CalcSignedPPM(psm.ObserPrecursorMass, psm.NeutralPepMass);            
+            float ppm = InstrumentParameter.CalcSignedPPM(psm.ObserPrecursorMass, psm.NeutralPepMass);
             series.add(new XYDataItem(psm.RetentionTime, ppm));
         }
         double x[] = new double[IDsummary.PSMList.size()];
@@ -411,70 +415,70 @@ public class LCMSPeakMS1 extends LCMSPeakBase {
         xyPlot.setBackgroundPaint(Color.white);
         ChartUtilities.saveChartAsPNG(new File(pngfile), chart, 1000, 600);
     }
-       
-    public String GetIPROPHETPepXML(){
-        return FilenameUtils.getFullPath(ParentmzXMLName) + "interact-"+FilenameUtils.getBaseName(ParentmzXMLName) + ".iproph.pep.xml";
+
+    public String GetIPROPHETPepXML() {
+        return FilenameUtils.getFullPath(ParentmzXMLName) + "interact-" + FilenameUtils.getBaseName(ParentmzXMLName) + ".iproph.pep.xml";
     }
-    
-    public String GetIPROPHETProtXML(){
-        return FilenameUtils.getFullPath(ParentmzXMLName) + "interact-"+FilenameUtils.getBaseName(ParentmzXMLName) + ".iproph.prot.xml";
+
+    public String GetIPROPHETProtXML() {
+        return FilenameUtils.getFullPath(ParentmzXMLName) + "interact-" + FilenameUtils.getBaseName(ParentmzXMLName) + ".iproph.prot.xml";
     }
-    
+
     public void ParsePepXML(DBSearchParam param, float prob) throws ParserConfigurationException, IOException, SAXException, XmlPullParserException, ClassNotFoundException, InterruptedException {
-        IDsummary = new LCMSID(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName),param.DecoyPrefix,param.FastaPath);                
+        IDsummary = new LCMSID(FilenameUtils.getFullPath(ParentmzXMLName) + FilenameUtils.getBaseName(ParentmzXMLName), param.DecoyPrefix, param.FastaPath);
         PepXMLParser pepxmlparser = new PepXMLParser(IDsummary, param.InteractPepXMLPath, prob);
         CheckPSMRT();
     }
-  
+
     private void CheckPSMRT() {
-        for(PSM psm : IDsummary.PSMList.values()){
-            if(psm.RetentionTime==-1f){
-                psm.RetentionTime=GetSpectrumParser().GetScanElutionTimeMap().get(psm.ScanNo);
-                psm.NeighborMaxRetentionTime=psm.RetentionTime;
+        for (PSM psm : IDsummary.PSMList.values()) {
+            if (psm.RetentionTime == -1f) {
+                psm.RetentionTime = GetSpectrumParser().GetScanElutionTimeMap().get(psm.ScanNo);
+                psm.NeighborMaxRetentionTime = psm.RetentionTime;
             }
         }
     }
 
     public void RemoveContaminantPeaks(float proportion) {
-        Logger.getRootLogger().info("Removing peak clusters whose m/z appear more than " +proportion*100+ "% chromatography. No. of peak clusters : "+PeakClusters.size());
-        float minmz=Float.MAX_VALUE;
-        float maxmz=Float.MIN_VALUE;
-        float minrt=Float.MAX_VALUE;
-        float maxrt=Float.MIN_VALUE;
-        for(PeakCluster peak : PeakClusters){
-            if(peak.TargetMz()>maxmz){
-                maxmz=peak.TargetMz();
+        Logger.getRootLogger().info("Removing peak clusters whose m/z appear more than " + proportion * 100 + "% chromatography. No. of peak clusters : " + PeakClusters.size());
+        float minmz = Float.MAX_VALUE;
+        float maxmz = Float.MIN_VALUE;
+        float minrt = Float.MAX_VALUE;
+        float maxrt = Float.MIN_VALUE;
+        for (PeakCluster peak : PeakClusters) {
+            if (peak.TargetMz() > maxmz) {
+                maxmz = peak.TargetMz();
             }
-            if(peak.TargetMz()<minmz){
-                minmz=peak.TargetMz();
+            if (peak.TargetMz() < minmz) {
+                minmz = peak.TargetMz();
             }
-            if(peak.endRT>maxrt){
-                maxrt=peak.endRT;
+            if (peak.endRT > maxrt) {
+                maxrt = peak.endRT;
             }
-            if(peak.startRT<minrt){
-                minrt=peak.startRT;
+            if (peak.startRT < minrt) {
+                minrt = peak.startRT;
             }
         }
-        HashMap<Integer,ArrayList<PeakCluster>> map=new HashMap<>();
-        
-        float[] MzBin=new float[(int)Math.ceil((maxmz-minmz)*10)+1];       
-        for(PeakCluster peak : PeakClusters){
-            int binkey=(int)Math.ceil((peak.TargetMz()-minmz)*10);
-            MzBin[binkey]+=peak.endRT-peak.startRT;
-            if(!map.containsKey(binkey)){
+        HashMap<Integer, ArrayList<PeakCluster>> map = new HashMap<>();
+
+        float[] MzBin = new float[(int) Math.ceil((maxmz - minmz) * 10) + 1];
+        for (PeakCluster peak : PeakClusters) {
+            int binkey = (int) Math.ceil((peak.TargetMz() - minmz) * 10);
+            MzBin[binkey] += peak.endRT - peak.startRT;
+            if (!map.containsKey(binkey)) {
                 map.put(binkey, new ArrayList<PeakCluster>());
             }
             map.get(binkey).add(peak);
         }
-        float threshold=proportion*(maxrt-minrt);
-        for(int i=0;i<MzBin.length;i++){
-            if(MzBin[i]>threshold){
-                for (PeakCluster peakCluster : map.get(i)){ 
+        float threshold = proportion * (maxrt - minrt);
+        for (int i = 0; i < MzBin.length; i++) {
+            if (MzBin[i] > threshold) {
+                for (PeakCluster peakCluster : map.get(i)) {
                     PeakClusters.remove(peakCluster);
                     //Logger.getRootLogger().debug("Removing the cluster m/z: "+ peakCluster.TargetMz()+", StartRT: "+ peakCluster.startRT +", EndRT: "+peakCluster.endRT);
                 }
             }
         }
-        Logger.getRootLogger().info("Remaining peak clusters : "+PeakClusters.size());
+        Logger.getRootLogger().info("Remaining peak clusters : " + PeakClusters.size());
     }
 }

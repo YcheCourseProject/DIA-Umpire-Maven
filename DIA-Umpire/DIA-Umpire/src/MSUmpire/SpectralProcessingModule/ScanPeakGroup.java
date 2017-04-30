@@ -23,14 +23,17 @@ package MSUmpire.SpectralProcessingModule;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.SortedXYCollectionClass;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.util.ArrayList;
 
 /**
  * Isotope peak groups for a single scan
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class ScanPeakGroup {
@@ -42,7 +45,7 @@ public class ScanPeakGroup {
     int endcharge = -1;
     int maxNoPeaks = -1;
     int minNoPeaks = -1;
-    float PPMThreshold=0f;
+    float PPMThreshold = 0f;
 
     public ScanPeakGroup(ScanData scan, InstrumentParameter parameter) {
         this.Scan = scan;
@@ -53,19 +56,19 @@ public class ScanPeakGroup {
             endcharge = parameter.EndCharge;
             maxNoPeaks = parameter.MaxNoPeakCluster;
             minNoPeaks = parameter.MinNoPeakCluster;
-            PPMThreshold=parameter.MS1PPM;
+            PPMThreshold = parameter.MS1PPM;
         } else if (Scan.MsLevel == 2) {
             startcharge = parameter.MS2StartCharge;
             endcharge = parameter.MS2EndCharge;
             maxNoPeaks = parameter.MaxMS2NoPeakCluster;
             minNoPeaks = parameter.MinMS2NoPeakCluster;
-            PPMThreshold=parameter.MS2PPM;
-        }       
+            PPMThreshold = parameter.MS2PPM;
+        }
     }
-    
-    public void Deisotoping(){
-         PeakGroupDetection();
-         RemovedGroupedIsotopicPeaks();
+
+    public void Deisotoping() {
+        PeakGroupDetection();
+        RemovedGroupedIsotopicPeaks();
     }
 
     private void RemovedGroupedIsotopicPeaks() {
@@ -135,7 +138,7 @@ public class ScanPeakGroup {
             for (int i = startidx + 1; i < Scan.PointCount(); i++) {
                 float ppm = InstrumentParameter.CalcPPM(Scan.Data.get(i).getX(), startmz + mzdistance);
                 if (ppm < PPMThreshold + (PPMThreshold * peak * 0.5)) {
-                    if (ppm < minippm && Scan.Data.get(PeakFoundIdx[peak-1]).getY()>Scan.Data.get(i).getY()) {
+                    if (ppm < minippm && Scan.Data.get(PeakFoundIdx[peak - 1]).getY() > Scan.Data.get(i).getY()) {
                         closetidx = i;
                         minippm = ppm;
                     }
@@ -145,7 +148,7 @@ public class ScanPeakGroup {
                     }
                 }
             }
-            if (minippm < 10000f) {                
+            if (minippm < 10000f) {
                 PeakFound[peak] = true;
                 PeakFoundIdx[peak] = closetidx;
                 startidx = closetidx;

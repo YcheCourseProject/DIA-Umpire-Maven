@@ -20,14 +20,16 @@
 package MSUmpire.SpectralProcessingModule;
 
 import MSUmpire.BaseDataStructure.XYPointCollection;
+
 import java.util.ArrayList;
 
 /**
- * Bin peaks in a spectrum for the purpose of calculating spectral similarity 
+ * Bin peaks in a spectrum for the purpose of calculating spectral similarity
+ *
  * @author Chih-Chiang Tsou
  */
 public class Binning {
-    
+
     public XYPointCollection Binning(XYPointCollection scan, float threshold, ArrayList<Integer> removeList) {
 
         float Binsize = 0.1f;
@@ -43,7 +45,7 @@ public class Binning {
         int arrayidx = 1;
         for (int i = 0; i < scan.PointCount(); i++) {
             if (scan.Data.get(i).getY() > threshold) {
-                
+
                 while (scan.Data.get(i).getX() > valueindex[arrayidx]) {
                     arrayidx++;
                 }

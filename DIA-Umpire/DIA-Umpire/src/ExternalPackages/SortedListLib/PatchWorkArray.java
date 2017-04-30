@@ -15,12 +15,12 @@ import java.util.*;
  * modification, other than through the iterator itself, cause it to throw a
  * {@link ConcurrentModificationException}.
  *
+ * @param <T> The type of element that this list should store.
  * @author Mark Rhodes
  * @version 1.0
  * @see List
  * @see Collection
  * @see ArrayList
- * @param <T> The type of element that this list should store.
  */
 public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
 
@@ -38,7 +38,9 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
     private enum ElementType {
 
         NORMAL, NO_VALUE, SUB_LIST
-    };
+    }
+
+    ;
 
     private List<Object> backingList; //the ArrayList that backs this list..
     private final AlterationList alterations; //the Alterations that have been made to the backing list..
@@ -123,7 +125,7 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
      * @return <code>true</code> if the operation to insert the element was
      * successful.
      * @throws IllegalArgumentException in the case that the given element is
-     * <code>null</code>.
+     *                                  <code>null</code>.
      */
     @Override
     public boolean add(T obj) {
@@ -321,11 +323,11 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
      * added and the number of alterations is incremented.
      *
      * @param index at which the element should be added.
-     * @param obj the object to by inserted.
-     * @throws IllegalArgumentException in the case that the given element is
-     * null.
+     * @param obj   the object to by inserted.
+     * @throws IllegalArgumentException  in the case that the given element is
+     *                                   null.
      * @throws IndexOutOfBoundsException in the case that (0 <= index <= size())
-     * does not hold.
+     *                                   does not hold.
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -462,7 +464,7 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
      * @return the {@code ElementType} of the element at the given index in the
      * backing list.
      * @throws NoSuchElementException in the case that the index does not exist
-     * in the backing list.
+     *                                in the backing list.
      */
     private ElementType getTypeAtBackingListIndex(int index) {
         return getType(backingList.get(index));
@@ -493,7 +495,7 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
      * @param index the index of the element to remove.
      * @return the element which was removed from the list.
      * @throws IllegalArgumentException in the case that the index is not a
-     * valid index.
+     *                                  valid index.
      */
     @SuppressWarnings("unchecked")
     public T remove(int index) {
@@ -556,7 +558,9 @@ public class PatchWorkArray<T> extends AbstractList<T> implements Serializable {
     private class SubList extends UnsortedList<T> {
 
         private static final long serialVersionUID = 308040562609962654L;
-    };
+    }
+
+    ;
 
 } //end of the PatchWorkArray class.
 

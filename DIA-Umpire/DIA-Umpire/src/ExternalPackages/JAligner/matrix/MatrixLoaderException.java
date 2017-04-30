@@ -17,21 +17,20 @@
 package ExternalPackages.JAligner.matrix;
 
 /**
- * 
  * @author Ahmed Moustafa
  */
 
 public class MatrixLoaderException extends Exception {
 
-	/**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 3906364935142586680L;
 
     /**
-	 * @param message
-	 */
-	public MatrixLoaderException(String message) {
-		super(message);
-	}
+     * @param message
+     */
+    public MatrixLoaderException(String message) {
+        super(message);
+    }
 }

@@ -6,27 +6,23 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The Binomial distribution, with \f$ n \f$ fixed, is an exponential family
  * and, as a consequence, the probability density function is given by \f[ f(x;
  * \mathbf{\Theta}) = \exp \left( \langle t(x), \mathbf{\Theta} \rangle -
  * F(\mathbf{\Theta}) + k(x) \right) \f] where \f$ \mathbf{\Theta} \f$ are the
  * natural parameters. This class implements the different functions allowing to
  * express a Binomial distribution as a member of an exponential family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = p \in [0,1] \f$ - Natural parameters \f$\mathbf{\Theta}
  * = \theta \in R \f$ - Expectation parameters \f$ \mathbf{H} = \eta \in [0,1]^+
  * \f$
- *
  */
 public final class BinomialFixedN extends ExponentialFamily<PVector, PVector> {
 
@@ -185,7 +181,7 @@ public final class BinomialFixedN extends ExponentialFamily<PVector, PVector> {
     /**
      * Computes the density value \f$ f(x;p) \f$.
      *
-     * @param x a point
+     * @param x     a point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;p) = \frac{n!}{x!(n-x)!} p^x (1-p)^{n-x} \f$
      */

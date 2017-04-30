@@ -21,10 +21,12 @@ package MSUmpire.SpectralProcessingModule;
 
 import MSUmpire.BaseDataStructure.XYData;
 import com.compomics.util.experiment.biology.ions.ElementaryIon;
+
 import java.util.ArrayList;
 
 /**
  * Isotope peak group class
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class IsotopePeakGroup {
@@ -36,10 +38,10 @@ public class IsotopePeakGroup {
         this.Charge = charge;
     }
 
-    public float NeutralMass(){
-        return Charge * (PrecursorMz() - (float)ElementaryIon.proton.getTheoreticMass());
+    public float NeutralMass() {
+        return Charge * (PrecursorMz() - (float) ElementaryIon.proton.getTheoreticMass());
     }
-    
+
     public float PrecursorMz() {
         return PeakGroupList.get(0).getX();
     }
@@ -51,6 +53,7 @@ public class IsotopePeakGroup {
     public void AddPeak(XYData peakPoint) {
         PeakGroupList.add(peakPoint);
     }
+
     public float[] GetIsoPattern() {
         float[] Pattern = new float[3];
         for (int i = 0; i < 3; i++) {
@@ -61,5 +64,5 @@ public class IsotopePeakGroup {
         }
         return Pattern;
     }
-        
+
 }

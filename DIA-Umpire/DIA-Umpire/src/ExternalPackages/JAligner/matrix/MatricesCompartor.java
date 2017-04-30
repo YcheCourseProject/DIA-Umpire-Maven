@@ -19,45 +19,46 @@ package ExternalPackages.JAligner.matrix;
 import java.util.Comparator;
 
 /**
- * Comparator to sort the scoring matrices by their names. 
- * 
+ * Comparator to sort the scoring matrices by their names.
+ *
  * @author Ahmed Moustafa
  */
 
 public class MatricesCompartor implements Comparator<String> {
 
-	/* (non-Javadoc)
-	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-	 */
-	public int compare(String s1, String s2) {
-		int index1 = firstDigitIndex(s1);
-		int index2 = firstDigitIndex(s2);
-		
-		if (index1 == -1 || index2 == -1) {
-			return s1.compareToIgnoreCase(s2); 
-		} else {
-			String s3 = s1.substring(0, index1);
-			String s4 = s2.substring(0, index2);
-			if (s3.equalsIgnoreCase(s4)) {
-				return new Integer(s1.substring(index1)).compareTo(new Integer(s2.substring(index2)));
-			} else {
-				return s1.compareToIgnoreCase(s2);
-			}
-		}
-	}
-	
-	/**
-	 * Returns the index of the first digit in a String.
-	 * If there are no digits, returns -1.
-	 * @param s	String to be searched for the digits in
-	 * @return int
-	 */
-	private int firstDigitIndex (String s) {
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-				return i;  
-			}
-		}
-		return -1;
-	}
+    /* (non-Javadoc)
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
+    public int compare(String s1, String s2) {
+        int index1 = firstDigitIndex(s1);
+        int index2 = firstDigitIndex(s2);
+
+        if (index1 == -1 || index2 == -1) {
+            return s1.compareToIgnoreCase(s2);
+        } else {
+            String s3 = s1.substring(0, index1);
+            String s4 = s2.substring(0, index2);
+            if (s3.equalsIgnoreCase(s4)) {
+                return new Integer(s1.substring(index1)).compareTo(new Integer(s2.substring(index2)));
+            } else {
+                return s1.compareToIgnoreCase(s2);
+            }
+        }
+    }
+
+    /**
+     * Returns the index of the first digit in a String.
+     * If there are no digits, returns -1.
+     *
+     * @param s String to be searched for the digits in
+     * @return int
+     */
+    private int firstDigitIndex(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

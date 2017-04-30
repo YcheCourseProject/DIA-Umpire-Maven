@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Peptide for which one or more transitions are intended to identify
- * 
+ * <p>
  * <p>Java class for PeptideType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="PeptideType">
  *   &lt;complexContent>
@@ -46,17 +46,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PeptideType", propOrder = {
-    "cvParam",
-    "userParam",
-    "proteinRef",
-    "modification",
-    "retentionTimeList",
-    "evidence"
+        "cvParam",
+        "userParam",
+        "proteinRef",
+        "modification",
+        "retentionTimeList",
+        "evidence"
 })
 public class PeptideType {
 
@@ -80,25 +78,23 @@ public class PeptideType {
 
     /**
      * Gets the value of the cvParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cvParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCvParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link CvParamType }
-     * 
-     * 
      */
     public List<CvParamType> getCvParam() {
         if (cvParam == null) {
@@ -109,25 +105,23 @@ public class PeptideType {
 
     /**
      * Gets the value of the userParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UserParamType }
-     * 
-     * 
      */
     public List<UserParamType> getUserParam() {
         if (userParam == null) {
@@ -138,25 +132,23 @@ public class PeptideType {
 
     /**
      * Gets the value of the proteinRef property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the proteinRef property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getProteinRef().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ProteinRefType }
-     * 
-     * 
      */
     public List<ProteinRefType> getProteinRef() {
         if (proteinRef == null) {
@@ -167,25 +159,23 @@ public class PeptideType {
 
     /**
      * Gets the value of the modification property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the modification property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getModification().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ModificationType }
-     * 
-     * 
      */
     public List<ModificationType> getModification() {
         if (modification == null) {
@@ -196,11 +186,9 @@ public class PeptideType {
 
     /**
      * Gets the value of the retentionTimeList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RetentionTimeListType }
-     *     
+     *
+     * @return possible object is
+     * {@link RetentionTimeListType }
      */
     public RetentionTimeListType getRetentionTimeList() {
         return retentionTimeList;
@@ -208,11 +196,9 @@ public class PeptideType {
 
     /**
      * Sets the value of the retentionTimeList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RetentionTimeListType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link RetentionTimeListType }
      */
     public void setRetentionTimeList(RetentionTimeListType value) {
         this.retentionTimeList = value;
@@ -220,11 +206,9 @@ public class PeptideType {
 
     /**
      * Gets the value of the evidence property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link EvidenceType }
-     *     
+     *
+     * @return possible object is
+     * {@link EvidenceType }
      */
     public EvidenceType getEvidence() {
         return evidence;
@@ -232,11 +216,9 @@ public class PeptideType {
 
     /**
      * Sets the value of the evidence property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link EvidenceType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link EvidenceType }
      */
     public void setEvidence(EvidenceType value) {
         this.evidence = value;
@@ -244,11 +226,9 @@ public class PeptideType {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
@@ -256,11 +236,9 @@ public class PeptideType {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;
@@ -268,11 +246,9 @@ public class PeptideType {
 
     /**
      * Gets the value of the sequence property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getSequence() {
         return sequence;
@@ -280,11 +256,9 @@ public class PeptideType {
 
     /**
      * Sets the value of the sequence property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setSequence(String value) {
         this.sequence = value;

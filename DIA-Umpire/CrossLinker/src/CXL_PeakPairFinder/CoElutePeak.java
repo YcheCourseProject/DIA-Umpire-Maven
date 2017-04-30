@@ -9,17 +9,16 @@ package CXL_PeakPairFinder;
 import MSUmpire.PeakDataStructure.PeakCluster;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
-public class CoElutePeak{
-        public PeakCluster peakpair;
-        public float Correlation;
-        public float PPM;
-        
-        public CoElutePeak(PeakCluster peakpair, float correlation, float ppm){
-            this.peakpair=peakpair;
-            this.Correlation=correlation;
-            this.PPM=ppm;
-        }
+public class CoElutePeak {
+    public PeakCluster peakpair;
+    public float Correlation;
+    public float PPM;
+
+    public CoElutePeak(PeakCluster peakpair, float correlation, float ppm) {
+        this.peakpair = peakpair;
+        this.Correlation = correlation;
+        this.PPM = ppm;
     }
+}

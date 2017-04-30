@@ -20,11 +20,13 @@
 package MSUmpire.BaseDataStructure;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * Sorted collection of XYZData, sorted by x value
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class SortedXYZCollection extends SortedList<XYZData> implements Serializable {
@@ -45,6 +47,7 @@ public class SortedXYZCollection extends SortedList<XYZData> implements Serializ
     public XYZData GetCloset(float value) {
         return get(BinarySearchClosest(value));
     }
+
     public int BinarySearchClosest(float value) {
 
         if (isEmpty()) {

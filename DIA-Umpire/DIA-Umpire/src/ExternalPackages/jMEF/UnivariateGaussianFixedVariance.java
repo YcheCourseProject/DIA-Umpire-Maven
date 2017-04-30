@@ -8,13 +8,11 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The univariate Gaussian distribution, with fixed variance \f$ \sigma^2 \f$,
  * is an exponential family and, as a consequence, the probability density
  * function is given by \f[ f(x; \mathbf{\Theta}) = \exp \left( \langle t(x),
@@ -22,9 +20,8 @@ import ExternalPackages.jMEF.Parameter.TYPE;
  * \mathbf{\Theta} \f$ are the natural parameters. This class implements the
  * different functions allowing to express a univariate Gaussian distribution as
  * a member of an exponential family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = \mu \in R\f$ - Natural parameters \f$\mathbf{\Theta} =
  * \theta \in R\f$ - Expectation parameters \f$ \mathbf{H} = \eta \in R\f$
@@ -182,7 +179,7 @@ public final class UnivariateGaussianFixedVariance extends ExponentialFamily<PVe
     /**
      * Computes the density value \f$ f(x;\mu,\sigma^2) \f$.
      *
-     * @param x a point
+     * @param x     a point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;\mu,\sigma^2) = \frac{1}{ \sqrt{2\pi \sigma^2} } \exp
      * \left( - \frac{(x-\mu)^2}{ 2 \sigma^2} \right) \f$

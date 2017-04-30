@@ -23,6 +23,7 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanCollection;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.SpectralDataType;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.util.TreeMap;
 
 /**
  * MALDI parser, parse a collection of pkl files (Data from Phil Andrews's lab)
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class MALDIDataParser {
@@ -39,25 +41,26 @@ public class MALDIDataParser {
     public InstrumentParameter parameter;
     public int TotalScan;
     public SpectralDataType.DataType datatype;
-    public float cycletime=0.2f;
+    public float cycletime = 0.2f;
+
     public MALDIDataParser(String filename) throws IOException {
         parameter = new InstrumentParameter(InstrumentParameter.InstrumentType.Q_TOF);
         this.filename = filename;
         scanCollection = new ScanCollection(parameter.Resolution);
         scanCollection.Filename = filename;
-        this.datatype = SpectralDataType.DataType.MALDI;                
+        this.datatype = SpectralDataType.DataType.MALDI;
     }
 
     public void Parse() throws FileNotFoundException, IOException {
-        TreeMap<String, ScanData> SortedMap=new TreeMap<>();
-        File folder =new File(filename);
-                
+        TreeMap<String, ScanData> SortedMap = new TreeMap<>();
+        File folder = new File(filename);
+
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {
             return;
         }
-        int ScanNo=1;
-        
+        int ScanNo = 1;
+
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 String files = listOfFiles[i].getName();
@@ -75,9 +78,9 @@ public class MALDIDataParser {
                     PKLScanParser pkl = new PKLScanParser(folder + "/" + files);
                     pkl.scan.MsLevel = 1;
                     pkl.scan.MGFTitle = pkl.scan.MGFTitle.split("_")[pkl.scan.MGFTitle.split("_").length - 2];
-                    pkl.scan.ScanNum=ScanNo;
+                    pkl.scan.ScanNum = ScanNo;
                     //pkl.scan.Normalization();
-                    pkl.scan.RetentionTime=cycletime*ScanNo;
+                    pkl.scan.RetentionTime = cycletime * ScanNo;
                     ScanNo++;
                     pkl.scan.Data.Finalize();
                     SortedMap.put(pkl.scan.MGFTitle, pkl.scan);
@@ -85,9 +88,9 @@ public class MALDIDataParser {
                 }
             }
         }
-        
-        for(ScanData scan : SortedMap.values()){
+
+        for (ScanData scan : SortedMap.values()) {
             scanCollection.AddScan(scan);
-        }        
+        }
     }
 }

@@ -38,6 +38,7 @@ import com.compomics.util.experiment.identification.matches.ModificationMatch;
 import ExternalPackages.JAligner.matrix.Matrix;
 import ExternalPackages.JAligner.matrix.MatrixLoader;
 import ExternalPackages.JAligner.matrix.MatrixLoaderException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import ExternalPackages.org.hupo.psi.ms.traml.CvParamType;
@@ -64,6 +66,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * Spectral library data structure
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class FragmentLibManager implements Serializable {
@@ -71,18 +74,18 @@ public class FragmentLibManager implements Serializable {
 
     public HashMap<String, PepFragmentLib> PeptideFragmentLib = new HashMap<>();
     HashMap<String, PepFragmentLib> PeptideDecoyFragmentLib = new HashMap<>();
-        
+
     public String LibID = "Test";
     transient FragmentSelection fragselection;
-    
-    public void ReduceMemoryUsage(){
-        for(PepFragmentLib pep : PeptideFragmentLib.values()){
-            for(FragmentPeakGroup frag: pep.FragmentGroups.values()){
+
+    public void ReduceMemoryUsage() {
+        for (PepFragmentLib pep : PeptideFragmentLib.values()) {
+            for (FragmentPeakGroup frag : pep.FragmentGroups.values()) {
                 frag.ClearGroups();
             }
         }
-        for(PepFragmentLib pep : PeptideDecoyFragmentLib.values()){
-            for(FragmentPeakGroup frag: pep.FragmentGroups.values()){
+        for (PepFragmentLib pep : PeptideDecoyFragmentLib.values()) {
+            for (FragmentPeakGroup frag : pep.FragmentGroups.values()) {
                 frag.ClearGroups();
             }
         }
@@ -113,13 +116,13 @@ public class FragmentLibManager implements Serializable {
     public static FragmentLibManager ReadFragmentLibSerialization(String path, String LibID) {
         FragmentLibManager lib = FSFragmentLibRead(path, LibID);
         if (lib == null) {
-            lib=FSFragmentLibRead_Old(path, LibID);
+            lib = FSFragmentLibRead_Old(path, LibID);
             if (lib != null) {
                 lib.WriteFragmentLibSerialization(path);
             }
         }
-        if(lib!=null){
-            lib.LibID=LibID;
+        if (lib != null) {
+            lib.LibID = LibID;
         }
         return lib;
     }
@@ -135,14 +138,14 @@ public class FragmentLibManager implements Serializable {
             FSTObjectInput in = new FSTObjectInput(fileIn);
             FragmentLibManager FragLib = (FragmentLibManager) in.readObject();
             in.close();
-            fileIn.close();            
+            fileIn.close();
             return FragLib;
         } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return null;
         }
     }
-    
+
     private static FragmentLibManager FSFragmentLibRead_Old(String path, String LibID1) {
         if (!new File(path + LibID1 + ".serFS").exists()) {
             Logger.getRootLogger().debug(path + LibID1 + ".serFS does not exsit.");
@@ -195,12 +198,12 @@ public class FragmentLibManager implements Serializable {
         }
 
         Peptide peptide = peptide = new Peptide(recoyseq, Modifications);
-        HashMap<Integer, HashMap<Integer, ArrayList<Ion>>> allfragment = IonFactory.getInstance().getFragmentIons(peptide);        
+        HashMap<Integer, HashMap<Integer, ArrayList<Ion>>> allfragment = IonFactory.getInstance().getFragmentIons(peptide);
         fragmentLibdecoy.FragmentGroups = target.CloneFragmentGroup();
-        ArrayList<Ion> fragments=new ArrayList<>();
+        ArrayList<Ion> fragments = new ArrayList<>();
         fragments.addAll(allfragment.get(Ion.IonType.PEPTIDE_FRAGMENT_ION.index).get(PeptideFragmentIon.B_ION));
         fragments.addAll(allfragment.get(Ion.IonType.PEPTIDE_FRAGMENT_ION.index).get(PeptideFragmentIon.Y_ION));
-        
+
         for (Ion frag : fragments) {
             float targetmz = (float) frag.getTheoreticMz(1);
             String IonString = frag.getSubTypeAsString() + ((PeptideFragmentIon) frag).getNumber() + "_1";
@@ -218,22 +221,22 @@ public class FragmentLibManager implements Serializable {
         return fragmentLibdecoy;
     }
 
-    public void CheckDecoys() throws MatrixLoaderException{
+    public void CheckDecoys() throws MatrixLoaderException {
         if (PeptideDecoyFragmentLib.isEmpty()) {
             GenerateDecoyLib();
         }
     }
-    
+
     public void GenerateDecoyLib() throws MatrixLoaderException {
-        Logger.getRootLogger().info("generating decoy spectra");       
+        Logger.getRootLogger().info("generating decoy spectra");
         PeptideDecoyFragmentLib = new HashMap<>();
-        Matrix blosum62=MatrixLoader.load("BLOSUM62");                
-        for (PepFragmentLib fragmentLib : PeptideFragmentLib.values()) {            
-            ShuffledSeqGen shufen=new ShuffledSeqGen(fragmentLib.Sequence,blosum62);
+        Matrix blosum62 = MatrixLoader.load("BLOSUM62");
+        for (PepFragmentLib fragmentLib : PeptideFragmentLib.values()) {
+            ShuffledSeqGen shufen = new ShuffledSeqGen(fragmentLib.Sequence, blosum62);
             shufen.Generate();
-            String decoyseq=shufen.decoy;
+            String decoyseq = shufen.decoy;
             PepFragmentLib fragmentLibdecoy = GenerateDecoy(fragmentLib, decoyseq);
-            PeptideDecoyFragmentLib.put(fragmentLibdecoy.GetKey(), fragmentLibdecoy);            
+            PeptideDecoyFragmentLib.put(fragmentLibdecoy.GetKey(), fragmentLibdecoy);
         }
     }
 
@@ -266,25 +269,25 @@ public class FragmentLibManager implements Serializable {
         writer.close();
         writer2.close();
     }
-        
-    public void ImportFragLibByTSV(String tsv) throws IOException, XmlPullParserException,MatrixLoaderException {
+
+    public void ImportFragLibByTSV(String tsv) throws IOException, XmlPullParserException, MatrixLoaderException {
         Logger.getRootLogger().info("Parsing " + tsv);
-        BufferedReader reader=new BufferedReader(new FileReader(tsv));
+        BufferedReader reader = new BufferedReader(new FileReader(tsv));
         PTMManager.GetInstance();
-        String line="";
-        ArrayList<FragmentPeak> FragmentPeaks=null;
-        String[] header=reader.readLine().split("\t");
-        int modseqidx=-1;
-        int seqidx=-1;
-        int precchargeidx=-1;
-        int precmzidx=-1;
-        int irtidx=-1;
-        int fragtypeidx=-1;
-        int fragnumidx=-1;
-        int fraglossidx=-1;
-        int fragmzidx=-1;
-        int fragchargeidx=-1;
-        int fragintidx=-1;
+        String line = "";
+        ArrayList<FragmentPeak> FragmentPeaks = null;
+        String[] header = reader.readLine().split("\t");
+        int modseqidx = -1;
+        int seqidx = -1;
+        int precchargeidx = -1;
+        int precmzidx = -1;
+        int irtidx = -1;
+        int fragtypeidx = -1;
+        int fragnumidx = -1;
+        int fraglossidx = -1;
+        int fragmzidx = -1;
+        int fragchargeidx = -1;
+        int fragintidx = -1;
         for (int i = 0; i < header.length; i++) {
             switch (header[i]) {
                 case "ModifiedSequence": {
@@ -333,15 +336,15 @@ public class FragmentLibManager implements Serializable {
                 }
             }
         }
-        String lastpep="";
-        PepFragmentLib fraglib =null;
+        String lastpep = "";
+        PepFragmentLib fraglib = null;
         while ((line = reader.readLine()) != null) {
             String[] info = line.split("\t");
             if (!lastpep.equals(info[modseqidx])) {
                 if (fraglib != null && FragmentPeaks != null) {
-                    fraglib.AddFragments(FragmentPeaks);                    
+                    fraglib.AddFragments(FragmentPeaks);
                     if (PeptideFragmentLib.containsKey(fraglib.GetKey())) {
-                        Logger.getRootLogger().warn("Peptide ion :" + fraglib.GetKey() + " is already in the library.("+lastpep+")");                        
+                        Logger.getRootLogger().warn("Peptide ion :" + fraglib.GetKey() + " is already in the library.(" + lastpep + ")");
                     } else {
                         PeptideFragmentLib.put(fraglib.GetKey(), fraglib);
                     }
@@ -354,8 +357,8 @@ public class FragmentLibManager implements Serializable {
                 fraglib.Sequence = info[seqidx];
                 fraglib.ModSequence = fraglib.Sequence;
                 String modseq = info[modseqidx];
-                lastpep=modseq;
-                
+                lastpep = modseq;
+
                 modseq = modseq.substring(1, modseq.length() - 1);
                 while (modseq.contains("[")) {
                     if (modseq.contains("M[Ox]")) {
@@ -365,7 +368,7 @@ public class FragmentLibManager implements Serializable {
                         mapmod.site = "M";
                         int temp = modseq.indexOf("M[Ox]") + 1;
                         boolean inmod = false;
-                        int idx=0;
+                        int idx = 0;
                         for (int i = 0; i < temp; i++) {
                             if (modseq.charAt(i) == '[') {
                                 inmod = true;
@@ -376,20 +379,19 @@ public class FragmentLibManager implements Serializable {
                             if (!inmod) {
                                 idx++;
                             }
-                        }              
-                        
+                        }
+
                         fraglib.Modifications.add(new ModificationMatch(mapmod.modification.getName(), true, idx));
                         modseq = modseq.replaceFirst(Pattern.quote("M[Ox]"), "M");
-                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx-1);
-                    }
-                    else if (modseq.contains("C[CAM]")) {
+                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx - 1);
+                    } else if (modseq.contains("C[CAM]")) {
                         ModificationInfo mapmod = new ModificationInfo();
                         mapmod.modification = PTMManager.GetInstance().GetPTM("C", 57f);
                         mapmod.massdiff = (float) mapmod.modification.getMass();
                         mapmod.site = "C";
                         int temp = modseq.indexOf("C[CAM]") + 1;
-                         boolean inmod = false;
-                        int idx=0;
+                        boolean inmod = false;
+                        int idx = 0;
                         for (int i = 0; i < temp; i++) {
                             if (modseq.charAt(i) == '[') {
                                 inmod = true;
@@ -403,9 +405,8 @@ public class FragmentLibManager implements Serializable {
                         }
                         fraglib.Modifications.add(new ModificationMatch(mapmod.modification.getName(), true, idx));
                         modseq = modseq.replaceFirst(Pattern.quote("C[CAM]"), "C");
-                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx-1);
-                    }
-                    else if (modseq.contains("[NtermAc]")) {
+                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx - 1);
+                    } else if (modseq.contains("[NtermAc]")) {
                         ModificationInfo mapmod = new ModificationInfo();
                         mapmod.modification = PTMManager.GetInstance().GetPTM("N-term", 42f);
                         mapmod.massdiff = (float) mapmod.modification.getMass();
@@ -413,10 +414,9 @@ public class FragmentLibManager implements Serializable {
                         int idx = 1;
                         fraglib.Modifications.add(new ModificationMatch(mapmod.modification.getName(), true, idx));
                         modseq = modseq.replaceFirst(Pattern.quote("[NtermAc]"), "");
-                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx-1);
-                    }
-                    else{
-                        Logger.getRootLogger().error("modification is not recognized:"+modseq);
+                        fraglib.ModSequence = ModStringConvert.AddModIntoSeqBeforeSite(fraglib.ModSequence, mapmod.GetKey(), idx - 1);
+                    } else {
+                        Logger.getRootLogger().error("modification is not recognized:" + modseq);
                         System.exit(1);
                     }
                 }
@@ -429,7 +429,7 @@ public class FragmentLibManager implements Serializable {
             //fragment.IonType = info[fragtypeidx] + info[fragnumidx] +"_"+ info[fraglossidx];
             fragment.IonType = info[fragtypeidx] + info[fragnumidx];
             FragmentPeaks.add(fragment);
-        } 
+        }
         if (fraglib != null && FragmentPeaks != null) {
             fraglib.AddFragments(FragmentPeaks);
             if (PeptideFragmentLib.containsKey(fraglib.GetKey())) {
@@ -438,7 +438,7 @@ public class FragmentLibManager implements Serializable {
                 PeptideFragmentLib.put(fraglib.GetKey(), fraglib);
             }
         }
-        Logger.getRootLogger().info("No. of peptide ions in the imported library:"+PeptideFragmentLib.size());
+        Logger.getRootLogger().info("No. of peptide ions in the imported library:" + PeptideFragmentLib.size());
         CheckDecoys();
     }
 
@@ -449,7 +449,7 @@ public class FragmentLibManager implements Serializable {
             traMLParser.parse_file(tramlpath, Logger.getRootLogger());
             PTMManager.GetInstance();
             HashMap<String, PepFragmentLib> TraMLMap = new HashMap<>();
-            HashMap<String, PepFragmentLib> Decoys=new HashMap<>();
+            HashMap<String, PepFragmentLib> Decoys = new HashMap<>();
 
             for (PeptideType peptide : traMLParser.getTraML().getCompoundList().getPeptide()) {
                 PepFragmentLib fraglib = new PepFragmentLib();
@@ -467,13 +467,13 @@ public class FragmentLibManager implements Serializable {
                 if (peptide.getModification() != null) {
                     for (ModificationType mod : peptide.getModification()) {
                         ModificationInfo modinfo = new ModificationInfo();
-                        int idx=mod.getLocation();
-                        if (idx== 0) {
+                        int idx = mod.getLocation();
+                        if (idx == 0) {
                             modinfo.site = "N-term";
-                            idx=1;
-                        } else if (idx== peptide.getSequence().length() + 1) {
-                            modinfo.site = "C-term";                            
-                            idx=peptide.getSequence().length();
+                            idx = 1;
+                        } else if (idx == peptide.getSequence().length() + 1) {
+                            modinfo.site = "C-term";
+                            idx = peptide.getSequence().length();
                             if (mod.getCvParam().get(0).getAccession().equals("UNIMOD:35")) {
                                 modinfo.site = "M";
                             }
@@ -481,8 +481,8 @@ public class FragmentLibManager implements Serializable {
                             modinfo.site = String.valueOf(peptide.getSequence().charAt(idx - 1));
                         }
                         modinfo.modification = PTMManager.GetInstance().GetPTM(modinfo.site, mod.getMonoisotopicMassDelta().floatValue());
-                        if(modinfo.modification==null){
-                            Logger.getRootLogger().error("Modification was not found in the library: site:"+modinfo.site+", massdiff="+mod.getMonoisotopicMassDelta().floatValue());
+                        if (modinfo.modification == null) {
+                            Logger.getRootLogger().error("Modification was not found in the library: site:" + modinfo.site + ", massdiff=" + mod.getMonoisotopicMassDelta().floatValue());
                             //System.exit(1);
                         }
                         modinfo.massdiff = (float) modinfo.modification.getMass();
@@ -494,7 +494,7 @@ public class FragmentLibManager implements Serializable {
                 }
                 if (peptide.getId().startsWith(DecoyPrefix) | peptide.getId().endsWith(DecoyPrefix)) {
                     //PeptideDecoyFragmentLib.put("decoy_" +fraglib.GetKey(), fraglib);
-                    fraglib.ModSequence ="decoy_" + fraglib.ModSequence;
+                    fraglib.ModSequence = "decoy_" + fraglib.ModSequence;
                     Decoys.put(peptide.getId(), fraglib);
                 } else {
                     PeptideFragmentLib.put(fraglib.GetKey(), fraglib);
@@ -516,9 +516,8 @@ public class FragmentLibManager implements Serializable {
                 FragmentPeak fragment = new FragmentPeak();
                 if (!trans.getUserParam().isEmpty()) {
                     fragment.IonType = trans.getUserParam().get(0).getValue().split("/")[0];
-                }
-                else{
-                    fragment.IonType = trans.getId().split("_")[1]+"_"+trans.getId().split("_")[0];
+                } else {
+                    fragment.IonType = trans.getId().split("_")[1] + "_" + trans.getId().split("_")[0];
                     fragment.IonType = fragment.IonType.replace("_noloss", "");
                 }
                 for (CvParamType cv : trans.getProduct().getCvParam()) {
@@ -535,8 +534,8 @@ public class FragmentLibManager implements Serializable {
                         fragment.intensity = Float.parseFloat(cv.getValue());
                     }
                 }
-                
-                if(!TransitionList.containsKey(pepid)){
+
+                if (!TransitionList.containsKey(pepid)) {
                     TransitionList.put(pepid, new ArrayList<FragmentPeak>());
                 }
                 TransitionList.get(pepid).add(fragment);
@@ -546,8 +545,8 @@ public class FragmentLibManager implements Serializable {
                 fraglib.PrecursorMz = PrecursorMZList.get(pepid);
                 fraglib.AddFragments(TransitionList.get(pepid));
             }
-            Logger.getRootLogger().info("No. of peptide ions in the imported library:"+PeptideFragmentLib.size());
-            Logger.getRootLogger().info("No. of decoys in the imported library:"+PeptideDecoyFragmentLib.size());
+            Logger.getRootLogger().info("No. of peptide ions in the imported library:" + PeptideFragmentLib.size());
+            Logger.getRootLogger().info("No. of decoys in the imported library:" + PeptideDecoyFragmentLib.size());
         } catch (MatrixLoaderException ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
@@ -556,15 +555,15 @@ public class FragmentLibManager implements Serializable {
     public void ImportFragLibBySPTXT(String sptxtpath) throws IOException, XmlPullParserException {
         Logger.getRootLogger().info("Parsing " + sptxtpath);
         try {
-            BufferedReader reader=new BufferedReader(new FileReader(sptxtpath));
-            
+            BufferedReader reader = new BufferedReader(new FileReader(sptxtpath));
+
             PTMManager.GetInstance();
 
-            String line="";
-            boolean Header=false;
-            boolean Peak=false;
-            PepFragmentLib fraglib =null;
-            ArrayList<FragmentPeak> FragmentPeaks=null;
+            String line = "";
+            boolean Header = false;
+            boolean Peak = false;
+            PepFragmentLib fraglib = null;
+            ArrayList<FragmentPeak> FragmentPeaks = null;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("#")) {
                     continue;
@@ -593,11 +592,11 @@ public class FragmentLibManager implements Serializable {
                     String mz = line.split("\t")[0];
                     String intensity = line.split("\t")[1];
                     String type = line.split("\t")[2];
-                                        
+
                     FragmentPeak fragment = new FragmentPeak();
                     fragment.IonType = "?";
-                    float delta=Float.MAX_VALUE;
-                    String iontype="";
+                    float delta = Float.MAX_VALUE;
+                    String iontype = "";
                     for (String ion : type.split(",")) {
                         if (ion.startsWith("b") || ion.startsWith("y")) {
                             String temp = ion.split("/")[0].split("-")[0];
@@ -620,7 +619,7 @@ public class FragmentLibManager implements Serializable {
                     PeptideFragmentLib.put(fraglib.GetKey(), fraglib);
                 }
             }
-            Logger.getRootLogger().info("No. of peptide ions in the imported library:"+PeptideFragmentLib.size());       
+            Logger.getRootLogger().info("No. of peptide ions in the imported library:" + PeptideFragmentLib.size());
             GenerateDecoyLib();
         } catch (MatrixLoaderException ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
@@ -635,7 +634,7 @@ public class FragmentLibManager implements Serializable {
         fragselection.FillMissingFragScoreMap();
         fragselection.GenerateTopFragMap(TopNFrag);
     }
-    
+
     //Build internal spectral library
     public void ImportFragLibTopFrag(ArrayList<LCMSID> LCMSIDList, float Freq, int topNFrag) {
         FragmentSelection(LCMSIDList, Freq, topNFrag);
@@ -658,21 +657,20 @@ public class FragmentLibManager implements Serializable {
                     }
                     PeptideFragmentLib.put(pepIonID.GetKey(), fraglib);
                 }
-                                
-                if (pepIonID.FragmentPeaks != null && !pepIonID.FragmentPeaks.isEmpty()) {                                        
+
+                if (pepIonID.FragmentPeaks != null && !pepIonID.FragmentPeaks.isEmpty()) {
                     //PeptideFragmentLib.get(pepIonID.GetKey()).AddFragments(pepIonID.FragmentPeaks);
-                    ArrayList<FragmentPeak> frags=new ArrayList<>();
-                    for(FragmentPeak fra : pepIonID.FragmentPeaks){
-                        if(fragselection.TopFrags.get(pepIonID.GetKey()).contains(fra.GetFragKey())){
+                    ArrayList<FragmentPeak> frags = new ArrayList<>();
+                    for (FragmentPeak fra : pepIonID.FragmentPeaks) {
+                        if (fragselection.TopFrags.get(pepIonID.GetKey()).contains(fra.GetFragKey())) {
                             frags.add(fra);
                         }
                     }
-                    if(!frags.isEmpty()){
+                    if (!frags.isEmpty()) {
                         PeptideFragmentLib.get(pepIonID.GetKey()).AddFragments(frags);
-                    }
-                    else{
+                    } else {
                         Logger.getRootLogger().warn("Skipped peptide ion: " + pepIonID.GetKey() + " because it does not have enough matched fragments from file: " + lcmsid.mzXMLFileName);
-                    }                    
+                    }
                 } else {
                     Logger.getRootLogger().warn("Skipped peptide ion: " + pepIonID.GetKey() + " because it does not have any matched fragment from file: " + lcmsid.mzXMLFileName);
                 }
@@ -684,5 +682,5 @@ public class FragmentLibManager implements Serializable {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
     }
- 
+
 }

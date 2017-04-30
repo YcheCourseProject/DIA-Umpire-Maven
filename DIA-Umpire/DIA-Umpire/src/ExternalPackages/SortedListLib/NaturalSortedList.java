@@ -6,10 +6,10 @@ import java.util.Comparator;
  * Provides a {@code SortedList} which sorts the elements by their natural
  * order.
  *
+ * @param <T> any {@code Comparable}
  * @author Mark Rhodes
  * @version 1.1
  * @see SortedList
- * @param <T> any {@code Comparable}
  */
 public class NaturalSortedList<T extends Comparable<? super T>>
         extends SortedList<T> {

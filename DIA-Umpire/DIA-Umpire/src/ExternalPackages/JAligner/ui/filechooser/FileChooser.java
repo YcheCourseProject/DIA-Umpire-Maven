@@ -20,52 +20,54 @@ import java.io.InputStream;
 
 /**
  * Opens and saves files.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public abstract class FileChooser {
-	/**
-	 * Buffer size while reading from or write to a file (4 KB) 
-	 */
-	public static final int BUFFER_SIZE = 4096;
-	
-	private String userDir = null;
-	
-	/**
-	 * Shows a dialog to select a file
-	 * 
-	 * @return InputStream
-	 * @throws FileChooserException
-	 */
-	public abstract NamedInputStream open() throws FileChooserException;
+    /**
+     * Buffer size while reading from or write to a file (4 KB)
+     */
+    public static final int BUFFER_SIZE = 4096;
 
-	/**
-	 * Saves an input stream to a file
-	 * 
-	 * @param is
-	 * @param fileName
-	 * @return boolean
-	 * @throws FileChooserException
-	 */
-	public abstract boolean save(InputStream is, String fileName) throws FileChooserException;
-	
-	/**
-	 * Gets the current user working directory
-	 * @return current working directory
-	 */
-	public String getUserDirectory ( ) {
-	    if (userDir == null) {
-	        userDir = System.getProperty("user.home"); 
-	    }
-		return userDir;
-	}
-	
-	/**
-	 * Sets the user working directory
-	 * @param userDir The user directory to set
-	 */
-	public void setUserDirectory (String userDir) {
-	    this.userDir = userDir;
-	}
+    private String userDir = null;
+
+    /**
+     * Shows a dialog to select a file
+     *
+     * @return InputStream
+     * @throws FileChooserException
+     */
+    public abstract NamedInputStream open() throws FileChooserException;
+
+    /**
+     * Saves an input stream to a file
+     *
+     * @param is
+     * @param fileName
+     * @return boolean
+     * @throws FileChooserException
+     */
+    public abstract boolean save(InputStream is, String fileName) throws FileChooserException;
+
+    /**
+     * Gets the current user working directory
+     *
+     * @return current working directory
+     */
+    public String getUserDirectory() {
+        if (userDir == null) {
+            userDir = System.getProperty("user.home");
+        }
+        return userDir;
+    }
+
+    /**
+     * Sets the user working directory
+     *
+     * @param userDir The user directory to set
+     */
+    public void setUserDirectory(String userDir) {
+        this.userDir = userDir;
+    }
 }

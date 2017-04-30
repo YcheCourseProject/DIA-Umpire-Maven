@@ -25,22 +25,24 @@ import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeakDataStructure.PeakCurve;
 import MSUmpire.PeakDataStructure.SortedCurveCollectionApexRT;
 import MSUmpire.PeptidePeakClusterDetection.PeakCurveCorrCalc;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Thread unit for calculating peak profile correlation between a PeakCluster and all coeluting peak curves 
+ * Thread unit for calculating peak profile correlation between a PeakCluster and all coeluting peak curves
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class CorrCalcCluster2CurveUnit implements Runnable {
 
     public PeakCluster MS1PeakCluster;
     private SortedCurveCollectionApexRT PeakCurveSortedListApexRT;
-    InstrumentParameter parameter;    
+    InstrumentParameter parameter;
     public ArrayList<PrecursorFragmentPairEdge> GroupedFragmentList = new ArrayList<>();
-    
+
 
     public CorrCalcCluster2CurveUnit(PeakCluster MS1PeakCluster, SortedCurveCollectionApexRT PeakCurveSortedListApexRT, InstrumentParameter parameter) {
         this.MS1PeakCluster = MS1PeakCluster;
@@ -59,16 +61,16 @@ public class CorrCalcCluster2CurveUnit implements Runnable {
         //Calculate RT range of the peak cluster
         float ms1rtrange = targetMS1Curve.EndRT() - targetMS1Curve.StartRT();
         int highCorrCnt = 0;
-        
+
         //For each peak curve
         for (int idx = startRTidx; idx <= endRTidx; idx++) {
             PeakCurve peakCurve = PeakCurveSortedListApexRT.get(idx);
-            if(peakCurve.TargetMz>MS1PeakCluster.NeutralMass()){
+            if (peakCurve.TargetMz > MS1PeakCluster.NeutralMass()) {
                 continue;
             }
             //RT range of the peak curve
             float peakcurvertrange = peakCurve.EndRT() - peakCurve.StartRT();
-            
+
             //Overlap ratio
             float OverlapP = 0f;
             if (targetMS1Curve.StartRT() >= peakCurve.StartRT() && targetMS1Curve.StartRT() <= peakCurve.EndRT() && targetMS1Curve.EndRT() >= peakCurve.EndRT()) {
@@ -80,11 +82,11 @@ public class CorrCalcCluster2CurveUnit implements Runnable {
             } else if (targetMS1Curve.StartRT() >= peakCurve.StartRT() && targetMS1Curve.EndRT() <= peakCurve.EndRT()) {
                 OverlapP = 1;
             }
-            
-            if (OverlapP > parameter.RTOverlapThreshold 
-                    && targetMS1Curve.ApexRT >= peakCurve.StartRT() 
-                    && targetMS1Curve.ApexRT <= peakCurve.EndRT() 
-                    && peakCurve.ApexRT >= targetMS1Curve.StartRT() 
+
+            if (OverlapP > parameter.RTOverlapThreshold
+                    && targetMS1Curve.ApexRT >= peakCurve.StartRT()
+                    && targetMS1Curve.ApexRT <= peakCurve.EndRT()
+                    && peakCurve.ApexRT >= targetMS1Curve.StartRT()
                     && peakCurve.ApexRT <= targetMS1Curve.EndRT()) {
                 float corr = 0f;
                 float ApexDiff = Math.abs(targetMS1Curve.ApexRT - peakCurve.ApexRT);
@@ -92,7 +94,7 @@ public class CorrCalcCluster2CurveUnit implements Runnable {
                     //Calculate pearson correlation
                     corr = PeakCurveCorrCalc.CalPeakCorr(targetMS1Curve, peakCurve, parameter.NoPeakPerMin);
                 } catch (IOException ex) {
-                    Logger.getLogger(CorrCalcCluster2CurveUnit.class.getName()).log(Level.SEVERE, null, ex);                    
+                    Logger.getLogger(CorrCalcCluster2CurveUnit.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //If the pearson correlation larger than the defined threshold 
                 if (!Float.isNaN(corr) && corr > parameter.CorrThreshold) {
@@ -107,13 +109,13 @@ public class CorrCalcCluster2CurveUnit implements Runnable {
                     PrecursorFragmentPair.ApexDelta = ApexDiff;
                     //FragmentPeaks.put(peakCurve.Index, peakCurve);
                     GroupedFragmentList.add(PrecursorFragmentPair);
-                    if(PrecursorFragmentPair.Correlation>parameter.HighCorrThreshold){
+                    if (PrecursorFragmentPair.Correlation > parameter.HighCorrThreshold) {
                         highCorrCnt++;
                     }
                 }
             }
-        }       
-        if(highCorrCnt<parameter.MinHighCorrCnt){
+        }
+        if (highCorrCnt < parameter.MinHighCorrCnt) {
             GroupedFragmentList.clear();
         }
     }

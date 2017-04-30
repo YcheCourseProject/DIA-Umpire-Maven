@@ -5,11 +5,11 @@
 package crosslinker;
 
 import MSUmpire.BaseDataStructure.ScanData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class CrossLinkerPep {
@@ -80,6 +80,7 @@ public class CrossLinkerPep {
             EvidenceList.put(scanresult.Scan.MGFTitle, scanResults);
         }
     }
+
     public int MS2ConsScanCnt = 0;
     public int MS1ConsScanCnt = 0;
 

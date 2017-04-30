@@ -25,6 +25,7 @@ import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.SpectralDataType;
 import MSUmpire.SpectralProcessingModule.BackgroundDetector;
 import MSUmpire.SpectralProcessingModule.ScanPeakGroup;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,6 +33,7 @@ import java.io.IOException;
 
 /**
  * MGF file parser
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class MGFParser {
@@ -81,7 +83,7 @@ public class MGFParser {
                     }
                     if (line.trim().startsWith("RTINSECONDS=")) {
                         scan.RetentionTime = Float.parseFloat(line.trim().subSequence(12, line.trim().length()).toString()) / 60f;
-                    }                    
+                    }
                     if (line.trim().startsWith("TITLE=")) {
                         scan.MGFTitle = line.trim().subSequence(6, line.trim().length()).toString().replace(",", "_");
                         if (scan.MGFTitle.contains(" RT:")) {
@@ -110,7 +112,7 @@ public class MGFParser {
                 scan.Data.Finalize();
                 scan.background = 0f;
                 if (parameter.EstimateBG) {
-                    BackgroundDetector detector=new BackgroundDetector(scan);
+                    BackgroundDetector detector = new BackgroundDetector(scan);
                     detector.DetermineConstantBackground();
                 } else {
                     if (scan.MsLevel == 1) {
@@ -129,8 +131,8 @@ public class MGFParser {
                     scan.Centroiding(parameter.Resolution, scan.background);
                 }
                 if (parameter.Deisotoping && scan.MsLevel == 1) {
-                   ScanPeakGroup scanpeak= new ScanPeakGroup(scan, parameter);
-                   scanpeak.Deisotoping();
+                    ScanPeakGroup scanpeak = new ScanPeakGroup(scan, parameter);
+                    scanpeak.Deisotoping();
                 }
                 scanCollection.AddScan(scan);
             }

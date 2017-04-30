@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * List of insutrument configurations used in the validation or optimization of the transitions
- * 
+ * <p>
  * <p>Java class for ConfigurationListType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="ConfigurationListType">
  *   &lt;complexContent>
@@ -34,12 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ConfigurationListType", propOrder = {
-    "configuration"
+        "configuration"
 })
 public class ConfigurationListType {
 
@@ -48,25 +46,23 @@ public class ConfigurationListType {
 
     /**
      * Gets the value of the configuration property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the configuration property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getConfiguration().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ConfigurationType }
-     * 
-     * 
      */
     public List<ConfigurationType> getConfiguration() {
         if (configuration == null) {

@@ -19,11 +19,11 @@ import java.util.*;
  * modification, other than through the iterator itself, cause it to throw a
  * {@link ConcurrentModificationException}.
  *
+ * @param <T> the type of element that this sorted list will store.
  * @author Mark Rhodes
  * @version 1.0
  * @see Collection
  * @see AbstractList
- * @param <T> the type of element that this sorted list will store.
  */
 public class UnsortedList<T> extends SortedList<T> {
 
@@ -48,14 +48,14 @@ public class UnsortedList<T> extends SortedList<T> {
      * Replaces the element at the specified position in this list with the
      * specified element.
      *
-     * @param index the index in this {@code UnsortedList} to add this given
-     * element.
+     * @param index   the index in this {@code UnsortedList} to add this given
+     *                element.
      * @param element the object to add to this {@code UnsortedList}.
      * @return the element that was replaced at the given index.
-     * @throws IllegalArgumentException in the case that the element is
-     * <code>null</code>.
+     * @throws IllegalArgumentException  in the case that the element is
+     *                                   <code>null</code>.
      * @throws IndexOutOfBoundsException in the case that (0 <= index < size())
-     * does not hold.
+     *                                   does not hold.
      */
     @Override
     public T set(int index, T element) {
@@ -122,12 +122,12 @@ public class UnsortedList<T> extends SortedList<T> {
      * Works in time <i>O(log(n))</i>, where <i>n</i> is the number of elements
      * in the list.
      *
-     * @param index at which the element should be added.
+     * @param index   at which the element should be added.
      * @param element the object to by inserted.
-     * @throws IllegalArgumentException in the case that the given element is
-     * null.
+     * @throws IllegalArgumentException  in the case that the given element is
+     *                                   null.
      * @throws IndexOutOfBoundsException in the case that (0 <= index <= size())
-     * does not hold.
+     *                                   does not hold.
      */
     @Override
     public void add(int index, T element) {
@@ -150,7 +150,7 @@ public class UnsortedList<T> extends SortedList<T> {
      *
      * @param element the object to by inserted.
      * @throws IllegalArgumentException in the case that the given element is
-     * null.
+     *                                  null.
      */
     public void addToHead(T element) {
         add(0, element);
@@ -184,9 +184,9 @@ public class UnsortedList<T> extends SortedList<T> {
          * Constructs a new {@code UnsortedNode} which should be positioned at
          * the given index when inserted into the tree.
          *
-         * @param obj the object to store at the node {@code UnsortedNode}.
+         * @param obj          the object to store at the node {@code UnsortedNode}.
          * @param initialIndex the index which this {@code UnsortedNode} should
-         * be inserted into the list in.
+         *                     be inserted into the list in.
          */
         UnsortedNode(T obj, int initialIndex) {
             super(obj);
@@ -246,7 +246,6 @@ public class UnsortedList<T> extends SortedList<T> {
          * <p>
          * Nodes with equal indices are compared on whether they are in the tree
          * yet or not; those in the tree are considered to be larger.
-         *
          *
          * @return the index of this node in the list minus the index of the
          * given node in the list.

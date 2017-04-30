@@ -23,14 +23,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DateTimeTag {
 
-    public static String GetTag(){        
+    public static String GetTag() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         return dateFormat.format(new Date());
     }
-    
+
 }

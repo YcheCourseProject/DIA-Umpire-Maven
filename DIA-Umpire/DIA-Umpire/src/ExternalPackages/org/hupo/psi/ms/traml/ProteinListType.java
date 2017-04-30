@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * List of proteins for which one or more transitions are intended to identify
- * 
+ * <p>
  * <p>Java class for ProteinListType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="ProteinListType">
  *   &lt;complexContent>
@@ -34,12 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProteinListType", propOrder = {
-    "protein"
+        "protein"
 })
 public class ProteinListType {
 
@@ -48,25 +46,23 @@ public class ProteinListType {
 
     /**
      * Gets the value of the protein property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the protein property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getProtein().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ProteinType }
-     * 
-     * 
      */
     public List<ProteinType> getProtein() {
         if (protein == null) {

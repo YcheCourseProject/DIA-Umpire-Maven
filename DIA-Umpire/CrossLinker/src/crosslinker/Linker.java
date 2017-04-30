@@ -5,7 +5,6 @@
 package crosslinker;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class Linker {

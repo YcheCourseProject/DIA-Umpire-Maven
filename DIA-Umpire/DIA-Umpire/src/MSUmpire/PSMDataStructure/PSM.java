@@ -23,14 +23,16 @@ import com.compomics.util.experiment.identification.matches.ModificationMatch;
 import com.compomics.util.general.IsotopicDistribution;
 import com.compomics.util.protein.AASequenceImpl;
 import com.compomics.util.protein.MolecularFormula;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * PSM data structure 
+ * PSM data structure
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class PSM implements Serializable{
+public class PSM implements Serializable {
     private static final long serialVersionUID = 1098763624628L;
 
     public float Probability;
@@ -43,7 +45,7 @@ public class PSM implements Serializable{
     public ArrayList<String> ParentProtIDs;
     public String RawDataName;
     public String SpecNumber;
-    public float RetentionTime=-1;
+    public float RetentionTime = -1;
     public float NeighborMaxRetentionTime;
     public ArrayList<ModificationMatch> Modifications;
     public String PreAA;
@@ -77,7 +79,7 @@ public class PSM implements Serializable{
         }
         return ModificationString;
     }
-    
+
     public String GetPepKey() {
         return ModSeq + "_" + Charge;
     }
@@ -91,7 +93,7 @@ public class PSM implements Serializable{
     public boolean IsDecoy(String decoytag) {
         boolean decoy = true;
         for (String pro : ParentProtIDs) {
-            if (!(pro.startsWith(decoytag)|pro.endsWith(decoytag))) {
+            if (!(pro.startsWith(decoytag) | pro.endsWith(decoytag))) {
                 decoy = false;
             }
         }
@@ -119,18 +121,19 @@ public class PSM implements Serializable{
         //formula.addMolecularFormula(GetModMolecularFormula());
         return formula;
     }
-    
+
     AASequenceImpl AAimple;
+
     private AASequenceImpl GetAASequenceImpl() {
         if (AAimple == null) {
             AAimple = new AASequenceImpl(Sequence);
         }
         return AAimple;
     }
-    
-    
+
 
     float[] TheoIso;
+
     public float[] IsotopicDistrubtionRatio(int NoOfIsoPeaks) {
         if (TheoIso == null) {
             IsotopicDistribution calc = GetIsotopicDistribution();
@@ -146,6 +149,7 @@ public class PSM implements Serializable{
     }
 
     IsotopicDistribution calc;
+
     private IsotopicDistribution GetIsotopicDistribution() {
         if (calc == null) {
             calc = new IsotopicDistribution(GetMolecularFormula());

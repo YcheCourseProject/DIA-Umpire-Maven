@@ -18,25 +18,25 @@ package ExternalPackages.JAligner;
 
 /**
  * Traceback directions.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
 public abstract class Directions {
-	/**
-	 * Traceback direction stop
-	 */
-	public static final byte STOP = 0;
-	/**
-	 * Traceback direction left
-	 */
-	public static final byte LEFT = 1;
     /**
-	 * Traceback direction diagonal
-	 */
-	public static final byte DIAGONAL = 2;
-	/**
-	 * Traceback direction up
-	 */
-	public static final byte UP = 3;
+     * Traceback direction stop
+     */
+    public static final byte STOP = 0;
+    /**
+     * Traceback direction left
+     */
+    public static final byte LEFT = 1;
+    /**
+     * Traceback direction diagonal
+     */
+    public static final byte DIAGONAL = 2;
+    /**
+     * Traceback direction up
+     */
+    public static final byte UP = 3;
 }

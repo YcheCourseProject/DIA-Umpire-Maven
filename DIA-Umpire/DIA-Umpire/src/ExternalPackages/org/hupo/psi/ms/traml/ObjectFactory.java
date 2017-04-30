@@ -15,18 +15,17 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the org.hupo.psi.ms.traml package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the org.hupo.psi.ms.traml package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -35,14 +34,12 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hupo.psi.ms.traml
-     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link CompoundListType }
-     * 
      */
     public CompoundListType createCompoundListType() {
         return new CompoundListType();
@@ -50,7 +47,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ProteinListType }
-     * 
      */
     public ProteinListType createProteinListType() {
         return new ProteinListType();
@@ -58,7 +54,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CompoundType }
-     * 
      */
     public CompoundType createCompoundType() {
         return new CompoundType();
@@ -66,7 +61,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CvListType }
-     * 
      */
     public CvListType createCvListType() {
         return new CvListType();
@@ -74,7 +68,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ContactType }
-     * 
      */
     public ContactType createContactType() {
         return new ContactType();
@@ -82,7 +75,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PrecursorType }
-     * 
      */
     public PrecursorType createPrecursorType() {
         return new PrecursorType();
@@ -90,7 +82,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PublicationType }
-     * 
      */
     public PublicationType createPublicationType() {
         return new PublicationType();
@@ -98,7 +89,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SequenceType }
-     * 
      */
     public SequenceType createSequenceType() {
         return new SequenceType();
@@ -106,7 +96,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UserParamType }
-     * 
      */
     public UserParamType createUserParamType() {
         return new UserParamType();
@@ -114,7 +103,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SoftwareListType }
-     * 
      */
     public SoftwareListType createSoftwareListType() {
         return new SoftwareListType();
@@ -122,7 +110,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CvType }
-     * 
      */
     public CvType createCvType() {
         return new CvType();
@@ -130,7 +117,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ConfigurationListType }
-     * 
      */
     public ConfigurationListType createConfigurationListType() {
         return new ConfigurationListType();
@@ -138,7 +124,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link IntermediateProductType }
-     * 
      */
     public IntermediateProductType createIntermediateProductType() {
         return new IntermediateProductType();
@@ -146,7 +131,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ProteinType }
-     * 
      */
     public ProteinType createProteinType() {
         return new ProteinType();
@@ -154,7 +138,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TransitionListType }
-     * 
      */
     public TransitionListType createTransitionListType() {
         return new TransitionListType();
@@ -162,7 +145,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ContactListType }
-     * 
      */
     public ContactListType createContactListType() {
         return new ContactListType();
@@ -170,7 +152,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SourceFileType }
-     * 
      */
     public SourceFileType createSourceFileType() {
         return new SourceFileType();
@@ -178,7 +159,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TransitionType }
-     * 
      */
     public TransitionType createTransitionType() {
         return new TransitionType();
@@ -186,7 +166,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TargetType }
-     * 
      */
     public TargetType createTargetType() {
         return new TargetType();
@@ -194,7 +173,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ValidationStatusType }
-     * 
      */
     public ValidationStatusType createValidationStatusType() {
         return new ValidationStatusType();
@@ -202,7 +180,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EvidenceType }
-     * 
      */
     public EvidenceType createEvidenceType() {
         return new EvidenceType();
@@ -210,7 +187,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TargetIncludeListType }
-     * 
      */
     public TargetIncludeListType createTargetIncludeListType() {
         return new TargetIncludeListType();
@@ -218,7 +194,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RetentionTimeListType }
-     * 
      */
     public RetentionTimeListType createRetentionTimeListType() {
         return new RetentionTimeListType();
@@ -226,7 +201,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ProductType }
-     * 
      */
     public ProductType createProductType() {
         return new ProductType();
@@ -234,7 +208,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ConfigurationType }
-     * 
      */
     public ConfigurationType createConfigurationType() {
         return new ConfigurationType();
@@ -242,7 +215,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CvParamType }
-     * 
      */
     public CvParamType createCvParamType() {
         return new CvParamType();
@@ -250,7 +222,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SourceFileListType }
-     * 
      */
     public SourceFileListType createSourceFileListType() {
         return new SourceFileListType();
@@ -258,7 +229,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SoftwareType }
-     * 
      */
     public SoftwareType createSoftwareType() {
         return new SoftwareType();
@@ -266,7 +236,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ProteinRefType }
-     * 
      */
     public ProteinRefType createProteinRefType() {
         return new ProteinRefType();
@@ -274,7 +243,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PublicationListType }
-     * 
      */
     public PublicationListType createPublicationListType() {
         return new PublicationListType();
@@ -282,7 +250,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TargetListType }
-     * 
      */
     public TargetListType createTargetListType() {
         return new TargetListType();
@@ -290,7 +257,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TraMLType }
-     * 
      */
     public TraMLType createTraMLType() {
         return new TraMLType();
@@ -298,7 +264,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PeptideType }
-     * 
      */
     public PeptideType createPeptideType() {
         return new PeptideType();
@@ -306,7 +271,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InstrumentListType }
-     * 
      */
     public InstrumentListType createInstrumentListType() {
         return new InstrumentListType();
@@ -314,7 +278,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link TargetExcludeListType }
-     * 
      */
     public TargetExcludeListType createTargetExcludeListType() {
         return new TargetExcludeListType();
@@ -322,7 +285,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ModificationType }
-     * 
      */
     public ModificationType createModificationType() {
         return new ModificationType();
@@ -330,7 +292,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PredictionType }
-     * 
      */
     public PredictionType createPredictionType() {
         return new PredictionType();
@@ -338,7 +299,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InstrumentType }
-     * 
      */
     public InstrumentType createInstrumentType() {
         return new InstrumentType();
@@ -346,7 +306,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InterpretationListType }
-     * 
      */
     public InterpretationListType createInterpretationListType() {
         return new InterpretationListType();
@@ -354,7 +313,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InterpretationType }
-     * 
      */
     public InterpretationType createInterpretationType() {
         return new InterpretationType();
@@ -362,7 +320,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RetentionTimeType }
-     * 
      */
     public RetentionTimeType createRetentionTimeType() {
         return new RetentionTimeType();
@@ -370,7 +327,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link TraMLType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://psi.hupo.org/ms/traml", name = "TraML")
     public JAXBElement<TraMLType> createTraML(TraMLType value) {

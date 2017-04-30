@@ -20,13 +20,13 @@
 package MSUmpire.BaseDataStructure;
 
 import java.util.*;
+
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class ScanCollection implements Disposable{
+public class ScanCollection implements Disposable {
 
     public TreeMap<Integer, ScanData> ScanHashMap;
     public String Filename;
@@ -55,10 +55,10 @@ public class ScanCollection implements Disposable{
         ElutionTimeToScanNoMap = new TreeMap<>();
     }
 
-    private ArrayList<Integer> ms1ScanIndex = new ArrayList<>();    
+    private ArrayList<Integer> ms1ScanIndex = new ArrayList<>();
     private ArrayList<Integer> ms2ScanIndex = new ArrayList<>();
-    
-    
+
+
     public ArrayList<Integer> GetScanNoArray(int mslevel) {
         if (mslevel == 1) {
             return ms1ScanIndex;
@@ -95,7 +95,7 @@ public class ScanCollection implements Disposable{
         }
     }
 
-    public ScanData GetParentMSScan(int ScanNo) {        
+    public ScanData GetParentMSScan(int ScanNo) {
         Integer preScanNo = null;
         ScanData PreScan = null;
         while ((preScanNo = ScanHashMap.lowerKey(ScanNo)) != null) {
@@ -136,7 +136,7 @@ public class ScanCollection implements Disposable{
         }
         return ScanNo;
     }
-    
+
     public ScanCollection GetSubCollectionByElutionTimeAndMZ(float startTime, float endTime, float startmz, float endmz, int msLevel, boolean IsAddCalibrationScan) {
         ScanCollection scanCollection = new ScanCollection(Resolution);
         scanCollection.ElutionTimeToScanNoMap = ElutionTimeToScanNoMap;
@@ -145,7 +145,7 @@ public class ScanCollection implements Disposable{
         if (endTime == -1) {
             endTime = 9999999f;
         }
-        
+
         //Find the start scan num and end scan num
         int StartScanNo = 0;
         int EndScanNo = 0;
@@ -168,6 +168,7 @@ public class ScanCollection implements Disposable{
         }
         return scanCollection;
     }
+
     private XYPointCollection _tic = null;
 
     public XYPointCollection GetTIC() {
@@ -179,6 +180,7 @@ public class ScanCollection implements Disposable{
         }
         return _tic;
     }
+
     private XYPointCollection _basepeak = null;
 
     public XYPointCollection GetBasePeak() {
@@ -231,8 +233,8 @@ public class ScanCollection implements Disposable{
     //Remove peaks whose the intensity low than the threshold
     public void RemoveBackground(int mslevel, float background) {
         for (ScanData scan : ScanHashMap.values()) {
-            if(scan.MsLevel==mslevel){
-                scan.background=background;
+            if (scan.MsLevel == mslevel) {
+                scan.background = background;
                 scan.RemoveSignalBelowBG();
             }
         }

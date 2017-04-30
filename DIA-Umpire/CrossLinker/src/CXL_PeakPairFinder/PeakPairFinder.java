@@ -23,14 +23,15 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.PeakDataStructure.PeakCluster;
 import MSUmpire.PeptidePeakClusterDetection.PeakCurveCorrCalc;
 import crosslinker.Linker;
+
 import java.io.IOException;
 import java.util.HashMap;
+
 import net.sf.javaml.core.kdtree.KDTree;
 import net.sf.javaml.core.kdtree.KeySizeException;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PeakPairFinder implements Runnable {
@@ -47,7 +48,7 @@ public class PeakPairFinder implements Runnable {
         this.TargetPeak = peakClusterA;
         this.PeakClusterKDTree = PeakClusterKDTree;
         this.parameter = parameter;
-        this.linker=linker;
+        this.linker = linker;
         lowrt = peakClusterA.PeakHeightRT[0] - parameter.RTtol;
         if (lowrt < 0) {
             lowrt = 0f;
@@ -58,19 +59,19 @@ public class PeakPairFinder implements Runnable {
     @Override
     public void run() {
         //linked pair : x + Linker.Core
-        pairgroup=new PairGroup(TargetPeak);
-        
+        pairgroup = new PairGroup(TargetPeak);
+
         //calculate MW of peak pair
-        float pairmw= TargetPeak.NeutralMass()+linker.Core;
-        pairgroup.highMassPeak=FindTargetMWPeak(pairmw);        
-        float DeadEndpairMW = TargetPeak.NeutralMass()+ linker.Core + linker.H2O + linker.Arm;
-        pairgroup.DeadEndpairs=FindTargetMWPeak(DeadEndpairMW);
+        float pairmw = TargetPeak.NeutralMass() + linker.Core;
+        pairgroup.highMassPeak = FindTargetMWPeak(pairmw);
+        float DeadEndpairMW = TargetPeak.NeutralMass() + linker.Core + linker.H2O + linker.Arm;
+        pairgroup.DeadEndpairs = FindTargetMWPeak(DeadEndpairMW);
     }
 
-    private HashMap<Integer,CoElutePeak> FindTargetMWPeak(float targetmw) {
+    private HashMap<Integer, CoElutePeak> FindTargetMWPeak(float targetmw) {
 
-        HashMap<Integer,CoElutePeak> peaks=new HashMap<>();
-        
+        HashMap<Integer, CoElutePeak> peaks = new HashMap<>();
+
         float lowmw = InstrumentParameter.GetMzByPPM(targetmw, 1, parameter.MS1PPM);
         float highmw = InstrumentParameter.GetMzByPPM(targetmw, 1, -parameter.MS1PPM);
 
@@ -82,7 +83,7 @@ public class PeakPairFinder implements Runnable {
         if (found == null || found.length == 0) {
             return null;
         }
-   
+
         for (Object foundpeak : found) {
             PeakCluster peakB = (PeakCluster) foundpeak;
             float ppm = InstrumentParameter.CalcPPM(targetmw, peakB.NeutralMass());
@@ -98,14 +99,14 @@ public class PeakPairFinder implements Runnable {
                 }
 
                 //if (corr > maxcorr) {
-                if (corr>0.5f && (peaks.get(peakB.Charge)==null || (ppm < peaks.get(peakB.Charge).PPM))) {
+                if (corr > 0.5f && (peaks.get(peakB.Charge) == null || (ppm < peaks.get(peakB.Charge).PPM))) {
                     if (!parameter.DetectSameChargePairOnly || peakB.Charge == TargetPeak.Charge) {
                         CoElutePeak peak = new CoElutePeak(peakB, corr, ppm);
                         peaks.put(peakB.Charge, peak);
                     }
                 }
             }
-        }        
+        }
         return peaks;
     }
 }

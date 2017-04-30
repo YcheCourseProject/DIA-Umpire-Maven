@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <MSModSpecSet
-    xmlns="http://www.ncbi.nlm.nih.gov"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
-    xs:schemaLocation="http://www.ncbi.nlm.nih.gov OMSSA.xsd"
+        xmlns="http://www.ncbi.nlm.nih.gov"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+        xs:schemaLocation="http://www.ncbi.nlm.nih.gov OMSSA.xsd"
 >
     <MSModSpec>
         <MSModSpec_mod>
@@ -89,7 +89,7 @@
         <MSModSpec_unimod>7</MSModSpec_unimod>
         <MSModSpec_psi-ms>Deamidated</MSModSpec_psi-ms>
     </MSModSpec>
-    
+
     <MSModSpec>
         <MSModSpec_mod>
             <MSMod value="propionamidec">5</MSMod>
@@ -3034,7 +3034,7 @@
         </MSModSpec_residues>
         <MSModSpec_unimod>510</MSModSpec_unimod>
         <MSModSpec_psi-ms>Dimethyl:2H(4)13C(2)</MSModSpec_psi-ms>
-    </MSModSpec>    
+    </MSModSpec>
     <MSModSpec>
         <MSModSpec_mod>
             <MSMod value="mod209">209</MSMod>
@@ -3065,5 +3065,5 @@
         </MSModSpec_residues>
         <MSModSpec_unimod>26</MSModSpec_unimod>
         <MSModSpec_psi-ms>Pyro-cmC</MSModSpec_psi-ms>
-    </MSModSpec>    
+    </MSModSpec>
 </MSModSpecSet>

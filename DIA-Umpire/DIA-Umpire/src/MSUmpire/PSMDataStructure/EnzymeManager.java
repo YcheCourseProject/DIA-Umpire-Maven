@@ -21,13 +21,16 @@ package MSUmpire.PSMDataStructure;
 
 import com.compomics.util.experiment.biology.Enzyme;
 import com.compomics.util.experiment.biology.EnzymeFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * Enzyme manager from compomics library
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class EnzymeManager {
@@ -46,7 +49,7 @@ public class EnzymeManager {
             enzymeFactory.importEnzymes(enzymeFile);
         }
     }
-    
+
     public static EnzymeManager GetInstance() throws XmlPullParserException, IOException {
         if (enzymeManager == null) {
             enzymeManager = new EnzymeManager();
@@ -57,12 +60,12 @@ public class EnzymeManager {
     public Enzyme GetTrypsin() {
         return enzymeFactory.getEnzyme("Trypsin");
     }
-        
+
     public Enzyme GetTrypsinNoP() {
         return enzymeFactory.getEnzyme("Trypsin, no P rule");
     }
-    
-    public Enzyme GetSemiTryptic(){
-        return enzymeFactory.getEnzyme("Semi-Tryptic");        
+
+    public Enzyme GetSemiTryptic() {
+        return enzymeFactory.getEnzyme("Semi-Tryptic");
     }
 }

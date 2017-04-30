@@ -26,17 +26,16 @@ import java.io.Serializable;
  */
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class XYData implements Comparable<XYData>,Serializable {
+public class XYData implements Comparable<XYData>, Serializable {
     private static final long serialVersionUID = 973492749274921L;
 
     //private float X;
     //private float Y;
     private float[] xydata = new float[2];
 
-//    private synchronized void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {        
+    //    private synchronized void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
 //        stream.defaultWriteObject();
 //        stream.writeFloat(xydata[0]);        
 //        stream.writeFloat(xydata[1]);        

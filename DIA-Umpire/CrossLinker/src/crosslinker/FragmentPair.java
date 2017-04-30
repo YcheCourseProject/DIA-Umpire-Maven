@@ -7,7 +7,6 @@ package crosslinker;
 import MSUmpire.BaseDataStructure.XYData;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class FragmentPair {

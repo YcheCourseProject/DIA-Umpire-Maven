@@ -6,13 +6,11 @@ import java.io.Serializable;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A statistical distribution is parameterized by a set of values (parameters).
  * The Parameter class implements a parameter object. Parameters can be a vector
  * (class PVector), a matrix (class PMatrix), or both (class PVectorMatrix). The
@@ -32,7 +30,9 @@ abstract public class Parameter implements Serializable {
     public static enum TYPE {
 
         SOURCE_PARAMETER, NATURAL_PARAMETER, EXPECTATION_PARAMETER
-    };
+    }
+
+    ;
 
     /**
      * Type of the parameters.

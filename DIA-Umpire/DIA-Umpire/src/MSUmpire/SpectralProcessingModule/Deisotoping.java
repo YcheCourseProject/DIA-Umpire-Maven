@@ -23,14 +23,17 @@ package MSUmpire.SpectralProcessingModule;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.SortedXYCollectionClass;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.util.ArrayList;
 
 /**
  * Deisotoping algorithm
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class Deisotoping {

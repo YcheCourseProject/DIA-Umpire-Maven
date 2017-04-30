@@ -129,9 +129,9 @@ class Removal extends Alteration {
     /**
      * Creates a new Removal of the given size at the given index.
      *
-     * @param index the index for this Removal.
+     * @param index     the index for this Removal.
      * @param indexDiff the number of elements that have been removed that this
-     * Removal represents.
+     *                  Removal represents.
      */
     Removal(int index, int indexDiff) {
         super(index, indexDiff);

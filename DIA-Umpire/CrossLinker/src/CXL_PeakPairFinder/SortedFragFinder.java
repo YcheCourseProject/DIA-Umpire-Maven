@@ -20,19 +20,19 @@
 package CXL_PeakPairFinder;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class SortedFragFinder extends SortedList<PeakPairFinder> implements Serializable{
+public class SortedFragFinder extends SortedList<PeakPairFinder> implements Serializable {
 
     public SortedFragFinder() {
         super(new Comparator<PeakPairFinder>() {
             @Override
-            public int compare(PeakPairFinder x, PeakPairFinder y) {                
+            public int compare(PeakPairFinder x, PeakPairFinder y) {
                 return Float.compare(x.pairgroup.lowMassPeak.NeutralMass(), y.pairgroup.lowMassPeak.NeutralMass());
             }
         });

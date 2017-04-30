@@ -8,13 +8,11 @@ import java.util.Random;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * The multivariate Gaussian distribution is an exponential family and, as a
  * consequence, the probability density function is given by \f[ f(x;
  * \mathbf{\Theta}) = \exp \left( \langle t(x), \mathbf{\Theta} \rangle -
@@ -22,9 +20,8 @@ import java.util.Random;
  * natural parameters. This class implements the different functions allowing to
  * express a multivariate Gaussian distribution as a member of an exponential
  * family.
- *
  * @section Parameters
- *
+ * <p>
  * The parameters of a given distribution are: - Source parameters
  * \f$\mathbf{\Lambda} = ( \mu , \Sigma ) \mbox{ with } \mu \in \mathds{R}^d
  * \mbox{ and } \Sigma \succ 0\f$ - Natural parameters \f$\mathbf{\Theta} = (
@@ -183,7 +180,7 @@ public final class MultivariateGaussian extends ExponentialFamily<PVector, PVect
     /**
      * Computes the density value \f$ f(x;\mu,\Sigma) \f$.
      *
-     * @param x point
+     * @param x     point
      * @param param parameters (source, natural, or expectation)
      * @return \f$ f(x;\mu,\Sigma) = \frac{1}{ (2\pi)^{d/2} |\Sigma|^{1/2} }
      * \exp \left( - \frac{(x-\mu)^T \Sigma^{-1}(x-\mu)}{2} \right) \mbox{ for }

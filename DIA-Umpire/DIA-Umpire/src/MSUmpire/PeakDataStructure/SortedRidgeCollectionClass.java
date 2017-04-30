@@ -20,14 +20,14 @@
 package MSUmpire.PeakDataStructure;
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class SortedRidgeCollectionClass extends SortedList<PeakRidge> implements Serializable{
+public class SortedRidgeCollectionClass extends SortedList<PeakRidge> implements Serializable {
 
     public SortedRidgeCollectionClass() {
         super(new Comparator<PeakRidge>() {

@@ -22,15 +22,14 @@ package MSUmpire.PeakDataStructure;
 import java.io.Serializable;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class PrecursorFragmentPairEdge extends PeakOverlapRegion implements Serializable{
+public class PrecursorFragmentPairEdge extends PeakOverlapRegion implements Serializable {
     private static final long serialVersionUID = 2890272386178844781L;
     public float FragmentMz;
     public float Intensity;
     public float ApexDelta;
-    public float RTOverlapP;    
+    public float RTOverlapP;
     public int FragmentMS1Rank = 0;
     public float FragmentMS1RankScore = 1f;
     public float AdjustedFragInt;

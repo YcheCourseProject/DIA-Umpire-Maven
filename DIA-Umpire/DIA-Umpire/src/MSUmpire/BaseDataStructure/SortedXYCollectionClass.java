@@ -23,17 +23,19 @@ package MSUmpire.BaseDataStructure;
  */
 
 import ExternalPackages.SortedListLib.SortedList;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/** 
+/**
  * Sorted collection of XYData, sorted by x value
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class SortedXYCollectionClass extends SortedList<XYData> implements Serializable{
+public class SortedXYCollectionClass extends SortedList<XYData> implements Serializable {
     private static final long serialVersionUID = 65464643184541L;
 
     private float[][] SortedArray;
@@ -65,23 +67,24 @@ public class SortedXYCollectionClass extends SortedList<XYData> implements Seria
         SortedArray = null;
     }
 
-    public Object[] toArray(){
+    public Object[] toArray() {
         if (Finalized) {
             XYData[] arr = new XYData[size];
             for (int i = 0; i < size; i++) {
                 arr[i] = get(i);
             }
             return arr;
-        }        
+        }
         return super.toArray();
     }
-    
+
     public Iterator<XYData> iterator() {
-        if (Finalized) {                        
-            return (Iterator<XYData>) Arrays.asList((XYData[])toArray()).iterator();
+        if (Finalized) {
+            return (Iterator<XYData>) Arrays.asList((XYData[]) toArray()).iterator();
         }
         return super.iterator();
     }
+
     private synchronized void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
         if (!Finalized) {
             Finalize();
@@ -94,12 +97,13 @@ public class SortedXYCollectionClass extends SortedList<XYData> implements Seria
             //stream.writeObject(get(i));
         }
     }
+
     private void readObject(java.io.ObjectInputStream in) throws ClassNotFoundException, IOException {
         in.defaultReadObject();
         Finalized = true;
-        size=in.readInt();
+        size = in.readInt();
         SortedArray = new float[2][size];
-        for (int i = 0; i < size; i++) {            
+        for (int i = 0; i < size; i++) {
             //XYData xy = (XYData) in.readObject();
 //            SortedArray[0][i] = xy.getX();
 //            SortedArray[1][i] = xy.getY();
@@ -107,7 +111,7 @@ public class SortedXYCollectionClass extends SortedList<XYData> implements Seria
             SortedArray[1][i] = in.readFloat();
         }
     }
-    
+
     @Override
     public void Finalize() {
         FinalizedSortedArray = toArray();

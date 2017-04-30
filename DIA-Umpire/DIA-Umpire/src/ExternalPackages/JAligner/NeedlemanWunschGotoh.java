@@ -43,18 +43,18 @@ public final class NeedlemanWunschGotoh {
     /**
      * Aligns two sequences by Needleman-Wunsch (global)
      *
-     * @param s1 sequene #1 ({@link Read})
-     * @param s2 sequene #2 ({@link Read})
+     * @param s1     sequene #1 ({@link Read})
+     * @param s2     sequene #2 ({@link Read})
      * @param matrix scoring matrix ({@link Matrix})
-     * @param o open gap penalty
-     * @param e extend gap penalty
+     * @param o      open gap penalty
+     * @param e      extend gap penalty
      * @return alignment object contains the two aligned sequences, the
      * alignment score and alignment statistics
      * @see Read
      * @see Matrix
      */
     public static Alignment align(Sequence s1, Sequence s2, Matrix matrix,
-            float o, float e) {
+                                  float o, float e) {
 
         float[][] scores = matrix.getScores();
 
@@ -108,17 +108,16 @@ public final class NeedlemanWunschGotoh {
     /**
      * Constructs directions matrix for the traceback.
      *
-     * @param s1 sequence #1
-     * @param s2 sequence #2
-     * @param matrix scoring matrix
-     * @param o open gap penalty
-     * @param e extend gap penalty
+     * @param s1       sequence #1
+     * @param s2       sequence #2
+     * @param matrix   scoring matrix
+     * @param o        open gap penalty
+     * @param e        extend gap penalty
      * @param pointers traceback matrix
-     *
      * @return The cell where the traceback starts.
      */
     private static Cell construct(Sequence s1, Sequence s2, float[][] matrix,
-            float o, float e, byte[] pointers, int[] lengths) {
+                                  float o, float e, byte[] pointers, int[] lengths) {
 
         //logger.info("Started...");
 
@@ -218,18 +217,18 @@ public final class NeedlemanWunschGotoh {
      * Returns the alignment of two sequences based on the passed array of
      * pointers
      *
-     * @param s1 sequence #1
-     * @param s2 sequence #2
-     * @param m scoring matrix
+     * @param s1       sequence #1
+     * @param s2       sequence #2
+     * @param m        scoring matrix
      * @param pointers traceback matrix
-     * @param cell The cell where the traceback starts.
+     * @param cell     The cell where the traceback starts.
      * @return {@link Alignment} with the two aligned sequences and alignment
      * score.
      * @see Cell
      * @see Alignment
      */
     private static Alignment traceback(Sequence s1, Sequence s2, Matrix m,
-            byte[] pointers, Cell cell, int[] lengths) {
+                                       byte[] pointers, Cell cell, int[] lengths) {
         //logger.info("Started...");
 
         char[] array1 = s1.toArray();

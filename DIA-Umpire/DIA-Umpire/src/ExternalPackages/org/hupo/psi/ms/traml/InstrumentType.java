@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Instrument on which transitions are validated
- * 
+ * <p>
  * <p>Java class for InstrumentType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="InstrumentType">
  *   &lt;complexContent>
@@ -41,13 +41,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstrumentType", propOrder = {
-    "cvParam",
-    "userParam"
+        "cvParam",
+        "userParam"
 })
 public class InstrumentType {
 
@@ -62,11 +60,9 @@ public class InstrumentType {
 
     /**
      * Gets the value of the cvParam property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CvParamType }
-     *     
+     *
+     * @return possible object is
+     * {@link CvParamType }
      */
     public CvParamType getCvParam() {
         return cvParam;
@@ -74,11 +70,9 @@ public class InstrumentType {
 
     /**
      * Sets the value of the cvParam property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CvParamType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link CvParamType }
      */
     public void setCvParam(CvParamType value) {
         this.cvParam = value;
@@ -86,25 +80,23 @@ public class InstrumentType {
 
     /**
      * Gets the value of the userParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UserParamType }
-     * 
-     * 
      */
     public List<UserParamType> getUserParam() {
         if (userParam == null) {
@@ -115,11 +107,9 @@ public class InstrumentType {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
@@ -127,11 +117,9 @@ public class InstrumentType {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;

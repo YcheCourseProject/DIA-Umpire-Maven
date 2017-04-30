@@ -20,6 +20,7 @@
 package MSUmpire.SeqUtility;
 
 import MSUmpire.PSMDataStructure.EnzymeManager;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -38,70 +40,70 @@ import org.nustaq.serialization.FSTObjectOutput;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
-public class FastaParser implements Serializable{
+public class FastaParser implements Serializable {
     private static final long serialVersionUID = 19398249L;
 
     public HashMap<String, ProteinEntry> ProteinList;
     public HashMap<String, PeptideEntry> PeptideList;
 
     public void RemoveDecoy(String DecoyTag) {
-        HashMap<String, ProteinEntry> newlist=new HashMap<>();
-        for(ProteinEntry protein : ProteinList.values()){
-            if(!(protein.ACC.startsWith(DecoyTag)|protein.ACC.endsWith(DecoyTag))){
+        HashMap<String, ProteinEntry> newlist = new HashMap<>();
+        for (ProteinEntry protein : ProteinList.values()) {
+            if (!(protein.ACC.startsWith(DecoyTag) | protein.ACC.endsWith(DecoyTag))) {
                 newlist.put(protein.ACC, protein);
             }
         }
-        ProteinList=newlist;
+        ProteinList = newlist;
     }
-        
-    public String GetProtSeq(String ProtID){        
-        if(ProteinList.containsKey(ProtID)){
+
+    public String GetProtSeq(String ProtID) {
+        if (ProteinList.containsKey(ProtID)) {
             return ProteinList.get(ProtID).Seq;
-        }        
-        for(String ID : ProteinList.keySet()){
-            if(ID.contains(ProtID)){
+        }
+        for (String ID : ProteinList.keySet()) {
+            if (ID.contains(ProtID)) {
                 return ProteinList.get(ID).Seq;
             }
         }
         return null;
     }
-    public class ProteinEntry implements Serializable{
+
+    public class ProteinEntry implements Serializable {
         private static final long serialVersionUID = -2002064228475586294L;
         public String ACC;
         public String Des;
         public String Seq;
-        public ArrayList<String> Peptides=new ArrayList<>();
+        public ArrayList<String> Peptides = new ArrayList<>();
     }
-    
+
     public class PeptideEntry implements Serializable {
         private static final long serialVersionUID = -6343751134961266096L;
-        public ArrayList<String> Proteins=new ArrayList<>();
+        public ArrayList<String> Proteins = new ArrayList<>();
         public String Sequence;
         public String Decoy;
     }
-    
-    public FastaParser(String filename){
-        ProteinList=new HashMap<>();
+
+    public FastaParser(String filename) {
+        ProteinList = new HashMap<>();
         try {
             Parse(filename);
         } catch (IOException ex) {
-           Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
+            Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
     }
-    
-    
-     public static FastaParser FasterSerialzationRead(String Filename) throws FileNotFoundException {
 
-        if (!new File(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename)+ ".FastaSer").exists()) {
+
+    public static FastaParser FasterSerialzationRead(String Filename) throws FileNotFoundException {
+
+        if (!new File(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + ".FastaSer").exists()) {
             return null;
         }
-        FastaParser fastareader=null;
+        FastaParser fastareader = null;
         try {
-            org.apache.log4j.Logger.getRootLogger().info("Loading fasta serialization to file:" + FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename)+ ".FastaSer..");
-            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename)+ ".FastaSer");
+            org.apache.log4j.Logger.getRootLogger().info("Loading fasta serialization to file:" + FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + ".FastaSer..");
+            FileInputStream fileIn = new FileInputStream(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + ".FastaSer");
             FSTObjectInput in = new FSTObjectInput(fileIn);
             fastareader = (FastaParser) in.readObject();
             in.close();
@@ -110,14 +112,14 @@ public class FastaParser implements Serializable{
             org.apache.log4j.Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return null;
         }
-        
+
         return fastareader;
     }
 
     public boolean FasterSerialzationWrite(String Filename) throws FileNotFoundException {
         try {
-            org.apache.log4j.Logger.getRootLogger().info("Writing fasta serialization to file:" + FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename)+ ".FastaSer...");
-            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename)+ ".FastaSer", false);
+            org.apache.log4j.Logger.getRootLogger().info("Writing fasta serialization to file:" + FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + ".FastaSer...");
+            FileOutputStream fout = new FileOutputStream(FilenameUtils.getFullPath(Filename) + FilenameUtils.getBaseName(Filename) + ".FastaSer", false);
             FSTObjectOutput out = new FSTObjectOutput(fout);
             out.writeObject(this);
             out.close();
@@ -125,14 +127,14 @@ public class FastaParser implements Serializable{
         } catch (Exception ex) {
             org.apache.log4j.Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
             return false;
-        }        
+        }
         return true;
     }
-    
+
     private void Parse(String filename) throws FileNotFoundException, IOException {
 
-        if(!new File(filename).exists()){
-            org.apache.log4j.Logger.getRootLogger().warn("Fasta file cannot be found: "+filename);
+        if (!new File(filename).exists()) {
+            org.apache.log4j.Logger.getRootLogger().warn("Fasta file cannot be found: " + filename);
         }
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line = "";
@@ -166,25 +168,25 @@ public class FastaParser implements Serializable{
         }
         reader.close();
     }
-        
+
     public void digestion(int missedcleave, int minlength, int maxlength, String Decoytag) throws XmlPullParserException, IOException {
-        PeptideList=new HashMap<>();
+        PeptideList = new HashMap<>();
         for (ProteinEntry protein : ProteinList.values()) {
-            if(protein.ACC.startsWith(Decoytag)|protein.ACC.endsWith(Decoytag)){
+            if (protein.ACC.startsWith(Decoytag) | protein.ACC.endsWith(Decoytag)) {
                 continue;
             }
-            String Sequence = protein.Seq;            
+            String Sequence = protein.Seq;
             ArrayList<String> TheoPeptides = EnzymeManager.GetInstance().GetTrypsinNoP().digest(Sequence, missedcleave, minlength, maxlength);
             AddFirstMetDroppedPep(Sequence, missedcleave, minlength, maxlength, TheoPeptides);
             for (String pep : TheoPeptides) {
                 if (!PeptideList.containsKey(pep)) {
-                    PeptideEntry pepentry=new PeptideEntry();
-                    pepentry.Sequence=pep;
-                    String rev=new StringBuilder(pepentry.Sequence.subSequence(0, pepentry.Sequence.length()-1)).reverse().toString();
+                    PeptideEntry pepentry = new PeptideEntry();
+                    pepentry.Sequence = pep;
+                    String rev = new StringBuilder(pepentry.Sequence.subSequence(0, pepentry.Sequence.length() - 1)).reverse().toString();
                     if (Sequence.indexOf(pepentry.Sequence) > 0) {
                         rev += String.valueOf(Sequence.charAt(Sequence.indexOf(pepentry.Sequence) - 1));
                     }
-                    pepentry.Decoy=rev;
+                    pepentry.Decoy = rev;
                     PeptideList.put(pep, pepentry);
                 }
                 PeptideList.get(pep).Proteins.add(protein.ACC);
@@ -210,6 +212,6 @@ public class FastaParser implements Serializable{
             }
         }
     }
-    
-    
+
+
 }

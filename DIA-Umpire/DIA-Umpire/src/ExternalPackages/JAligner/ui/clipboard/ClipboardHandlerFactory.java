@@ -20,7 +20,7 @@ import ExternalPackages.JAligner.util.Commons;
 
 /**
  * A factory for {@link ExternalPackages.JAligner.ui.clipboard.ClipboardHandler}.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -28,27 +28,28 @@ public class ClipboardHandlerFactory {
     /**
      * Instance of a concrete {@link ClipboardHandlerFactory}.
      */
-	private static ClipboardHandler instance = null;
-    
-	/**
-	 * Constructor
-	 */
-	private ClipboardHandlerFactory ( ) {
-		super();
-	}
-	
+    private static ClipboardHandler instance = null;
+
+    /**
+     * Constructor
+     */
+    private ClipboardHandlerFactory() {
+        super();
+    }
+
     /**
      * Returns an instance of a concrete {@link ClipboardHandler}.
+     *
      * @return Concrete {@link ClipboardHandler}.
      */
-    public static ClipboardHandler getClipboardHandler( ) {
-    	if (instance == null) {
-    		 if (Commons.isJnlp()) {
-    		 	instance = new ClipboardHandlerJNLP();
-    		 } else {
-    		 	instance = new ClipboardHandlerAWT();
-    		 }
-    	}
-    	return instance;
+    public static ClipboardHandler getClipboardHandler() {
+        if (instance == null) {
+            if (Commons.isJnlp()) {
+                instance = new ClipboardHandlerJNLP();
+            } else {
+                instance = new ClipboardHandlerAWT();
+            }
+        }
+        return instance;
     }
 }

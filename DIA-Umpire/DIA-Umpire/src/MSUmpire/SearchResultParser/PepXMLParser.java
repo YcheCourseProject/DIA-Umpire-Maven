@@ -21,6 +21,7 @@ package MSUmpire.SearchResultParser;
 
 import MSUmpire.PSMDataStructure.LCMSID;
 import com.vseravno.solna.SolnaParser;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,13 +31,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PepXMLParser {
@@ -47,8 +48,8 @@ public class PepXMLParser {
     public float StartRT = 0f;
     public float EndRT = 9999f;
     public boolean FilteredID = false;
-    public boolean CorrectMassDiff=true;
-    
+    public boolean CorrectMassDiff = true;
+
     public PepXMLParser(LCMSID singleLCMSID, String FileName, float threshold, float StartRT, float EndRT) throws ParserConfigurationException, SAXException, IOException, XmlPullParserException {
         this.singleLCMSID = singleLCMSID;
         this.FileName = FileName;
@@ -59,10 +60,10 @@ public class PepXMLParser {
         ParseSAX();
     }
 
-    
+
     public PepXMLParser(LCMSID singleLCMSID, String FileName, float threshold, boolean CorrectMassDiff) throws ParserConfigurationException, SAXException, IOException, XmlPullParserException {
         this.singleLCMSID = singleLCMSID;
-        this.CorrectMassDiff=CorrectMassDiff;
+        this.CorrectMassDiff = CorrectMassDiff;
         this.FileName = FileName;
         this.threshold = threshold;
         Logger.getRootLogger().info("Parsing pepXML: " + FileName + "....");
@@ -76,7 +77,7 @@ public class PepXMLParser {
         }
         //System.out.print("done\n");
     }
-    
+
     public PepXMLParser(LCMSID singleLCMSID, String FileName, float threshold) throws ParserConfigurationException, SAXException, IOException, XmlPullParserException {
         this.singleLCMSID = singleLCMSID;
         this.FileName = FileName;
@@ -100,7 +101,7 @@ public class PepXMLParser {
         }
         FileInputStream inputStream = new FileInputStream(FileName);
         SolnaParser parser = new SolnaParser();
-        PepXMLParseHandler handler = new PepXMLParseHandler(singleLCMSID, StartRT, EndRT, threshold,CorrectMassDiff);
+        PepXMLParseHandler handler = new PepXMLParseHandler(singleLCMSID, StartRT, EndRT, threshold, CorrectMassDiff);
         //handler.FileBaseNameFilter=FilenameUtils.getBaseName(singleLCMSID.mzXMLFileName);
         parser.addHandler("/msms_pipeline_analysis/msms_run_summary/spectrum_query", handler);
         parser.addHandler("/msms_pipeline_analysis/msms_run_summary/search_summary", handler);

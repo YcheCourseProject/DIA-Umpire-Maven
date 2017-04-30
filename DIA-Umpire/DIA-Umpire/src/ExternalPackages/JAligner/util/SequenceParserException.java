@@ -17,13 +17,12 @@
 package ExternalPackages.JAligner.util;
 
 /**
- * 
  * @author Ahmed Moustafa
  */
 
 public class SequenceParserException extends Exception {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3258417248288191543L;
 

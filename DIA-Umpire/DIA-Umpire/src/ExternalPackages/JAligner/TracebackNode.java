@@ -18,80 +18,77 @@ package ExternalPackages.JAligner;
 
 /**
  * Traceback node
- * 
+ *
  * @author Bram Minnaert
  * @author Ahmed Moustafa
  */
 
 public final class TracebackNode {
 
-	/**
-	 * Direction
-	 */
-	private byte direction;
+    /**
+     * Direction
+     */
+    private byte direction;
 
-	/**
-	 * Length of gap (for up and left directions)
-	 */
-	private int length;
+    /**
+     * Length of gap (for up and left directions)
+     */
+    private int length;
 
-	/**
-	 * Constructor
-	 */
-	public TracebackNode() {
-		super();
-	}
+    /**
+     * Constructor
+     */
+    public TracebackNode() {
+        super();
+    }
 
-	/**
-	 * Sets the direction to diagonal
-	 * 
-	 */
-	public void setDiagonal() {
-		direction = Directions.DIAGONAL;
-		length = 0;
-	}
+    /**
+     * Sets the direction to diagonal
+     */
+    public void setDiagonal() {
+        direction = Directions.DIAGONAL;
+        length = 0;
+    }
 
-	/**
-	 * Sets the direction to up
-	 * 
-	 * @param length
-	 *            length of gap
-	 */
-	public void setUp(int length) {
-		direction = Directions.UP;
-		this.length = length;
-	}
+    /**
+     * Sets the direction to up
+     *
+     * @param length length of gap
+     */
+    public void setUp(int length) {
+        direction = Directions.UP;
+        this.length = length;
+    }
 
-	/**
-	 * Sets the direction to left
-	 * 
-	 * @param length
-	 *            length of gap
-	 */
-	public void setLeft(int length) {
-		direction = Directions.LEFT;
-		this.length = length;
-	}
+    /**
+     * Sets the direction to left
+     *
+     * @param length length of gap
+     */
+    public void setLeft(int length) {
+        direction = Directions.LEFT;
+        this.length = length;
+    }
 
-	/**
-	 * Sets the direction to stop
-	 */
-	public void setStop() {
-		direction = Directions.STOP;
-		length = 0;
-	}
+    /**
+     * Sets the direction to stop
+     */
+    public void setStop() {
+        direction = Directions.STOP;
+        length = 0;
+    }
 
-	/**
-	 * @return Returns the direction.
-	 */
-	public byte getDirection() {
-		return direction;
-	}
+    /**
+     * @return Returns the direction.
+     */
+    public byte getDirection() {
+        return direction;
+    }
 
-	/**
-	 * @return Returns the length.
-	 */
-	public int getLength() {
-		return length;
-	}
+    /**
+     * @return Returns the length.
+     */
+    public int getLength() {
+        return length;
+    }
 }

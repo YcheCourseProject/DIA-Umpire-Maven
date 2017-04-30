@@ -23,6 +23,7 @@ import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanCollection;
 import MSUmpire.BaseDataStructure.SpectralDataType;
 import MSUmpire.BaseDataStructure.XYData;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.*;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -39,15 +41,16 @@ import org.nustaq.serialization.FSTObjectOutput;
 /* * 
  * mzXML parser
  */
+
 /**
- *
  * @author Chih-Chiang Tsou
  */
-public final class mzXMLParser  extends SpectrumParserBase{
+public final class mzXMLParser extends SpectrumParserBase {
 
-    public TreeMap<Integer, Long> ScanIndex=null;
+    public TreeMap<Integer, Long> ScanIndex = null;
+
     public mzXMLParser(String filename, InstrumentParameter parameter, SpectralDataType.DataType datatype, DIA_Setting dIA_Setting, int NoCPUs) throws Exception {
-        super(filename,parameter,datatype,dIA_Setting,NoCPUs);
+        super(filename, parameter, datatype, dIA_Setting, NoCPUs);
         ReadElutionAndScanIndex();
     }
 
@@ -63,12 +66,12 @@ public final class mzXMLParser  extends SpectrumParserBase{
         }
     }
 
-     //Wirte seralization file for scan index
+    //Wirte seralization file for scan index
     private void WriteIndexSerialization() {
         FSScanPosWrite();
     }
-    
-     //Wirte seralization file for scan index
+
+    //Wirte seralization file for scan index
     private void FSScanPosWrite() {
         try {
             Logger.getRootLogger().debug("Writing ScanPos to file:" + FilenameUtils.removeExtension(filename) + ".ScanPosFS..");
@@ -81,7 +84,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
     }
-    
+
     //Read seralization file for scan index
     private boolean FSScanPosRead() {
         if (!new File(FilenameUtils.removeExtension(filename) + ".ScanPosFS").exists()) {
@@ -103,8 +106,8 @@ public final class mzXMLParser  extends SpectrumParserBase{
         }
         return true;
     }
-    
-     //Parse scan index at the bottom of mzXML file
+
+    //Parse scan index at the bottom of mzXML file
     private void ParseIndex() throws FileNotFoundException, IOException {
         TotalScan = 0;
         ScanIndex = new TreeMap<>();
@@ -113,8 +116,8 @@ public final class mzXMLParser  extends SpectrumParserBase{
 
             String CurrentLine = "";
             long currentLastPt = fileHandler.length() - 1;
-            boolean indexexist=false;
-            int linecount=0;
+            boolean indexexist = false;
+            int linecount = 0;
             while (!(CurrentLine.trim().startsWith("<index name=") | CurrentLine.trim().startsWith("</msRun>"))) {
                 //Read backward
                 for (long filePointer = currentLastPt; filePointer != -1; filePointer--) {
@@ -178,11 +181,11 @@ public final class mzXMLParser  extends SpectrumParserBase{
         }
     }
 
-     //Parse elution time-scan number mapping
+    //Parse elution time-scan number mapping
     //For DIA data, isolation window ranges are parsed in this method
     private void ParseElutionIndex() throws Exception {
-        
-        if(ScanIndex==null | ScanIndex.isEmpty()){
+
+        if (ScanIndex == null | ScanIndex.isEmpty()) {
             return;
         }
 
@@ -194,7 +197,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                 long nexposition = iter.next().getValue();
                 currentIdx = nexposition;
                 fileHandler.seek(startposition);
-                
+
                 byte[] bufr = new byte[(int) (nexposition - startposition)];
                 fileHandler.readFully(bufr, 0, (int) (nexposition - startposition));
 
@@ -212,15 +215,15 @@ public final class mzXMLParser  extends SpectrumParserBase{
                 if (temp.contains("<scan num=") && (temp.contains("retentionTime=\"PT"))) {
                     String substr = temp.substring(temp.indexOf("<scan num=") + 11);
                     scanno = Integer.parseInt(substr.substring(0, substr.indexOf("\"")));
-                    
+
                     rt = Float.parseFloat(temp.substring(temp.indexOf("retentionTime=\"PT") + 17).split("S\"")[0]);
-                    rt=rt/60f;
+                    rt = rt / 60f;
                     mslevel = Integer.parseInt(temp.substring(temp.indexOf("msLevel=") + 9, temp.indexOf("msLevel=") + 10));
                     if (temp.contains("scanType=\"calibration\"")) {
                         mslevel = -1;
                     }
                     if (mslevel == 1) {
-                        NoMS1Scans++;                        
+                        NoMS1Scans++;
                         if (temp.contains("scanType=\"SIM\"") && datatype == SpectralDataType.DataType.WiSIM) {
                             int startidx = temp.indexOf("lowMz=\"") + 7;
                             int stopidx = startidx + 1;
@@ -245,7 +248,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                                     dIA_Setting.MS1Windows.get(MS1win).add(scanno);
                                 }
                             }
-                        }                        
+                        }
                     }
                     //If it is DIA data, parse isolation window ranges 
                     if (datatype != SpectralDataType.DataType.DDA) {
@@ -271,7 +274,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                                             break;
                                         }
                                     }
-                                    float windowwideness = Float.parseFloat(substr.substring(startidx, stopidx));                                    
+                                    float windowwideness = Float.parseFloat(substr.substring(startidx, stopidx));
                                     //Assuming the precursor m/z is at the center of isolation window, it's for Thermo MSX data
                                     float Loffset = windowwideness / 2f;
                                     float Roffset = windowwideness / 2f;
@@ -286,7 +289,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                             } else if (datatype == SpectralDataType.DataType.DIA_F_Window || datatype == SpectralDataType.DataType.pSMART || datatype == SpectralDataType.DataType.WiSIM) {
                                 int stopidx = temp.indexOf("</precursorMz>");
                                 if (stopidx == -1) {
-                                    Logger.getRootLogger().error("Parsing </precursorMz> failed. scan number :" + scanno);                                    
+                                    Logger.getRootLogger().error("Parsing </precursorMz> failed. scan number :" + scanno);
                                     System.exit(3);
                                 }
                                 int startidx = 0;
@@ -301,7 +304,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                                 //and assume the precursor m/z is at 0.25 * window size Da to the lower bound of isolation window
                                 float Loffset = (dIA_Setting.F_DIA_WindowSize + 1) * 0.2f;
                                 float Roffset = (dIA_Setting.F_DIA_WindowSize + 1) * 0.8f;
-                                
+
                                 //If the scan contains "windowWideness", then it is a Thermo data, overwrite the isolation window ranges
                                 if (temp.contains("windowWideness=\"")) {
                                     startidx = temp.indexOf("windowWideness=\"") + 16;
@@ -313,7 +316,7 @@ public final class mzXMLParser  extends SpectrumParserBase{
                                         }
                                     }
                                     float windowwideness = Float.parseFloat(temp.substring(startidx, stopidx));
-                                     //Again assume the precursor m/z is at the center of isolation window, because it is a Thermo data
+                                    //Again assume the precursor m/z is at the center of isolation window, because it is a Thermo data
                                     Loffset = windowwideness / 2f;
                                     Roffset = windowwideness / 2f;
                                 }
@@ -358,12 +361,12 @@ public final class mzXMLParser  extends SpectrumParserBase{
                 ElutionTimeToScanNoMap.put(rt, scanno);
                 ScanToElutionTime.put(scanno, rt);
                 MsLevelList.put(scanno, mslevel);
-            } 
+            }
             fileHandler.close();
         }
     }
-     
-     //Get all the DIA MS2 scans according to a isolation window range
+
+    //Get all the DIA MS2 scans according to a isolation window range
     @Override
     public ScanCollection GetScanDIAMS2(XYData DIAWindow, boolean IncludePeak, float startTime, float endTime) {
         if (dIA_Setting == null) {
@@ -376,65 +379,65 @@ public final class mzXMLParser  extends SpectrumParserBase{
         int StartScanNo = 0;
         int EndScanNo = 0;
 
-        StartScanNo = GetStartScan(startTime);        
+        StartScanNo = GetStartScan(startTime);
         EndScanNo = GetEndScan(endTime);
-        ArrayList<Integer> IncludedScans=new ArrayList<>();
-        for(int scannum :dIA_Setting.DIAWindows.get(DIAWindow)){
-            if(scannum >= StartScanNo && scannum <= EndScanNo){
+        ArrayList<Integer> IncludedScans = new ArrayList<>();
+        for (int scannum : dIA_Setting.DIAWindows.get(DIAWindow)) {
+            if (scannum >= StartScanNo && scannum <= EndScanNo) {
                 IncludedScans.add(scannum);
             }
         }
-        ScanList=ParseScans(IncludedScans);        
+        ScanList = ParseScans(IncludedScans);
         for (MzXMLthreadUnit result : ScanList) {
             swathScanCollection.AddScan(result.scan);
             swathScanCollection.ElutionTimeToScanNoMap.put(result.scan.RetentionTime, result.scan.ScanNum);
-        }        
+        }
         ScanList.clear();
         ScanList = null;
         return swathScanCollection;
     }
-        
-     //Get all the DIA MS1 scans according to MS1 m/z range, this was only for WiSIM data
+
+    //Get all the DIA MS1 scans according to MS1 m/z range, this was only for WiSIM data
     @Override
-    public ScanCollection GetScanCollectionMS1Window(XYData MS1Window, boolean IncludePeak, float startTime, float endTime)  {
+    public ScanCollection GetScanCollectionMS1Window(XYData MS1Window, boolean IncludePeak, float startTime, float endTime) {
         if (dIA_Setting == null) {
             Logger.getRootLogger().error(filename + " is not DIA data");
             return null;
         }
         ScanCollection MS1WindowScanCollection = new ScanCollection(parameter.Resolution);
-       
+
         List<MzXMLthreadUnit> ScanList = null;
 
         int StartScanNo = 0;
         int EndScanNo = 0;
 
-        StartScanNo = GetStartScan(startTime);        
+        StartScanNo = GetStartScan(startTime);
         EndScanNo = GetEndScan(endTime);
-        ArrayList<Integer> IncludedScans=new ArrayList<>();
-        for(int scannum : dIA_Setting.MS1Windows.get(MS1Window)){
-            if(scannum >= StartScanNo && scannum <= EndScanNo){
+        ArrayList<Integer> IncludedScans = new ArrayList<>();
+        for (int scannum : dIA_Setting.MS1Windows.get(MS1Window)) {
+            if (scannum >= StartScanNo && scannum <= EndScanNo) {
                 IncludedScans.add(scannum);
             }
         }
-        
-        ScanList=ParseScans(IncludedScans);
-        
+
+        ScanList = ParseScans(IncludedScans);
+
         for (MzXMLthreadUnit result : ScanList) {
             MS1WindowScanCollection.AddScan(result.scan);
             MS1WindowScanCollection.ElutionTimeToScanNoMap.put(result.scan.RetentionTime, result.scan.ScanNum);
         }
         ScanList.clear();
         ScanList = null;
-        
+
         return MS1WindowScanCollection;
     }
-       
+
     //Parse scans given a list of scan numbers
-    private List<MzXMLthreadUnit>  ParseScans(ArrayList<Integer> IncludedScans){
-         List<MzXMLthreadUnit> ScanList=new ArrayList<>();
+    private List<MzXMLthreadUnit> ParseScans(ArrayList<Integer> IncludedScans) {
+        List<MzXMLthreadUnit> ScanList = new ArrayList<>();
         ExecutorService executorPool = null;
         executorPool = Executors.newFixedThreadPool(NoCPUs);
-        Iterator<Entry<Integer, Long>> iter = ScanIndex.entrySet().iterator();        
+        Iterator<Entry<Integer, Long>> iter = ScanIndex.entrySet().iterator();
         Entry<Integer, Long> ent = iter.next();
         Long currentIdx = ent.getValue();
         int nextScanNo = ent.getKey();
@@ -486,49 +489,49 @@ public final class mzXMLParser  extends SpectrumParserBase{
         iter = null;
         return ScanList;
     }
-    
+
     @Override
     public ScanCollection GetAllScanCollectionByMSLabel(boolean MS1Included, boolean MS2Included, boolean MS1Peak, boolean MS2Peak, float startTime, float endTime) {
         ScanCollection scanCollection = InitializeScanCollection();
         Logger.getRootLogger().debug("Memory usage before loading scans:" + Math.round((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576) + "MB (" + NoCPUs + " threads)");
 
         ArrayList<Integer> IncludedScans = new ArrayList<>();
-        
-        for(int ScanNum : MsLevelList.keySet()){
-            if(MsLevelList.get(ScanNum)==1 && MS1Included){
+
+        for (int ScanNum : MsLevelList.keySet()) {
+            if (MsLevelList.get(ScanNum) == 1 && MS1Included) {
                 IncludedScans.add(ScanNum);
             }
-            if(MsLevelList.get(ScanNum)==2 && MS2Included){
+            if (MsLevelList.get(ScanNum) == 2 && MS2Included) {
                 IncludedScans.add(ScanNum);
             }
         }
-         
+
         List<MzXMLthreadUnit> ScanList = null;
 
         int StartScanNo = 0;
         int EndScanNo = 0;
 
-        StartScanNo = GetStartScan(startTime);        
+        StartScanNo = GetStartScan(startTime);
         EndScanNo = GetEndScan(endTime);
-        
-        ArrayList<Integer> temp=new ArrayList<>();
-        for(int scannum : IncludedScans){
-            if(scannum >= StartScanNo && scannum <= EndScanNo){
+
+        ArrayList<Integer> temp = new ArrayList<>();
+        for (int scannum : IncludedScans) {
+            if (scannum >= StartScanNo && scannum <= EndScanNo) {
                 temp.add(scannum);
             }
         }
-        
-        ScanList=ParseScans(temp);
-        
+
+        ScanList = ParseScans(temp);
+
         for (MzXMLthreadUnit result : ScanList) {
             scanCollection.AddScan(result.scan);
         }
         ScanList.clear();
         ScanList = null;
-        
+
         System.gc();
         Logger.getRootLogger().debug("Memory usage after loading scans:" + Math.round((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576) + "MB");
         return scanCollection;
     }
- 
+
 }

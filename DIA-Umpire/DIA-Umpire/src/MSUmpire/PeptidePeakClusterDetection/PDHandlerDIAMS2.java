@@ -27,16 +27,19 @@ import MSUmpire.LCMSPeakStructure.LCMSPeakMS1;
 import MSUmpire.LCMSPeakStructure.LCMSPeakDIAMS2;
 import MSUmpire.DIA.CorrCalcCluster2CurveUnit;
 import MSUmpire.PeakDataStructure.PrecursorFragmentPairEdge;
+
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 
 /**
  * Peak detection processing class for DIA MS2 peak
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class PDHandlerDIAMS2 extends PDHandlerBase {
@@ -44,7 +47,7 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
     private LCMSPeakMS1 ms1lcms;
     private XYData DIAWindowMz;
 
-    public PDHandlerDIAMS2(LCMSPeakDIAMS2 swathWindow, int NoCPUs, LCMSPeakMS1 ms1lcms, float PPM){
+    public PDHandlerDIAMS2(LCMSPeakDIAMS2 swathWindow, int NoCPUs, LCMSPeakMS1 ms1lcms, float PPM) {
         this.ms1lcms = ms1lcms;
         this.PPM = PPM;
         this.NoCPUs = NoCPUs;
@@ -56,7 +59,7 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
     public void pSMARTGrouping(ScanCollection scanCollection) throws FileNotFoundException, IOException {
         ((LCMSPeakDIAMS2) LCMSPeakBase).FragmentsClu2Cur = new HashMap<>();
         for (PeakCluster peakCluster : ms1lcms.PeakClusters) {
-            if (peakCluster.GetMaxMz()>= DIAWindowMz.getX() && peakCluster.TargetMz() <= DIAWindowMz.getY()) {
+            if (peakCluster.GetMaxMz() >= DIAWindowMz.getX() && peakCluster.TargetMz() <= DIAWindowMz.getY()) {
                 ScanCollection SearchScans = scanCollection.GetSubCollectionByElutionTimeAndMZ(peakCluster.startRT, peakCluster.endRT, -1, -1, 2, false);
                 ArrayList<PrecursorFragmentPairEdge> ResultList = new ArrayList<>();
                 for (ScanData scan : SearchScans.ScanHashMap.values()) {
@@ -70,19 +73,19 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
                         PrecursorFragmentPair.RTOverlapP = 1f;
                         PrecursorFragmentPair.ApexDelta = Math.abs(peakCluster.MonoIsotopePeak.ApexRT - scan.RetentionTime);
                         float rtrange = peakCluster.endRT - peakCluster.startRT;
-                        PrecursorFragmentPair.Correlation = (rtrange - PrecursorFragmentPair.ApexDelta) / rtrange;                        
+                        PrecursorFragmentPair.Correlation = (rtrange - PrecursorFragmentPair.ApexDelta) / rtrange;
                         ResultList.add(PrecursorFragmentPair);
                     }
                 }
                 ((LCMSPeakDIAMS2) LCMSPeakBase).FragmentsClu2Cur.put(peakCluster.Index, ResultList);
             }
         }
-        
+
         ((LCMSPeakDIAMS2) LCMSPeakBase).ExportCluster2CurveCorr();
     }
-    
-    public void DetectPeakCurves(ScanCollection scanCollection) throws FileNotFoundException, IOException {        
-        
+
+    public void DetectPeakCurves(ScanCollection scanCollection) throws FileNotFoundException, IOException {
+
         LCMSPeakBase.UnSortedPeakCurves = new ArrayList<>();
         FindAllMzTracePeakCurves(scanCollection);
         PeakCurveSmoothing();
@@ -90,7 +93,7 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
         ReadPepIsoMS1PatternMap();
         PeakCurveCorrClustering(DIAWindowMz);
     }
-        
+
     public void FragmentGrouping() throws SQLException, IOException {
         PrecursorFragmentPairBuildingForMS1();
         PrecursorFragmentPairBuildingForUnfragmentedIon();
@@ -128,11 +131,11 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
             }
         }
         executorPool = null;
-        
+
         ((LCMSPeakDIAMS2) LCMSPeakBase).BuildFragmentUnfragranking();
         ((LCMSPeakDIAMS2) LCMSPeakBase).FilterByCriteriaUnfrag();
         ((LCMSPeakDIAMS2) LCMSPeakBase).ExportUnfragmentedClusterCurve();
-        
+
         UnfragmentedIonPairList.clear();
         UnfragmentedIonPairList = null;
         executorPool = null;
@@ -147,7 +150,7 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
         ArrayList<CorrCalcCluster2CurveUnit> PrecursorPairList = new ArrayList<>();
         executorPool = Executors.newFixedThreadPool(NoCPUs);
         for (PeakCluster peakCluster : ms1lcms.PeakClusters) {
-            if (peakCluster.GetMaxMz()>= DIAWindowMz.getX() && peakCluster.TargetMz() <= DIAWindowMz.getY()) {
+            if (peakCluster.GetMaxMz() >= DIAWindowMz.getX() && peakCluster.TargetMz() <= DIAWindowMz.getY()) {
                 CorrCalcCluster2CurveUnit unit = new CorrCalcCluster2CurveUnit(peakCluster, LCMSPeakBase.GetPeakCurveListRT(), parameter);
                 PrecursorPairList.add(unit);
             }
@@ -178,5 +181,5 @@ public class PDHandlerDIAMS2 extends PDHandlerBase {
 
         //System.out.print("Finished multithreading\n");
     }
-    
+
 }

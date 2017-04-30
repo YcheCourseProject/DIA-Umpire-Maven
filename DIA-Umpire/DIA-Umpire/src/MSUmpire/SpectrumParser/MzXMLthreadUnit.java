@@ -22,17 +22,20 @@ package MSUmpire.SpectrumParser;
 import MSUmpire.BaseDataStructure.InstrumentParameter;
 import MSUmpire.BaseDataStructure.ScanData;
 import MSUmpire.BaseDataStructure.SpectralDataType;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.zip.DataFormatException;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 /**
  * Thread unit for parsing one scan in mzXML file
+ *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class MzXMLthreadUnit implements Runnable {
@@ -44,7 +47,7 @@ public class MzXMLthreadUnit implements Runnable {
     boolean ReadPeak = true;
     SpectralDataType.DataType dataType = SpectralDataType.DataType.DDA;
 
-    public MzXMLthreadUnit(String XMLtext, InstrumentParameter parameter, SpectralDataType.DataType dataType,boolean ReadPeak) {
+    public MzXMLthreadUnit(String XMLtext, InstrumentParameter parameter, SpectralDataType.DataType dataType, boolean ReadPeak) {
         this.XMLtext = XMLtext;
         this.parameter = parameter;
         this.ReadPeak = ReadPeak;
@@ -71,8 +74,8 @@ public class MzXMLthreadUnit implements Runnable {
         } catch (Exception ex) {
             Logger.getRootLogger().error(ExceptionUtils.getStackTrace(ex));
         }
-        
-       scan.Preprocessing(parameter);
-        
+
+        scan.Preprocessing(parameter);
+
     }
 }

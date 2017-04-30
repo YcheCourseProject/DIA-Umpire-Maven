@@ -22,15 +22,15 @@ package MSUmpire.BaseDataStructure;
 import org.apache.commons.io.FilenameUtils;
 
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class TandemParam extends DBSearchParam {
-    
+
     public TandemParam(SearchInstrumentType type) {
         defaultType = type;
         SetParameter(type);
     }
+
     public void SetCombineFileName(String filename, String tag) {
         CombinedPepXML = FilenameUtils.separatorsToUnix(FilenameUtils.getFullPath(filename) + "interact-" + FilenameUtils.getBaseName(filename) + tag + ".tandem.combine.pep.xml");
         CombinedProt = FilenameUtils.getFullPath(filename) + FilenameUtils.getBaseName(filename) + tag + ".tandem.Qcombine.prot.xml";

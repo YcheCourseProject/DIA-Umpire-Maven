@@ -26,40 +26,40 @@ import java.util.logging.Logger;
 
 
 /**
- * Sets and gets the contents of the system clipboard.  
- * 
+ * Sets and gets the contents of the system clipboard.
+ *
  * @author Ahmed Moustafa
  */
 
 public class ClipboardHandlerAWT implements ClipboardHandler {
-	private static Logger logger = Logger.getLogger(ClipboardHandlerAWT.class.getName());
-	
-	/**
-	 * Gets the contents of the system clipboard
-	 * 
-	 * @return The text contents of the system clipboard 
-	 */
-	public String getContents() {
-		String contents = null;
-		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-		Transferable data = c.getContents(null);
-		if (data != null && data.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-			try {
-				contents = ((String)(data.getTransferData(DataFlavor.stringFlavor)));
-			} catch (Exception e) {
-				logger.log(Level.WARNING, "Failed getting tranfer data: " + e.getMessage(), e);
-			}
-		}
-		return contents;
-	}
+    private static Logger logger = Logger.getLogger(ClipboardHandlerAWT.class.getName());
 
-	/**
-	 * Sets the contents of the system clipboard
-	 * 
-	 * @param s the clipboard contents to set
-	 */
-	public void setContents(String s) {
-		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-		c.setContents(new StringSelection(s), null); 
-	}
+    /**
+     * Gets the contents of the system clipboard
+     *
+     * @return The text contents of the system clipboard
+     */
+    public String getContents() {
+        String contents = null;
+        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Transferable data = c.getContents(null);
+        if (data != null && data.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                contents = ((String) (data.getTransferData(DataFlavor.stringFlavor)));
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Failed getting tranfer data: " + e.getMessage(), e);
+            }
+        }
+        return contents;
+    }
+
+    /**
+     * Sets the contents of the system clipboard
+     *
+     * @param s the clipboard contents to set
+     */
+    public void setContents(String s) {
+        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+        c.setContents(new StringSelection(s), null);
+    }
 }

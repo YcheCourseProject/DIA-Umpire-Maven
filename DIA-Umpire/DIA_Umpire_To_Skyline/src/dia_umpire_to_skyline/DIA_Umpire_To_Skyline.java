@@ -24,8 +24,10 @@ package DIA_Umpire_To_Skyline;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import MSUmpire.BaseDataStructure.UmpireInfo;
 import MSUmpire.Utility.ConsoleLogger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,12 +35,12 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
 public class DIA_Umpire_To_Skyline {
@@ -65,11 +67,11 @@ public class DIA_Umpire_To_Skyline {
         }
 
         Logger.getRootLogger().info("Path:" + args[0]);
-        String msconvertpath="C:/inetpub/tpp-bin/msconvert";
+        String msconvertpath = "C:/inetpub/tpp-bin/msconvert";
 
         String WorkFolder = args[0];
         int NoCPUs = 4;
-        
+
         for (int i = 1; i < args.length; i++) {
             if (args[i].startsWith("-")) {
                 if (args[i].startsWith("-cP")) {
@@ -82,7 +84,7 @@ public class DIA_Umpire_To_Skyline {
                 }
             }
         }
-        
+
 
         HashMap<String, File> AssignFiles = new HashMap<>();
 
@@ -120,7 +122,7 @@ public class DIA_Umpire_To_Skyline {
 
             for (File fileEntry : AssignFiles.values()) {
                 String mzXMLFile = fileEntry.getAbsolutePath();
-                FileThread thread = new FileThread(mzXMLFile, NoCPUs,msconvertpath);
+                FileThread thread = new FileThread(mzXMLFile, NoCPUs, msconvertpath);
                 executorPool.execute(thread);
             }
             executorPool.shutdown();

@@ -47,7 +47,7 @@ import java.util.logging.Logger;
 /**
  * Example of using JAligner API to perform global pairwise sequence alignment
  * with {@link ExternalPackages.JAligner.NeedlemanWunschGotoh}.
- * 
+ *
  * @author Ahmed Moustafa
  */
 
@@ -60,7 +60,6 @@ public class NeedlemanWunschGotohExample {
             .getLogger(NeedlemanWunschGotohExample.class.getName());
 
     /**
-     * 
      * @param args
      */
     public static void main(String[] args) {

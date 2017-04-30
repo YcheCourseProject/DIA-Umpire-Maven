@@ -20,6 +20,7 @@
 package MSUmpire.SpectrumParser;
 
 import MSUmpire.BaseDataStructure.ScanData;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -29,6 +30,7 @@ import java.util.zip.Inflater;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -39,8 +41,8 @@ import org.xml.sax.SAXException;
 
 //import uk.ac.ebi.pride.jaxb.utils.BinaryDataUtils;
 //import uk.ac.ebi.pride.jaxb.utils.CvTermReference;
+
 /**
- *
  * @author Chih-Chiang Tsou <chihchiang.tsou@gmail.com>
  */
 public class mzXMLReadUnit {

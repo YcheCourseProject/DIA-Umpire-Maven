@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A molecule modification specification. If n modifications are present on the peptide, there should be n instances of the modification element. If multiple modifications are provided as cvParams, it is assumed the modification is ambiguous, i.e. one modification or the other. If no cvParams are provided it is assumed that the delta has not been matched to a known modification.
- * 
+ * <p>
  * <p>Java class for ModificationType complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="ModificationType">
  *   &lt;complexContent>
@@ -38,13 +38,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ModificationType", propOrder = {
-    "cvParam",
-    "userParam"
+        "cvParam",
+        "userParam"
 })
 public class ModificationType {
 
@@ -59,25 +57,23 @@ public class ModificationType {
 
     /**
      * Gets the value of the cvParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cvParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCvParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link CvParamType }
-     * 
-     * 
      */
     public List<CvParamType> getCvParam() {
         if (cvParam == null) {
@@ -88,25 +84,23 @@ public class ModificationType {
 
     /**
      * Gets the value of the userParam property.
-     * 
+     * <p>
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the userParam property.
-     * 
+     * <p>
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getUserParam().add(newItem);
      * </pre>
-     * 
-     * 
+     * <p>
+     * <p>
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UserParamType }
-     * 
-     * 
      */
     public List<UserParamType> getUserParam() {
         if (userParam == null) {
@@ -117,7 +111,6 @@ public class ModificationType {
 
     /**
      * Gets the value of the location property.
-     * 
      */
     public int getLocation() {
         return location;
@@ -125,7 +118,6 @@ public class ModificationType {
 
     /**
      * Sets the value of the location property.
-     * 
      */
     public void setLocation(int value) {
         this.location = value;
@@ -133,11 +125,9 @@ public class ModificationType {
 
     /**
      * Gets the value of the monoisotopicMassDelta property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
+     *
+     * @return possible object is
+     * {@link Double }
      */
     public Double getMonoisotopicMassDelta() {
         return monoisotopicMassDelta;
@@ -145,11 +135,9 @@ public class ModificationType {
 
     /**
      * Sets the value of the monoisotopicMassDelta property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Double }
      */
     public void setMonoisotopicMassDelta(Double value) {
         this.monoisotopicMassDelta = value;
@@ -157,11 +145,9 @@ public class ModificationType {
 
     /**
      * Gets the value of the averageMassDelta property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
+     *
+     * @return possible object is
+     * {@link Double }
      */
     public Double getAverageMassDelta() {
         return averageMassDelta;
@@ -169,11 +155,9 @@ public class ModificationType {
 
     /**
      * Sets the value of the averageMassDelta property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Double }
      */
     public void setAverageMassDelta(Double value) {
         this.averageMassDelta = value;

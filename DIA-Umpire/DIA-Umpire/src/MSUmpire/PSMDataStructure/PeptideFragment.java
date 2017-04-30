@@ -22,13 +22,12 @@ package MSUmpire.PSMDataStructure;
 import java.io.Serializable;
 
 /**
- *
  * @author Chih-Chiang Tsou
  */
-public class PeptideFragment implements Serializable{
+public class PeptideFragment implements Serializable {
     private static final long serialVersionUID = 204820482047L;
 
-    public String IonType="";
+    public String IonType = "";
     public float ObservedMZ;
     public float FragMZ;
     public int Charge;

@@ -7,13 +7,11 @@ import java.util.Locale;
  * @author Vincent Garcia
  * @author Frank Nielsen
  * @version 1.0
- *
  * @section License
- *
+ * <p>
  * See file LICENSE.txt
- *
  * @section Description
- *
+ * <p>
  * A statistical distribution is parameterized by a set of values (parameters).
  * The PMatrix class implements a parameter object. Parameters are represented
  * as a matrix.
@@ -183,7 +181,7 @@ public class PMatrix extends Parameter {
     /**
      * Gauss-Jordan elimination.
      *
-     * @param a matrix to inverse
+     * @param a   matrix to inverse
      * @param dim dimension of the matrix
      */
     private static void GaussJordan(double a[][], int dim) {
